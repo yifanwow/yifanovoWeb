@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bulma/css/bulma.css';
 import './HomePage.css';
-import Project from '../components/project';
+import Project from '../components/Project';
 import ProfileBackground_big from '../components/ProfileBackground_big';
 
 
@@ -15,46 +15,48 @@ function HomePage() {
   };
 
   const projects = [
-    { id: 1, date: "Mar 19, 2024", title: "Latent Box", description: "A collection of awesome lists for AI, creativity and art.", imageUrl: "/img/project1.jpg", link: "https://latentbox.com" },
-    { id: 2, date: "Apr 7, 2024", title: "AI Explorer", description: "Explore the limits of AI in one place.", imageUrl: "/img/project2.jpg", link: "https://aiexplorer.com" }
+    { id: 1, date: "Mar 19, 2024", title: "S/AIO", description: "Dynamic web application that integrates with Steam's API. A personalized dashboard where users can log in with their Steam accounts and access a wealth of information about their gaming library. Rating, adding tag and Changing the grid of games.", imageUrl: "/img/saio.png", link: "http://saio.us-east-2.elasticbeanstalk.com" },
+    { id: 2, date: "Apr 7, 2024", title: "Grid View Engine", description: "A self-build software which can allow user to change the Grid on their Steam library.", imageUrl: "/img/store_home_share.jpg", link: "https://github.com/yifanwow/Grid_view_Engine" }
   ];
 
   return (
     <div className="homeStyle">
       <div style={{ width: '50vw' }}>
+
         {/* Profile background */}
-      <div className="leftContainerStyle">
-        <div>
-          <div className="textGroupStyle">
-            <h1 className="titleGroupStyle">
-              <span className="SteamStyle">Yifan </span>
-              <span className="AIOStyle">Yu</span>
-            </h1>
-            <p>Software development / Tech make life better</p>
+        <div className="temple">
+          <div className="leftContainerStyle">
+            <div>
+              <div className="textGroupStyle">
+                <h1 className="titleGroupStyle">
+                  <span className="SteamStyle">Yifan </span>
+                  <span className="AIOStyle">Yu</span>
+                </h1>
+                <p>Software development / Tech make life better</p>
+              </div>
+              <form onSubmit={handleSubmit} className="inputButtonContainerStyle">
+                <input type="text" placeholder="Email Address" className="inputStyle" />
+                <button type="submit" className="buttonStyle">Get Updates</button>
+              </form>
+              <div className="GitHubStyle">
+                <img src="/img/ICON/GITHUB_GRAY.png" alt="GitHub Icon" style={{ width: '21px' }} />
+                <a href="https://github.com/yifanwow" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', textDecoration: 'none' }}>
+                  GitHub
+                </a>
+              </div>
+              {/* Other content like GitHub link, version info, etc. */}
+            </div>
+            <div style={{ fontSize: '0.77em', color: '#5a4d54', position: 'absolute', bottom: '10px', alignItems: 'center' }}>
+              version 0.01
+            </div>
           </div>
-          <form onSubmit={handleSubmit} className="inputButtonContainerStyle">
-            <input type="text" placeholder="Email Address" className="inputStyle" />
-            <button type="submit" className="buttonStyle">Get Updates</button>
-          </form>
-          <div className="GitHubStyle">
-            <img src="/img/ICON/GITHUB_GRAY.png" alt="GitHub Icon" style={{ width: '21px' }} />
-            <a href="https://github.com/yifanwow" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', textDecoration: 'none' }}>
-              GitHub
-            </a>
-          </div>
-          {/* Other content like GitHub link, version info, etc. */}
+        </div></div>
+      <div style={{ width: '100vw' }}>
+        <div className="rightContainerStyle">
+          {projects.map(project => (
+            <Project key={project.id} {...project} />
+          ))}
         </div>
-        <div style={{ fontSize: '0.77em', color: '#5a4d54', position: 'absolute', bottom: '10px', alignItems: 'center' }}>
-          version 0.01
-        </div>
-      </div>
-      </div>
-      <div style={{ width: '50vw' }}>
-      <div className="rightContainerStyle">
-        {projects.map(project => (
-          <Project key={project.id} {...project} />
-        ))}
-      </div>
       </div>
       <ProfileBackground_big />
     </div>

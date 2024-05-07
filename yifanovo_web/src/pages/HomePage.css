@@ -1,10 +1,10 @@
 .homeStyle {
-  display: flex;
   height: 100vh;
   box-sizing: border-box;
 }
 
 .leftContainerStyle {
+  position: fixed; /* 固定位置，不随滚动条滚动 */
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -15,13 +15,21 @@
   backdrop-filter: blur(3vw);
   color: #fff;
   min-height: 100vh;
+  width: 50%; /* 确保宽度填充视口的左侧部分，根据实际布局调整 */
+  left: 0; /* 与视口左侧对齐 */
+  top: 0; /* 与视口顶部对齐 */
 }
 
 .rightContainerStyle {
-  flex: 2;
-  overflow-y: auto;
-  padding: 20px;
-  background: #f4f4f4;
+  position: relative;
+  top: 9vh; /* 从顶部开始 */
+  left: 50%; /* 从屏幕中间到右侧 */
+  width: 50%; /* 占据屏幕右半部分 */
+  height: 100vh; /* 可能需要调整，确保占满整个视口高度 */
+  margin-left: 3.7vw;
+  padding: 20px; /* 内边距 */
+  box-sizing: border-box; /* 边框和内边距包含在宽度内 */
+
 }
 
 .textGroupStyle {
@@ -35,10 +43,12 @@
 }
 
 .SteamStyle {
+  font-weight: 500;
   color: #cb9dff;
 }
 
 .AIOStyle {
+  font-weight: 500;
   color: #ffffff;
 }
 
@@ -55,7 +65,7 @@
 
 .inputStyle {
   flex-grow: 1;
-  padding: 10px 15px;
+  padding: 15px 30px;
   font-size: 1rem;
   border: none;
   outline: none;
@@ -65,7 +75,7 @@
 }
 
 .buttonStyle {
-  padding: 10px 27px;
+  padding: 10px 15px;
   border: none;
   background-color: #2c2242;
   color: #fff;
