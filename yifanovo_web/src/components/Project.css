@@ -42,9 +42,46 @@
 }
 
 .projectLink {
-  color: #72a1d3; /* 链接颜色 */
+  color: #c489f5; /* 链接颜色 */
   text-decoration: none; /* 去除下划线 */
   font-weight: bold;
   font-size: calc(0.7em + 0.2vw); 
   text-shadow: 0px 0px 0.3vh rgba(0, 0, 0, 0.55); /* 文字阴影 */
+}
+
+@media (max-width: 768px) {
+
+  .project {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* 左对齐 */
+    border-radius: 7vh; /* 圆角 */
+    padding: 30px;
+    margin-bottom: 7vh;
+    margin-left: 3.7vw;
+    margin-right: 3.7vw;
+    background: linear-gradient(to left, rgba(35, 20, 79, 0.1), rgba(3, 7, 18, 0.01));
+    backdrop-filter: blur(10vh); /* 应用背景模糊 */
+    -webkit-backdrop-filter: blur(10px); /* Safari 浏览器的兼容性 */
+  }
+  
+  .projectImage {
+    width: 90%; /* 容器宽度的77% */
+    aspect-ratio: 16 / 9; 
+    border-radius: 2vh; /* 圆角 */
+    box-shadow: 0 4px 11px rgba(0, 0, 0, 0.5); /* 阴影 */
+    border: 2px solid #46464657; /* 淡灰色描边 */
+    margin-bottom: 3vh; /* 和标题之间的间距 */
+    object-fit: cover; /* 覆盖容器尺寸，多余的图像部分将被剪裁 */
+    object-position: center; /* 图像居中对齐 */
+    overflow: hidden; 
+  }
+  .projectDescription {
+    margin: 0;
+    margin-bottom: 2vh; /* 和链接之间的间距 */
+    color: #c4c4c4; /* 灰色文字 */
+    max-width: 97%; 
+    font-size: calc(0.9em + 0.2vw); /* 动态大小 */
+    text-shadow: 0px 0px 0.9vh rgba(0, 0, 0, 1.9); /* 文字阴影 */
+  }
 }

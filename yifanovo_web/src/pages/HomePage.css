@@ -3,6 +3,10 @@
   box-sizing: border-box;
 }
 
+.homeStyleLeft {
+  width: 50vw;
+}
+
 .leftContainerStyle {
   position: fixed; /* 固定位置，不随滚动条滚动 */
   flex: 1;
@@ -130,4 +134,52 @@
   margin-top: 10px;
   text-decoration: none;
   color: #007bff;
+}
+
+@media (max-width: 768px) {
+  .homeStyle {
+    flex-direction: column;
+  }
+  .homeStyleLeft {
+    width: 100vw;
+    height: 50vh;
+  }
+  .leftContainerStyle {
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 2rem;
+    background: linear-gradient(to left, rgba(35, 20, 79, 0.8), rgba(3, 7, 18, 0.8));
+    backdrop-filter: blur(3vw);
+    color: #fff;
+    width: 100%;
+    min-height: 50vh;
+  }
+  .temple{
+    height: 50vh;
+  }
+  .rightContainerStyle {
+    position: relative;
+    top: 5vh; /* 从顶部开始 */
+    left: 0%; /* 从屏幕中间到右侧 */
+    width: 100vw; /* 占据屏幕右半部分 */
+    height: 100vh; /* 可能需要调整，确保占满整个视口高度 */
+    margin-left: 0vw;
+    margin-right: 0vw;
+    padding: 2px; /* 内边距 */
+    box-sizing: border-box; /* 边框和内边距包含在宽度内 */
+  
+  }
+  
+.projectContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
 }
