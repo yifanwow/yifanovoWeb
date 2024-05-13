@@ -11,14 +11,15 @@
 }
 
 .projectImage {
-  width: 77%; /* 设置宽度为容器宽度的 57% */
-  height: width*(16/9); /* 计算高度以维持 16:9 比例 */
+  width: 77%; /* 容器宽度的77% */
+  aspect-ratio: 16 / 9; 
   border-radius: 2vh; /* 圆角 */
   box-shadow: 0 4px 11px rgba(0, 0, 0, 0.5); /* 阴影 */
   border: 2px solid #46464657; /* 淡灰色描边 */
   margin-bottom: 3vh; /* 和标题之间的间距 */
-  object-fit: cover; /* 覆盖容器尺寸，多余的图像部分将被剪切 */
+  object-fit: cover; /* 覆盖容器尺寸，多余的图像部分将被剪裁 */
   object-position: center; /* 图像居中对齐 */
+  overflow: hidden; 
 }
 
 .projectTitle {
