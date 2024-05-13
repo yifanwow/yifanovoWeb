@@ -17,4 +17,4 @@ Here is the link for my personal project web:
     npm install react-router-dom  
 
 #### snapshotting:
-![website image](yifanovo_web\public\img\readmeimage.png)
+![website image](./yifanovo_web/public/img/readmeimage.png)
