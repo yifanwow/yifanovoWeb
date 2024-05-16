@@ -7,17 +7,14 @@ const ProfileBackground_big = () => {
     const [vantaEffect, setVantaEffect] = useState(null);
 
     useEffect(() => {
-        const updateVanta = () => {
-            // 销毁现有的Vanta实例
-            if (vantaEffect) vantaEffect.destroy();
-
-            // 根据屏幕尺寸设置xOffset和yOffset
+        // 在组件加载时初始化Vanta.js效果
+        if (!vantaEffect) {
             const isPortrait = window.matchMedia("(orientation: portrait)").matches;
             const xOffset = isPortrait ? -1.39 : -0.5;
             const yOffset = isPortrait ? 0.13 : 0.13;
             const size = isPortrait ? 5.1 : 5.7;
-            // 创建新的Vanta实例
-            setVantaEffect(BIRDS({
+            
+            const effect = BIRDS({
                 el: vantaRef.current,
                 mouseControls: true,
                 touchControls: true,
@@ -28,18 +25,16 @@ const ProfileBackground_big = () => {
                 amplitudeFactor: 3,
                 baseColor: 0x50f31,
                 backgroundColor: 0x60318,
-            }));
-        };
+            });
 
-        updateVanta();
+            setVantaEffect(effect);
+        }
 
-        // 重设Vanta效果当屏幕方向改变时
-        window.addEventListener('orientationchange', updateVanta);
+        // 清理函数，仅当组件卸载时销毁Vanta.js实例
         return () => {
             if (vantaEffect) vantaEffect.destroy();
-            window.removeEventListener('orientationchange', updateVanta);
         };
-    }, []);
+    }, []); // 空依赖数组，确保仅在组件挂载时执行一次
 
     return <div ref={vantaRef} className="profileBackground"></div>;
 };

@@ -100,7 +100,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -164,7 +163,7 @@
     top: 5vh; /* 从顶部开始 */
     left: 0%; /* 从屏幕中间到右侧 */
     width: 100vw; /* 占据屏幕右半部分 */
-    height: 100vh; /* 可能需要调整，确保占满整个视口高度 */
+     /* 可能需要调整，确保占满整个视口高度 */
     margin-left: 0vw;
     margin-right: 0vw;
     padding: 2px; /* 内边距 */
@@ -176,7 +175,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
