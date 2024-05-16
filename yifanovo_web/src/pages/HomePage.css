@@ -1,6 +1,19 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  /* 确保没有默认滚动条 */
+  height: 100%;
+}
+
 .homeStyle {
   height: 100vh;
   box-sizing: border-box;
+  overflow-x: hidden;
+  /* 隐藏水平滚动条 */
+  overflow-y: scroll;
+
 }
 
 .homeStyleLeft {
@@ -8,7 +21,8 @@
 }
 
 .leftContainerStyle {
-  position: fixed; /* 固定位置，不随滚动条滚动 */
+  position: fixed;
+  /* 固定位置，不随滚动条滚动 */
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -19,20 +33,28 @@
   backdrop-filter: blur(3vw);
   color: #fff;
   min-height: 100vh;
-  width: 50%; /* 确保宽度填充视口的左侧部分，根据实际布局调整 */
-  left: 0; /* 与视口左侧对齐 */
-  top: 0; /* 与视口顶部对齐 */
+  width: 50%;
+  /* 确保宽度填充视口的左侧部分，根据实际布局调整 */
+  left: 0;
+  /* 与视口左侧对齐 */
+  top: 0;
+  /* 与视口顶部对齐 */
 }
 
 .rightContainerStyle {
   position: relative;
-  top: 9vh; /* 从顶部开始 */
-  left: 50%; /* 从屏幕中间到右侧 */
-  width: 50%; /* 占据屏幕右半部分 */
-  height: 100vh; /* 可能需要调整，确保占满整个视口高度 */
-  margin-left: 3.7vw;
-  padding: 20px; /* 内边距 */
-  box-sizing: border-box; /* 边框和内边距包含在宽度内 */
+  top: 7vh;
+  /* 从顶部开始 */
+  left: 50%;
+  /* 从屏幕中间到右侧 */
+  width: 50%;
+  /* 占据屏幕右半部分 */
+  height: auto;
+  /* 可能需要调整，确保占满整个视口高度 */
+  padding: 20px;
+  /* 内边距 */
+  box-sizing: border-box;
+  /* 边框和内边距包含在宽度内 */
 
 }
 
@@ -102,7 +124,7 @@
   align-items: center;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .projectImage {
@@ -135,14 +157,46 @@
   color: #007bff;
 }
 
+
+/* 定义滚动条的宽度 */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* 定义滚动条的轨道部分 */
+::-webkit-scrollbar-track {
+  background: rgba(90, 90, 90, 0.2);
+  background: transparent;
+  /* 轨道背景设置为透明 */
+  backdrop-filter: blur(10px);
+  /* 高斯模糊效果 */
+  border-radius: 8px;
+}
+
+/* 定义滚动条的滑块部分 */
+::-webkit-scrollbar-thumb {
+  background: rgba(80, 80, 80, 0.6);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  /* 高斯模糊效果 */
+}
+
+/* 滑块在悬停时的样式 */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(105, 105, 105, 0.8);
+}
+
+
 @media (max-width: 768px) {
   .homeStyle {
     flex-direction: column;
   }
+
   .homeStyleLeft {
     width: 100vw;
     height: 50vh;
   }
+
   .leftContainerStyle {
     position: relative;
     flex-direction: column;
@@ -155,30 +209,37 @@
     width: 100%;
     min-height: 50vh;
   }
-  .temple{
+
+  .temple {
     height: 50vh;
   }
+
   .rightContainerStyle {
     position: relative;
-    top: 5vh; /* 从顶部开始 */
-    left: 0%; /* 从屏幕中间到右侧 */
-    width: 100vw; /* 占据屏幕右半部分 */
-     /* 可能需要调整，确保占满整个视口高度 */
+    top: 9vw;
+    /* 从顶部开始 */
+    left: 0%;
+    /* 从屏幕中间到右侧 */
+    width: 100vw;
+    /* 占据屏幕右半部分 */
+    /* 可能需要调整，确保占满整个视口高度 */
     margin-left: 0vw;
     margin-right: 0vw;
-    padding: 2px; /* 内边距 */
-    box-sizing: border-box; /* 边框和内边距包含在宽度内 */
-  
+    padding: 2px;
+    /* 内边距 */
+    box-sizing: border-box;
+    /* 边框和内边距包含在宽度内 */
+
   }
-  
-.projectContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 50px;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
+
+  .projectContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 50px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
 
 }

@@ -6,14 +6,19 @@ const ProfileBackground_big = () => {
     const vantaRef = useRef(null);
     const [vantaEffect, setVantaEffect] = useState(null);
 
-    useEffect(() => {
-        // 在组件加载时初始化Vanta.js效果
-        if (!vantaEffect) {
-            const isPortrait = window.matchMedia("(orientation: portrait)").matches;
-            const xOffset = isPortrait ? -1.39 : -0.5;
-            const yOffset = isPortrait ? 0.13 : 0.13;
-            const size = isPortrait ? 5.1 : 5.7;
-            
+    const initializeVantaEffect = () => {
+        const isPortrait = window.matchMedia("(orientation: portrait)").matches;
+        const xOffset = isPortrait ? -1.39 : -0.5;
+        const yOffset = isPortrait ? 0.13 : 0.13;
+        const size = isPortrait ? 5.1 : 5.7;
+
+        if (vantaEffect) {
+            vantaEffect.setOptions({
+                xOffset,
+                yOffset,
+                size
+            });
+        } else {
             const effect = BIRDS({
                 el: vantaRef.current,
                 mouseControls: true,
@@ -26,15 +31,24 @@ const ProfileBackground_big = () => {
                 baseColor: 0x50f31,
                 backgroundColor: 0x60318,
             });
-
             setVantaEffect(effect);
         }
+    };
 
-        // 清理函数，仅当组件卸载时销毁Vanta.js实例
+    useEffect(() => {
+        initializeVantaEffect();
+
+        const handleResize = () => {
+            initializeVantaEffect();
+        };
+
+        window.addEventListener('resize', handleResize);
+
         return () => {
             if (vantaEffect) vantaEffect.destroy();
+            window.removeEventListener('resize', handleResize);
         };
-    }, []); // 空依赖数组，确保仅在组件挂载时执行一次
+    }, [vantaEffect]); // 依赖vantaEffect，确保effect实例被更新时也能重新初始化
 
     return <div ref={vantaRef} className="profileBackground"></div>;
 };
