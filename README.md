@@ -1,9 +1,14 @@
 # yifanovoWeb
-A website front
-The front end of a network is used to showcase projects I have personally completed in the past.
+**A Website Front-End/**  
+**Showcase projects** I have personally completed in the past.  
+Host on *AWS Elastic Beanstalk-t3*.  
 
-Here is the link for my personal project web:  
-**[yifanovo.info](http://yifanovo.info "Personal project website by Yifan")**
+Link: **[yifanovo.info](http://yifanovo.info "Personal project website by Yifan")**
+## Snapshotting:
+### Desktop :
+![website image](./yifanovo_web/public/img/readmeimage.png)
+### Mobile Device :
+![website image](./yifanovo_web/public/img/mobile.jpg)
 
 ### Step:1 Create a react project:
 
@@ -16,5 +21,3 @@ Here is the link for my personal project web:
     npm install bulma  
     npm install react-router-dom  
 
-#### snapshotting:
-![website image](./yifanovo_web/public/img/readmeimage.png)
