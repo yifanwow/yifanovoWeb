@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import 'bulma/css/bulma.css';
 import './HomePage.css';
 import Project from '../components/Project';
@@ -13,6 +13,20 @@ function HomePage() {
     console.log('LOGIN IN HomeLoggedOut-checkpoint 2');
     // Perform your login logic here
   };
+
+  useEffect(() => {
+    const homeStyleLeft = document.querySelector('.homeStyleLeft');
+    const leftContainerStyle = document.querySelector('.leftContainerStyle');
+    const temple = document.querySelector('.temple');
+    const heightValue = homeStyleLeft.clientHeight; // 获取元素的初始高度
+    const leftContainerStyleHeight = leftContainerStyle.clientHeight;
+    const templeHeight = temple.clientHeight;
+    homeStyleLeft.style.height = heightValue + 'px'; // 设置固定高度
+    leftContainerStyle.style.minHeight = leftContainerStyleHeight + 'px';
+    temple.style.height = templeHeight + 'px';
+
+  }, [])
+
 
   const projects = [
     {

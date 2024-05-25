@@ -1,20 +1,6 @@
-html,
-body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: auto;
-  /* 确保没有默认滚动条 */
-  height: 100%;
-  -webkit-overflow-scrolling: touch;
-}
-
 .homeStyle {
   height: 100vh;
   box-sizing: border-box;
-  overflow-x: hidden;
-  /* 隐藏水平滚动条 */
-  overflow-y: auto;
 }
 
 .homeStyleLeft {
@@ -242,27 +228,27 @@ body {
   .titleGroupStyle {
     font-size: 2.7rem;
     margin-bottom: 0;
-    text-shadow: 0px 0px 0.9vh rgba(0, 0, 0, 1.9);
+    text-shadow: 0px 0px 0.9vw rgba(0, 0, 0, 1.9);
   }
 
   .SteamStyle {
     font-weight: 500;
     color: #cb9dff;
-    text-shadow: 0px 0px 0.9vh rgba(0, 0, 0, 0.7);
+    text-shadow: 0px 0px 0.9vw rgba(0, 0, 0, 0.7);
   }
 
   .AIOStyle {
     font-weight: 500;
     color: #ffffff;
-    text-shadow: 0px 0px 0.9vh rgba(0, 0, 0, 0.7);
+    text-shadow: 0px 0px 0.9vw rgba(0, 0, 0, 0.7);
   }
 
   .textDesc {
-    text-shadow: 0px 0px 0.5vh rgba(0, 0, 0, 0.9);
+    text-shadow: 0px 0px 0.5vw rgba(0, 0, 0, 0.9);
   }
 
   .textDesc2 {
-    text-shadow: 0px 0px 0.5vh rgba(0, 0, 0, 0.9);
+    text-shadow: 0px 0px 0.5vw rgba(0, 0, 0, 0.9);
   }
 
   .rightContainerStyle {
