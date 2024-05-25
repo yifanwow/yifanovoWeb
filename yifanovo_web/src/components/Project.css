@@ -36,6 +36,14 @@
   object-position: center;
   /* 图像居中对齐 */
   overflow: hidden;
+  transition: transform 0.7s;
+  /* 设置默认过渡效果 */
+}
+
+.projectImage:hover {
+  transform: scale(1.1);
+  /* 放大 */
+  /* 过渡效果 */
 }
 
 .projectTitle {
