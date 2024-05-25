@@ -9,11 +9,12 @@
   margin-bottom: 3vw;
   margin-right: 3.7vw;
   margin-left: 3.7vw;
-  background: linear-gradient(to left, rgba(35, 20, 79, 0.1), rgba(3, 7, 18, 0.01));
-  backdrop-filter: blur(10vh);
+  background: linear-gradient(to left, rgba(35, 20, 79, 0.17), rgba(3, 7, 18, 0.01));
+  backdrop-filter: blur(10vw);
   /* 应用背景模糊 */
   -webkit-backdrop-filter: blur(10px);
   /* Safari 浏览器的兼容性 */
+
 }
 
 .projectImage {
@@ -57,12 +58,14 @@
   /* 和链接之间的间距 */
   color: #c4c4c4;
   /* 灰色文字 */
-  max-width: 75%;
+  max-width: 77%;
   font-size: calc(0.9em + 0.2vw);
   /* 动态大小 */
-  text-shadow: 0px 0px 0.9vh rgba(0, 0, 0, 1.9);
+  text-shadow: 0px 0px 0.5vh rgba(0, 0, 0, 1.9);
   /* 文字阴影 */
   text-align: justify;
+  hyphens: auto;
+  /* 自动断字 */
 }
 
 .projectLink {
@@ -75,6 +78,60 @@
   text-shadow: 0px 0px 0.2vw rgba(0, 0, 0, 0.55);
   /* 文字阴影 */
 }
+
+
+@media (max-width: 1200px) {
+  .project {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* 左对齐 */
+    border-radius: 3.7vw;
+    /* 圆角 */
+    padding: 50px;
+    margin-bottom: 3vw;
+    margin-right: 3.7vw;
+    margin-left: 3.7vw;
+    background: linear-gradient(to left, rgba(35, 20, 79, 0.17), rgba(3, 7, 18, 0.17));
+    backdrop-filter: blur(10vw);
+    /* 应用背景模糊 */
+    -webkit-backdrop-filter: blur(30px);
+    /* Safari 浏览器的兼容性 */
+  }
+
+  .projectImage {
+    width: 95%;
+    /* 容器宽度的77% */
+    aspect-ratio: 16 / 9;
+    border-radius: 37px;
+    /* 圆角 */
+    box-shadow: 0 4px 11px rgba(0, 0, 0, 0.5);
+    /* 阴影 */
+    border: 2px solid #46464657;
+    /* 淡灰色描边 */
+    margin-bottom: 19px;
+    /* 和标题之间的间距 */
+    object-fit: cover;
+    /* 覆盖容器尺寸，多余的图像部分将被剪裁 */
+    object-position: center;
+    /* 图像居中对齐 */
+    overflow: hidden;
+  }
+
+  .projectDescription {
+    margin: 0;
+    margin-bottom: 19px;
+    /* 和链接之间的间距 */
+    color: #c4c4c4;
+    /* 灰色文字 */
+    max-width: 97%;
+    font-size: calc(0.9em + 0.2vw);
+    /* 动态大小 */
+    text-shadow: 0px 0px 3px rgba(0, 0, 0, 1.9);
+    /* 文字阴影 */
+  }
+}
+
 
 @media (max-width: 768px) {
 
@@ -89,10 +146,10 @@
     margin-bottom: 11vw;
     margin-left: 3.9vw;
     margin-right: 3.9vw;
-    background: linear-gradient(to left, rgba(35, 20, 79, 0.37), rgba(3, 7, 18, 0.37));
+    background: linear-gradient(to left, rgba(35, 20, 79, 0.37), rgba(3, 7, 18, 0.31));
     backdrop-filter: blur(17vw);
     /* 应用背景模糊 */
-    -webkit-backdrop-filter: blur(11px);
+    -webkit-backdrop-filter: blur(13px);
     /* Safari 浏览器的兼容性 */
   }
 
@@ -140,7 +197,7 @@
     max-width: 97%;
     font-size: calc(0.9em + 0.2vw);
     /* 动态大小 */
-    text-shadow: 0px 0px 2vw rgba(0, 0, 0, 1.9);
+    text-shadow: 0px 0px 7px rgba(0, 0, 0, 1.9);
     /* 文字阴影 */
   }
 

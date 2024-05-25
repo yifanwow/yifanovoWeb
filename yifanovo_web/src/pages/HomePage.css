@@ -19,7 +19,7 @@
   background: linear-gradient(to left, rgba(35, 20, 79, 0.8), rgba(3, 7, 18, 0.8));
   backdrop-filter: blur(3vw);
   color: #fff;
-  min-height: 100vh;
+  min-height: 120vh;
   width: 50%;
   /* 确保宽度填充视口的左侧部分，根据实际布局调整 */
   left: 0;
@@ -48,6 +48,7 @@
 
 .textGroupStyle {
   text-align: left;
+  margin-top: -20vh;
   margin-bottom: 1.7rem;
 }
 
@@ -161,7 +162,7 @@
 }
 
 /* Custom scrollbars for desktop */
-@media (min-width: 769px) {
+@media (min-width: 1080px) {
 
   /* 定义滚动条的宽度 */
   ::-webkit-scrollbar {
@@ -190,6 +191,8 @@
     background: rgba(105, 105, 105, 0.8);
   }
 }
+
+
 
 @media (max-width: 768px) {
 
@@ -221,6 +224,7 @@
   }
 
   .textGroupStyle {
+    margin-top: 0vh;
     text-align: left;
     margin-bottom: 1.7rem;
   }

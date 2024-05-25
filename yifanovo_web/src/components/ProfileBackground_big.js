@@ -11,7 +11,7 @@ const ProfileBackground_big = () => {
             const isPortrait = window.matchMedia("(orientation: portrait)").matches;
             const xOffset = isPortrait ? -1.39 : -0.5;
             const yOffset = isPortrait ? 0.13 : 0.13;
-            const size = isPortrait ? 4.9 : 5.7;
+            const size = isPortrait ? 4.9 : 5.1;
 
             const effect = BIRDS({
                 el: vantaRef.current,
