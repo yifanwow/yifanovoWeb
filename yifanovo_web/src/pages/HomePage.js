@@ -101,8 +101,8 @@ function HomePage() {
               </div>
               {/* Other content like GitHub link, version info, etc. */}
             </div>
-            <div style={{ fontSize: '0.77em', color: '#5a4d54', position: 'absolute', bottom: '10px', alignItems: 'center' }}>
-              version 0.02
+            <div style={{ fontSize: '0.77em', color: '#5a4d54', position: 'absolute', bottom: '17px', alignItems: 'center' }}>
+              version 0.03
             </div>
           </div>
         </div>

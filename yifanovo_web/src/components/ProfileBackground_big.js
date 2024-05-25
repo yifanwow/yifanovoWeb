@@ -6,19 +6,13 @@ const ProfileBackground_big = () => {
     const vantaRef = useRef(null);
     const [vantaEffect, setVantaEffect] = useState(null);
 
-    const initializeVantaEffect = () => {
-        const isPortrait = window.matchMedia("(orientation: portrait)").matches;
-        const xOffset = isPortrait ? -1.39 : -0.5;
-        const yOffset = isPortrait ? 0.13 : 0.13;
-        const size = isPortrait ? 5.1 : 5.7;
+    useEffect(() => {
+        if (!vantaEffect) {
+            const isPortrait = window.matchMedia("(orientation: portrait)").matches;
+            const xOffset = isPortrait ? -1.39 : -0.5;
+            const yOffset = isPortrait ? 0.13 : 0.13;
+            const size = isPortrait ? 4.9 : 5.7;
 
-        if (vantaEffect) {
-            vantaEffect.setOptions({
-                xOffset,
-                yOffset,
-                size
-            });
-        } else {
             const effect = BIRDS({
                 el: vantaRef.current,
                 mouseControls: true,
@@ -33,22 +27,21 @@ const ProfileBackground_big = () => {
             });
             setVantaEffect(effect);
         }
-    };
 
-    useEffect(() => {
-        initializeVantaEffect();
-
-        const handleResize = () => {
-            initializeVantaEffect();
+        // 在加载时设置固定高度
+        const setFixedHeight = () => {
+            const profileBackground = document.querySelector('.profileBackground');
+            const heightValue = profileBackground.clientHeight;// 获取视口高度
+            profileBackground.style.height = heightValue + 'px';
+            profileBackground.style.minHeight = heightValue + 'px'; // 设置固定高度
         };
 
-        window.addEventListener('resize', handleResize);
+        setFixedHeight(); // 初始设置
 
         return () => {
             if (vantaEffect) vantaEffect.destroy();
-            window.removeEventListener('resize', handleResize);
         };
-    }, [vantaEffect]); // 依赖vantaEffect，确保effect实例被更新时也能重新初始化
+    }, [vantaEffect]);
 
     return <div ref={vantaRef} className="profileBackground"></div>;
 };
