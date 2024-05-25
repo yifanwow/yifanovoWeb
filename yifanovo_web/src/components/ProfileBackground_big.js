@@ -27,7 +27,7 @@ const ProfileBackground_big = () => {
                 xOffset,
                 yOffset,
                 size,
-                amplitudeFactor: 3,
+                amplitudeFactor: 1.7,
                 baseColor: 0x50f31,
                 backgroundColor: 0x60318,
             });

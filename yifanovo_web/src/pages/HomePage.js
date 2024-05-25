@@ -72,7 +72,7 @@ function HomePage() {
                   <span className="SteamStyle">Yifan </span>
                   <span className="AIOStyle">Yu</span>
                 </h1>
-                <p>Software development / Tech make life better</p>
+                <p className='textDesc'>Software Developer / Tech make life better</p>
               </div>
               <form onSubmit={handleSubmit} className="inputButtonContainerStyle">
                 <input type="text" placeholder="Email Address" className="inputStyle" />

@@ -2,9 +2,10 @@ html,
 body {
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  overflow: auto;
   /* 确保没有默认滚动条 */
   height: 100%;
+  -webkit-overflow-scrolling: touch;
 }
 
 .homeStyle {
@@ -12,7 +13,7 @@ body {
   box-sizing: border-box;
   overflow-x: hidden;
   /* 隐藏水平滚动条 */
-  overflow-y: scroll;
+  overflow-y: auto;
 
 }
 
@@ -66,16 +67,23 @@ body {
 .titleGroupStyle {
   font-size: 3.5rem;
   margin-bottom: 0;
+  text-shadow: 0px 0px 0.9vh rgba(0, 0, 0, 1.9);
 }
 
 .SteamStyle {
   font-weight: 500;
   color: #cb9dff;
+  text-shadow: 0px 0px 0.9vh rgba(0, 0, 0, 0.7);
 }
 
 .AIOStyle {
   font-weight: 500;
   color: #ffffff;
+  text-shadow: 0px 0px 0.9vh rgba(0, 0, 0, 0.7);
+}
+
+.textDesc {
+  text-shadow: 0px 0px 0.5vh rgba(0, 0, 0, 0.9);
 }
 
 .inputButtonContainerStyle {
@@ -86,7 +94,8 @@ body {
   border: 2px solid #4a4d54;
   overflow: hidden;
   margin-bottom: 1.3rem;
-  width: 77%;
+  width: 79%;
+  height: 2.9rem;
 }
 
 .inputStyle {
@@ -157,35 +166,36 @@ body {
   color: #007bff;
 }
 
+/* Custom scrollbars for desktop */
+@media (min-width: 769px) {
 
-/* 定义滚动条的宽度 */
-::-webkit-scrollbar {
-  width: 7px;
+  /* 定义滚动条的宽度 */
+  ::-webkit-scrollbar {
+    width: 7px;
+  }
+
+  /* 定义滚动条的轨道部分 */
+  ::-webkit-scrollbar-track {
+    background: transparent;
+    /* 轨道背景设置为透明 */
+    backdrop-filter: blur(10px);
+    /* 高斯模糊效果 */
+    border-radius: 8px;
+  }
+
+  /* 定义滚动条的滑块部分 */
+  ::-webkit-scrollbar-thumb {
+    background: rgba(80, 80, 80, 0.6);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    /* 高斯模糊效果 */
+  }
+
+  /* 滑块在悬停时的样式 */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(105, 105, 105, 0.8);
+  }
 }
-
-/* 定义滚动条的轨道部分 */
-::-webkit-scrollbar-track {
-  background: rgba(90, 90, 90, 0.2);
-  background: transparent;
-  /* 轨道背景设置为透明 */
-  backdrop-filter: blur(10px);
-  /* 高斯模糊效果 */
-  border-radius: 8px;
-}
-
-/* 定义滚动条的滑块部分 */
-::-webkit-scrollbar-thumb {
-  background: rgba(80, 80, 80, 0.6);
-  border-radius: 10px;
-  backdrop-filter: blur(10px);
-  /* 高斯模糊效果 */
-}
-
-/* 滑块在悬停时的样式 */
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(105, 105, 105, 0.8);
-}
-
 
 @media (max-width: 768px) {
   .homeStyle {
@@ -240,6 +250,18 @@ body {
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .inputButtonContainerStyle {
+    display: flex;
+    align-items: left;
+    background: #121212;
+    border-radius: 11px;
+    border: 2px solid #4a4d54;
+    overflow: hidden;
+    margin-bottom: 1.3rem;
+    width: 87%;
+    height: 2.9rem;
   }
 
 }
