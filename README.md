@@ -1,5 +1,6 @@
 # yifanovoWeb
-**A Website Front-End/**  
+![website image](./yifanovo_web/public/img/thu.png) 
+**A Website Front-End/** 
 **Showcase projects** I have personally completed in the past.  
 Host on *AWS Elastic Beanstalk-t3*.  
 
