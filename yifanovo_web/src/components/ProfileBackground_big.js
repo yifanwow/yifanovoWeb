@@ -36,10 +36,12 @@ const ProfileBackground_big = () => {
             profileBackground.style.minHeight = heightValue + 'px'; // 设置固定高度
         };
 
-        setFixedHeight(); // 初始设置
+        setFixedHeight();
+        window.addEventListener('resize', setFixedHeight);
 
         return () => {
             if (vantaEffect) vantaEffect.destroy();
+            window.removeEventListener('resize', setFixedHeight);
         };
     }, [vantaEffect]);
 

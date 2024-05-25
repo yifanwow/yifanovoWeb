@@ -1,0 +1,148 @@
+/* HomePage.css */
+
+.custom-loader {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 7.9rem;
+  margin-top: 2rem;
+  margin-bottom: 7rem;
+  will-change: box-shadow, transform;
+}
+
+.custom-loader:before,
+.custom-loader:after {
+  content: "";
+  position: absolute;
+  border-radius: 17%;
+  animation: pulsOut 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 1rem #ff29dbb2);
+  will-change: box-shadow, opacity;
+}
+
+.custom-loader:before {
+  width: 100%;
+  padding-bottom: 100%;
+  border-radius: 25%;
+  box-shadow: inset 0 0 0 1rem #29fff448;
+  animation-name: pulsIn;
+}
+
+.custom-loader:after {
+  width: calc(100% - 2rem);
+  padding-bottom: calc(100% - 2rem);
+  box-shadow: 0 0 0 0 #29fff4e8;
+}
+
+@keyframes pulsIn {
+  0% {
+    box-shadow: inset 0 0 0 1rem #9960c09f;
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    box-shadow: inset 0 0 0 0 #9960c09f;
+    opacity: 0;
+  }
+}
+
+@keyframes pulsOut {
+
+  0%,
+  50% {
+    box-shadow: 0 0 0 0 #9960c09f;
+    opacity: 0;
+  }
+
+  100% {
+    box-shadow: 0 0 0 1rem #9960c09f;
+    opacity: 1;
+  }
+}
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(to left, rgba(46, 4, 56, 0.97), rgba(3, 7, 18, 0.01));
+}
+
+@media screen and (max-width: 768px) {
+  /* HomePage.css */
+
+  .custom-loader {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 7.9rem;
+    margin-top: 2rem;
+    margin-bottom: 7rem;
+    will-change: transform, opacity;
+  }
+
+  .custom-loader:before,
+  .custom-loader:after {
+    content: "";
+    position: absolute;
+    border-radius: 17%;
+    animation: pulsOut 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 1rem #ff29dbb2);
+    will-change: transform, opacity;
+  }
+
+  .custom-loader:before {
+    width: 100%;
+    padding-bottom: 100%;
+    border-radius: 25%;
+    box-shadow: inset 0 0 0 1rem #29fff448;
+    animation-name: pulsIn;
+  }
+
+  .custom-loader:after {
+    width: calc(100% - 2rem);
+    padding-bottom: calc(100% - 2rem);
+    box-shadow: 0 0 0 0 #29fff4e8;
+  }
+
+  @keyframes pulsIn {
+    0% {
+      box-shadow: inset 0 0 0 1rem #9960c09f;
+      opacity: 1;
+    }
+
+    50%,
+    100% {
+      box-shadow: inset 0 0 0 0 #9960c09f;
+      opacity: 0;
+    }
+  }
+
+  @keyframes pulsOut {
+
+    0%,
+    50% {
+      box-shadow: 0 0 0 0 #9960c09f;
+      opacity: 0;
+    }
+
+    100% {
+      box-shadow: 0 0 0 1rem #9960c09f;
+      opacity: 1;
+    }
+  }
+
+  .loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(to left, rgba(46, 4, 56, 0.97), rgba(3, 7, 18, 0.01));
+  }
+
+}

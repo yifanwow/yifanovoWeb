@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'bulma/css/bulma.css';
 import './HomePage.css';
+import './good.css';
 import Project from '../components/Project';
 import ProfileBackground_big from '../components/ProfileBackground_big';
 
-
 function HomePage() {
-  // Function to handle the form submission
-  console.log('Try to login in using API Base URL:', process.env.REACT_APP_API_BASE_URL);
+  const [isLoaded, setIsLoaded] = useState(false);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('LOGIN IN HomeLoggedOut-checkpoint 2');
@@ -15,18 +15,38 @@ function HomePage() {
   };
 
   useEffect(() => {
-    const homeStyleLeft = document.querySelector('.homeStyleLeft');
-    const leftContainerStyle = document.querySelector('.leftContainerStyle');
-    const temple = document.querySelector('.temple');
-    const heightValue = homeStyleLeft.clientHeight; // 获取元素的初始高度
-    const leftContainerStyleHeight = leftContainerStyle.clientHeight;
-    const templeHeight = temple.clientHeight;
-    homeStyleLeft.style.height = heightValue + 'px'; // 设置固定高度
-    leftContainerStyle.style.minHeight = leftContainerStyleHeight + 'px';
-    temple.style.height = templeHeight + 'px';
+    const setHeights = () => {
+      const homeStyleLeft = document.querySelector('.homeStyleLeft');
+      const leftContainerStyle = document.querySelector('.leftContainerStyle');
+      const temple = document.querySelector('.temple');
 
-  }, [])
+      if (homeStyleLeft && leftContainerStyle && temple) {
+        const heightValue = homeStyleLeft.clientHeight;
+        const leftContainerStyleHeight = leftContainerStyle.clientHeight;
+        const templeHeight = temple.clientHeight;
 
+        homeStyleLeft.style.height = heightValue + 'px';
+        leftContainerStyle.style.minHeight = leftContainerStyleHeight + 'px';
+        leftContainerStyle.style.height = leftContainerStyleHeight + 'px';
+        temple.style.height = templeHeight + 'px';
+      }
+    };
+
+    setHeights();
+    window.addEventListener('resize', setHeights);
+
+    // 模拟异步资源加载
+    const simulateAsyncLoad = async () => {
+      await new Promise((resolve) => setTimeout(resolve, 1100)); // 模拟延迟
+      setIsLoaded(true); // 设置加载完成
+    };
+
+    simulateAsyncLoad();
+
+    return () => {
+      window.removeEventListener('resize', setHeights);
+    };
+  }, []);
 
   const projects = [
     {
@@ -73,50 +93,54 @@ function HomePage() {
 
   ];
 
+
   return (
     <div className="homeStyle">
-      <div className="homeStyleLeft">
-
-        {/* Profile background */}
-        <div className="temple">
-          <div className="leftContainerStyle">
-            <div>
-              <div className="textGroupStyle">
-                <h1 className="titleGroupStyle">
-                  <span className="SteamStyle">Yifan </span>
-                  <span className="AIOStyle">Yu</span>
-                </h1>
-                <p className='textDesc'>Software Developer /</p>
-                <p className='textDesc2'>Tech makes life better</p>
+      {isLoaded ? (
+        <>
+          <div className="homeStyleLeft">
+            <div className="temple">
+              <div className="leftContainerStyle">
+                <div>
+                  <div className="textGroupStyle">
+                    <h1 className="titleGroupStyle">
+                      <span className="SteamStyle">Yifan </span>
+                      <span className="AIOStyle">Yu</span>
+                    </h1>
+                    <p className='textDesc'>Software Developer /</p>
+                    <p className='textDesc2'>Tech makes life better</p>
+                  </div>
+                  <form onSubmit={handleSubmit} className="inputButtonContainerStyle">
+                    <input type="text" placeholder="E-Mail" className="inputStyle" />
+                    <button type="submit" className="buttonStyle">Get Updates</button>
+                  </form>
+                  <div className="GitHubStyle">
+                    <img src="/img/ICON/GITHUB_GRAY.png" alt="GitHub Icon" style={{ width: '21px' }} />
+                    <a href="https://github.com/yifanwow" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', textDecoration: 'none' }}>
+                      GitHub
+                    </a>
+                  </div>
+                </div>
+                <div style={{ fontSize: '0.77em', color: '#5a4d54', position: 'absolute', bottom: '17px', alignItems: 'center' }}>
+                  version 0.03
+                </div>
               </div>
-              <form onSubmit={handleSubmit} className="inputButtonContainerStyle">
-                <input type="text" placeholder="E-Mail" className="inputStyle" />
-                <button type="submit" className="buttonStyle">Get Updates</button>
-              </form>
-              <div className="GitHubStyle">
-                <img src="/img/ICON/GITHUB_GRAY.png" alt="GitHub Icon" style={{ width: '21px' }} />
-                <a href="https://github.com/yifanwow" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', textDecoration: 'none' }}>
-                  GitHub
-                </a>
-              </div>
-              {/* Other content like GitHub link, version info, etc. */}
-            </div>
-            <div style={{ fontSize: '0.77em', color: '#5a4d54', position: 'absolute', bottom: '17px', alignItems: 'center' }}>
-              version 0.03
             </div>
           </div>
+          <div style={{ width: '100vw' }}>
+            <div className="rightContainerStyle">
+              {projects.map(project => (
+                <Project key={project.id} {...project} />
+              ))}
+            </div>
+          </div>
+          <ProfileBackground_big />
+        </>
+      ) : (
+        <div className="loader-container">
+          <div className="custom-loader"></div>
         </div>
-      </div>
-
-
-      <div style={{ width: '100vw' }}>
-        <div className="rightContainerStyle">
-          {projects.map(project => (
-            <Project key={project.id} {...project} />
-          ))}
-        </div>
-      </div>
-      <ProfileBackground_big />
+      )}
     </div>
   );
 }
