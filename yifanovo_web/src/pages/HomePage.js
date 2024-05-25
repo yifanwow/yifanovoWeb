@@ -72,10 +72,11 @@ function HomePage() {
                   <span className="SteamStyle">Yifan </span>
                   <span className="AIOStyle">Yu</span>
                 </h1>
-                <p className='textDesc'>Software Developer / Tech make life better</p>
+                <p className='textDesc'>Software Developer /</p>
+                <p className='textDesc2'>Tech makes life better</p>
               </div>
               <form onSubmit={handleSubmit} className="inputButtonContainerStyle">
-                <input type="text" placeholder="Email Address" className="inputStyle" />
+                <input type="text" placeholder="E-Mail" className="inputStyle" />
                 <button type="submit" className="buttonStyle">Get Updates</button>
               </form>
               <div className="GitHubStyle">
