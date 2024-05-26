@@ -46,7 +46,7 @@ function HomePage() {
     // 模拟异步资源加载
     const simulateAsyncLoad = async () => {
       await new Promise((resolve) => setTimeout(resolve, 1100)); // 模拟延迟
-      setIsLoaded(true); // 设置加载完成
+      setIsLoaded(false); // 设置加载完成
     };
 
     simulateAsyncLoad();
