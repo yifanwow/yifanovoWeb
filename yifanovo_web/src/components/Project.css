@@ -36,11 +36,11 @@
   object-position: center;
   /* 图像居中对齐 */
   overflow: hidden;
-  transition: transform 0.7s ease-out;
+  transition: transform 0.7s ease-out, box-shadow 0.7s ease-out;
   /*设置ease-in反而会极大程度上导致画面的卡顿 重点*/
   /* Rotate transition */
   transform-origin: center center;
-  will-change: transform;
+  will-change: transform, box-shadow;
   /* 优化性能 */
 }
 
@@ -192,6 +192,14 @@
     object-position: center;
     /* 图像居中对齐 */
     overflow: hidden;
+  }
+
+  .imageContainer {
+    perspective: 1000px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*居中*/
   }
 
   .projectTitle {
