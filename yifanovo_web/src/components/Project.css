@@ -9,14 +9,47 @@
   margin-bottom: 3vw;
   margin-right: 3.7vw;
   margin-left: 3.7vw;
-  background: linear-gradient(to left, rgba(35, 20, 79, 0.17), rgba(3, 7, 18, 0.01));
-  backdrop-filter: blur(7vw);
-  /* 应用背景模糊 */
-  -webkit-backdrop-filter: blur(10px);
-  /*-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3CforeignObject width='100%25' height='100%25'%3E%3Cbody class='wrap' xmlns='http://www.w3.org/1999/xhtml'%3E%3Cstyle%3E.wrap%7Bbox-sizing:border-box;margin:0;height:100%25;padding:15px%7D.shadow%7Bheight:100%25;background:black;border-radius:70px;box-shadow:0 0 5px black, 0 0 7px black, 0 0 13px black %7D%3C/style%3E%3Cdiv class='shadow'/%3E%3C/body%3E%3C/foreignObject%3E%3C/svg%3E");*/
-  /* Safari 浏览器的兼容性 */
-  box-shadow: 0px 0px 0.9vw rgba(0, 0, 0, 0.37);
+  background: linear-gradient(to left, rgba(35, 20, 79, 0.17), rgba(3, 7, 18, 0.00));
+  position: relative;
+  z-index: 1;
+  box-shadow: -0.27vw 0px 0.27vw rgba(0, 0, 0, 0.219);
+  /* 必须为伪元素设置定位 */
+}
 
+/* ::before 伪元素用于实现 backdrop-filter 渐变效果 */
+.project::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 70px;
+  background: linear-gradient(to right, rgba(35, 20, 79, 0.17), rgba(255, 255, 255, 0));
+  backdrop-filter: blur(7vw);
+  -webkit-backdrop-filter: blur(10px);
+  pointer-events: none;
+  z-index: -1;
+  /* 使伪元素不可交互 */
+}
+
+/* ::after 伪元素用于实现 box-shadow 渐变效果 */
+.project::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 70px;
+  background: linear-gradient(45deg,
+      hsl(300, 100%, 13%),
+      hsla(200, 100%, 12%, 0.103),
+      hsla(100, 100%, 50%, 0));
+  pointer-events: none;
+  filter: blur(100px);
+  z-index: -1;
+  /* 使伪元素不可交互 */
 }
 
 .projectImage {
@@ -117,7 +150,16 @@
     backdrop-filter: blur(10vw);
     /* 应用背景模糊 */
     -webkit-backdrop-filter: blur(30px);
+    box-shadow: 0px 0px 1.5vw rgba(0, 0, 0, 0.514);
     /* Safari 浏览器的兼容性 */
+  }
+
+  .project::before {
+    border-radius: 3.7vw;
+  }
+
+  .project::after {
+    border-radius: 3.7vw;
   }
 
   .projectImage {
@@ -173,6 +215,14 @@
     -webkit-backdrop-filter: blur(17px);
     /* Safari 浏览器的兼容性 */
     box-shadow: 0px 0px 1.5vw rgba(0, 0, 0, 0.57);
+  }
+
+  .project::before {
+    border-radius: 37px;
+  }
+
+  .project::after {
+    border-radius: 37px;
   }
 
   .projectImage {
