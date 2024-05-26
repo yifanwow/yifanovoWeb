@@ -108,10 +108,10 @@ function HomePage() {
           <div className="homeStyleLeft">
             <div className="temple">
               <div className="leftContainerStyle">
-                <div>
+                <div className='templeT'>
                   <div className="textGroupStyle">
                     <h1 className="titleGroupStyle">
-                      <span className="SteamStyle">Yifan </span>
+                      <span className="YuStyle">Yifan </span>
                       <span className="AIOStyle">Yu</span>
                     </h1>
                     <p className='textDesc'>Software Developer /</p>

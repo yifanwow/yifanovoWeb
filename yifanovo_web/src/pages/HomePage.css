@@ -4,7 +4,7 @@
 }
 
 .homeStyleLeft {
-  width: 50vw;
+  width: 47vw;
 }
 
 .leftContainerStyle {
@@ -20,7 +20,7 @@
   backdrop-filter: blur(3vw);
   color: #fff;
   min-height: 120vh;
-  width: 50%;
+  width: 47.9%;
   /* 确保宽度填充视口的左侧部分，根据实际布局调整 */
   left: 0;
   /* 与视口左侧对齐 */
@@ -29,13 +29,17 @@
   box-shadow: 7px 0px 30px rgba(0, 0, 0, 0.5);
 }
 
+.templeT {
+  margin-left: 11vw;
+}
+
 .rightContainerStyle {
   position: relative;
   top: 7vh;
   /* 从顶部开始 */
-  left: 50%;
+  left: 47.9%;
   /* 从屏幕中间到右侧 */
-  width: 50%;
+  width: 53%;
   /* 占据屏幕右半部分 */
   height: auto;
   /* 可能需要调整，确保占满整个视口高度 */
@@ -48,36 +52,42 @@
 
 .textGroupStyle {
   text-align: left;
-  margin-top: -17vh;
+  margin-top: -19vh;
   margin-bottom: 1.7rem;
+
 }
 
 .titleGroupStyle {
   font-size: 3.5rem;
   margin-bottom: 0.5rem;
   text-shadow: 0px 0px 0.9vh rgba(0, 0, 0, 1.9);
+
 }
 
-.SteamStyle {
+.YuStyle {
   font-weight: 500;
   color: #cb9dff;
+  letter-spacing: 3px;
   text-shadow: 0px 0px 0.9vh rgba(0, 0, 0, 0.7);
 }
 
 .AIOStyle {
   font-weight: 500;
   color: #ffffff;
+  letter-spacing: 5px;
   text-shadow: 0px 0px 0.9vh rgba(0, 0, 0, 0.7);
 }
 
 .textDesc {
   margin-left: 35px;
+  letter-spacing: 1px;
   text-shadow: 0px 0px 0.5vh rgba(0, 0, 0, 0.9);
 }
 
 .textDesc2 {
   color: #c6a8e9;
   margin-left: 102px;
+  letter-spacing: 1px;
   text-shadow: 0px 0px 0.5vh rgba(0, 0, 0, 0.9);
 }
 
@@ -85,7 +95,7 @@
   display: flex;
   align-items: left;
   background: #12121200;
-  border-radius: 11px;
+  border-radius: 15px;
   border: 1.5px solid #4a4d54;
   overflow: hidden;
   margin-bottom: 1.3rem;
@@ -102,6 +112,7 @@
   color: #cecece;
   background-color: #1f1f1f42;
   width: 30%;
+  border-radius: 0px;
 }
 
 .buttonStyle {
@@ -207,6 +218,10 @@
     box-shadow: 7px 0px 30px rgba(0, 0, 0, 0.5);
   }
 
+  .templeT {
+    margin-left: 0vw;
+  }
+
   /* 定义滚动条的宽度 */
   ::-webkit-scrollbar {
     width: 7px;
@@ -243,7 +258,7 @@
     display: flex;
     align-items: left;
     background: #12121200;
-    border-radius: 11px;
+    border-radius: 15px;
     border: 1px solid #4a4d54;
     overflow: hidden;
     margin-bottom: 1.3rem;
@@ -254,6 +269,7 @@
   .inputStyle {
     flex-grow: 1;
     padding: 5px 17px;
+    border-radius: 0px;
     font-size: 1rem;
     border: none;
     outline: none;
@@ -285,6 +301,10 @@
     flex-direction: column;
   }
 
+  .templeT {
+    margin-left: 0vw;
+  }
+
   .Icons {
     display: flex;
     flex-direction: column;
@@ -313,6 +333,7 @@
   }
 
   .temple {
+
     height: 77vh;
   }
 
@@ -380,7 +401,7 @@
     display: flex;
     align-items: left;
     background: #12121200;
-    border-radius: 11px;
+    border-radius: 15px;
     border: 1.5px solid #4a4d54;
     overflow: hidden;
     margin-bottom: 1.3rem;
@@ -393,6 +414,7 @@
     padding: 5px 17px;
     font-size: 1rem;
     border: none;
+    border-radius: 0px;
     outline: none;
     color: #cecece;
     background-color: #1f1f1f42;

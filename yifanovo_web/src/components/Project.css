@@ -130,9 +130,34 @@
   font-weight: bold;
   font-size: calc(0.7em + 0.2vw);
   text-shadow: 0px 0px 0.2vw rgba(0, 0, 0, 0.55);
+  perspective: 1000px;
   /* 文字阴影 */
 }
 
+/* 链接的默认颜色 */
+.projectLink a {
+  color: #8074ec;
+  display: inline-block;
+  /* 确保链接作为块元素处理，允许变换效果生效 */
+  /* 默认颜色 */
+  text-decoration: none;
+  /* 去掉下划线 */
+  transition: transform 0.7s, color 0.7s ease;
+  /* 颜色渐变效果 */
+}
+
+/* 鼠标悬停时的颜色 */
+.projectLink a:hover {
+  color: rgb(175, 210, 255);
+  transform: scale(1.1);
+  /* 悬停时的颜色 */
+}
+
+/* 鼠标点击时的颜色 */
+.projectLink a:active {
+  color: #d18be6;
+  /* 点击时的颜色 */
+}
 
 @media (max-width: 1200px) {
   .project {
