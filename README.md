@@ -85,4 +85,9 @@ Link: [GitHub](https://github.com/yifanwow/Grid_view_Engine)
     npm install react-router-dom 
     npm install lodash 
     npm install lodash.debounce  
+    //In Order to using Customizing webpack configuration
+    npm install copy-webpack-plugin --save-dev    
+    npm install react-app-rewired --save-dev  
+    npm install react-app-rewired copy-webpack-plugin --save-dev
+
 

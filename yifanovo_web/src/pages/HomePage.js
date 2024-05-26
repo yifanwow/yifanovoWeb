@@ -3,6 +3,7 @@ import 'bulma/css/bulma.css';
 import './HomePage.css';
 import './good.css';
 import Project from '../components/Project';
+import SocialLinks from '../components/SocialLinks';
 import ProfileBackground_big from '../components/ProfileBackground_big';
 
 function HomePage() {
@@ -120,14 +121,19 @@ function HomePage() {
                     <input type="text" placeholder="E-Mail" className="inputStyle" />
                     <button type="submit" className="buttonStyle">Get Updates</button>
                   </form>
-                  <div className="GitHubStyle">
+                  {/* <div className="GitHubStyle">
                     <img src="/img/ICON/GITHUB_GRAY.png" alt="GitHub Icon" style={{ width: '21px' }} />
                     <a href="https://github.com/yifanwow" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', textDecoration: 'none' }}>
                       GitHub
                     </a>
+                  </div> */}
+                  <div className="Icons">
+
+                    <SocialLinks />
+
                   </div>
                 </div>
-                <div style={{ fontSize: '0.77em', color: '#5a4d54', position: 'absolute', bottom: '17px', alignItems: 'center' }}>
+                <div className='Version'>
                   version 0.03
                 </div>
               </div>

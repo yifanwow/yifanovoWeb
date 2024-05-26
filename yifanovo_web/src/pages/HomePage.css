@@ -76,7 +76,7 @@
 }
 
 .textDesc2 {
-  color: #888888;
+  color: #c6a8e9;
   margin-left: 102px;
   text-shadow: 0px 0px 0.5vh rgba(0, 0, 0, 0.9);
 }
@@ -161,6 +161,27 @@
   color: #007bff;
 }
 
+.Icons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 11px;
+}
+
+.Version {
+
+  font-size: 0.77em;
+  color: #5a4d54d5;
+  position: absolute;
+  bottom: 21vh;
+  align-items: center;
+
+}
+
+.inputStyle::placeholder {
+  color: rgba(126, 126, 126, 0.5);
+}
+
 /* Custom scrollbars for desktop */
 @media (min-width: 1080px) {
 
@@ -190,15 +211,42 @@
   ::-webkit-scrollbar-thumb:hover {
     background: rgba(105, 105, 105, 0.8);
   }
+
+  .Version {
+    bottom: 21vh;
+    color: #5a4d5400;
+  }
+
+  .buttonStyle {
+    padding: 10px 15px;
+    font-weight: 400;
+    border: none;
+    background-color: #2c2242;
+    color: #8b8b8b8f;
+    border-radius: 0;
+    cursor: pointer;
+  }
 }
 
 
 
 @media (max-width: 768px) {
+  .Version {
+    top: 2vh;
+    color: #5a4d5400;
+  }
 
   .homeStyle {
     flex-direction: column;
   }
+
+  .Icons {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-top: 11px;
+  }
+
 
   .homeStyleLeft {
     width: 100vw;
@@ -211,7 +259,7 @@
     justify-content: center;
     align-items: center;
     padding: 0 2rem;
-    background: linear-gradient(to left, rgba(35, 20, 79, 0.8), rgba(3, 7, 18, 0.8));
+    background: linear-gradient(to left, rgba(35, 20, 79, 0.507), rgba(3, 7, 18, 0.493));
     backdrop-filter: blur(3vw);
     color: #fff;
     width: 100%;
@@ -311,7 +359,7 @@
     font-weight: 400;
     border: none;
     background-color: #2c2242;
-    color: #afafaf;
+    color: #8b8b8b8f;
     border-radius: 0;
     cursor: pointer;
   }

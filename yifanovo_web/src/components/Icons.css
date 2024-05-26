@@ -1,0 +1,94 @@
+/* 图标和文字的默认颜色 */
+.Icons a {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  gap: 1px;
+  /* 图标与文字之间的间距 */
+  color: #888888c0;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  margin-right: 10px;
+  margin-bottom: -7px;
+  text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.77);
+  /* 图标组之间的间距 */
+}
+
+/* 鼠标悬停时图标和文字同时变亮 */
+.Icons a:hover {
+  color: #e8afff;
+}
+
+/* 图标样式，继承父元素颜色 */
+.Icons svg {
+  fill: currentColor;
+  width: 19px;
+  height: 19px;
+  transition: fill 0.3s ease;
+  filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.7));
+  /* 应用阴影效果 */
+}
+
+/* 图标组之间的固定间距 */
+.Icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+/* WeChat容器样式 */
+.WeChatContainer {
+  position: relative;
+  display: inline-block;
+}
+
+/* WeChat图片样式 */
+.WeChatImage {
+  display: block;
+  position: absolute;
+  left: -170px;
+  /* 调整图片位置，使其在组件左侧 */
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 150px;
+  transition: opacity 1s ease, visibility 0s 1s;
+  opacity: 0;
+  border-radius: 23px;
+  border: #8b45a7 5px solid;
+  visibility: hidden;
+}
+
+.WeChatImage.visible {
+  opacity: 0.7;
+  visibility: visible;
+  transition: opacity 1s ease;
+}
+
+@media (max-width: 768px) {
+  .Icons a {
+    margin-right: -1px;
+    /* 图标组之间的间距 */
+  }
+
+  .WeChatImage {
+    display: block;
+    position: absolute;
+    left: 0px;
+    /* 调整图片位置，使其在组件左侧 */
+    top: 90px;
+    transform: translateY(-50%);
+    max-width: 119px;
+    transition: opacity 1.7s ease, visibility 0s 1.7s;
+    opacity: 0;
+    border-radius: 15px;
+    border: #8b45a7 5px solid;
+    visibility: hidden;
+  }
+
+  .WeChatImage.visible {
+    opacity: 0.9;
+
+    visibility: visible;
+    transition: opacity 1s ease;
+  }
+}
