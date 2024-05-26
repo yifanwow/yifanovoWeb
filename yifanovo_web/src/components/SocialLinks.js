@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { GitHubIcon, InstagramIcon, WeChatIcon } from './Icons';
+import { GitHubIcon, InstagramIcon, WeChatIcon, SteamIcon } from './Icons';
 import './Icons.css'; // 引入样式文件
 
 const SocialLinks = () => {
@@ -36,13 +36,18 @@ const SocialLinks = () => {
                 <InstagramIcon />
                 Instagram
             </a>
+            <a href="https://steamcommunity.com/id/yifanovo/" target="_blank" rel="noopener noreferrer" className="SteamStyle">
+                <SteamIcon />
+                Steam
+            </a>
             <div className="WeChatContainer" ref={weChatRef} onMouseEnter={handleWeChatMouseEnter} onMouseLeave={handleWeChatMouseLeave}>
                 <a href="#" className="WeChatStyle">
                     <WeChatIcon />
-                    WeChat
+                    WeChat Public
                 </a>
                 <img src="/img/wechat.jpg" alt="WeChat QR Code" className={`WeChatImage ${showWeChatImage ? 'visible' : ''}`} />
             </div>
+
         </div>
     );
 };
