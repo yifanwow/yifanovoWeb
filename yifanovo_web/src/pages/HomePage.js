@@ -7,6 +7,7 @@ import ProfileBackground_big from '../components/ProfileBackground_big';
 
 function HomePage() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -35,6 +36,12 @@ function HomePage() {
     setHeights();
     window.addEventListener('resize', setHeights);
 
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
     // 模拟异步资源加载
     const simulateAsyncLoad = async () => {
       await new Promise((resolve) => setTimeout(resolve, 1100)); // 模拟延迟
@@ -45,6 +52,7 @@ function HomePage() {
 
     return () => {
       window.removeEventListener('resize', setHeights);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -90,12 +98,10 @@ function HomePage() {
         { name: "GitHub", url: "https://github.com/yifanwow/Grid_view_Engine" }
       ]
     }
-
   ];
 
-
   return (
-    <div className="homeStyle">
+    <div key={windowWidth} className="homeStyle">
       {isLoaded ? (
         <>
           <div className="homeStyleLeft">
