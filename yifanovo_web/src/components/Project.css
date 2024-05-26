@@ -36,14 +36,25 @@
   object-position: center;
   /* 图像居中对齐 */
   overflow: hidden;
-  transition: transform 0.7s;
-  /* 设置默认过渡效果 */
+  transition: transform 0.7s ease-out;
+  /*设置ease-in反而会极大程度上导致画面的卡顿 重点*/
+  /* Rotate transition */
+  transform-origin: center center;
+  will-change: transform;
+  /* 优化性能 */
 }
 
 .projectImage:hover {
-  transform: scale(1.1);
+  /* transform: scale(1.3);
   /* 放大 */
   /* 过渡效果 */
+  /* --rotateX: 10deg;
+  --rotateY: 10deg; */
+}
+
+.imageContainer {
+  perspective: 1000px;
+  display: flex;
 }
 
 .projectTitle {
