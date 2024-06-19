@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import 'bulma/css/bulma.css';
 import './HomePage.css';
 import './good.css';
+import { useTranslation } from 'react-i18next';
 import Project from '../components/Project';
 import SocialLinks from '../components/SocialLinks';
 import ProfileBackground_big from '../components/ProfileBackground_big';
@@ -9,6 +10,11 @@ import ProfileBackground_big from '../components/ProfileBackground_big';
 function HomePage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const { t, i18n } = useTranslation();
+
+  const handleLanguageChange = (language) => {
+    i18n.changeLanguage(language);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -105,6 +111,10 @@ function HomePage() {
     <div key={windowWidth} className="homeStyle">
       {isLoaded ? (
         <>
+          <div className="language-toggle">
+            <button onClick={() => handleLanguageChange('en')}>English</button>
+            <button onClick={() => handleLanguageChange('zh')}>中文</button>
+          </div>
           <div className="homeStyleLeft">
             <div className="temple">
               <div className="leftContainerStyle">
@@ -114,12 +124,12 @@ function HomePage() {
                       <span className="YuStyle">Yifan </span>
                       <span className="AIOStyle">Yu</span>
                     </h1>
-                    <p className='textDesc'>Software Developer /</p>
+                    <p className='textDesc'>{t('description1')} </p>
                     <p className='textDesc2'>Tech makes life better</p>
                   </div>
                   <form onSubmit={handleSubmit} className="inputButtonContainerStyle">
-                    <input type="text" placeholder="E-Mail" className="inputStyle" />
-                    <button type="submit" className="buttonStyle">Get Updates</button>
+                    <input type="text" placeholder={t('emailPlaceholder')} className="inputStyle" />
+                    <button type="submit" className="buttonStyle">{t('getUpdates')}</button>
                   </form>
                   {/* <div className="GitHubStyle">
                     <img src="/img/ICON/GITHUB_GRAY.png" alt="GitHub Icon" style={{ width: '21px' }} />
