@@ -3,7 +3,6 @@ import 'bulma/css/bulma.css';
 import './HomePage.css';
 import './good.css';
 import './language.css';
-import projects from './projectsData';
 import { CSSTransition } from 'react-transition-group';
 import { useTranslation } from 'react-i18next';
 import Project from '../components/Project';
@@ -16,6 +15,7 @@ function HomePage() {
   const [showLanguageMenu, setShowLanguageMenu] = useState(false);
   const languageContainerRef = useRef(null); // 使用 ref 来引用容器 DOM 元素
   const { t, i18n } = useTranslation();
+  const [projects, setProjects] = useState([]);// 根据当前设定的项目数据
 
   const handleLanguageChange = (language) => {
     i18n.changeLanguage(language);
@@ -32,7 +32,14 @@ function HomePage() {
     console.log('LOGIN IN HomeLoggedOut-checkpoint 2');
     // Perform your login logic here
   };
+  useEffect(() => {
+    const loadProjects = async () => {
+      const projectsData = await import(`./projectsData_${i18n.language}`);
+      setProjects(projectsData.default);
+    };
 
+    loadProjects();
+  }, [i18n.language]);  // 当语言改变时重新加载项目数据
   useEffect(() => {
     const setHeights = () => {
       const homeStyleLeft = document.querySelector('.homeStyleLeft');

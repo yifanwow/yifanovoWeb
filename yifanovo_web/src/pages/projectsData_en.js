@@ -16,7 +16,7 @@ const projects = [
         id: 2,
         date: "Apr 7, 2024",
         title: "s/GPT",
-        description: "A WinExe Program help users to quickly communicate errors or any doubts encountered in their daily use of the computer through images by using GPT-4o Completions API.",
+        description: "A WinExe program allows users to complete function requests by calling GPT-4o's API interface in a one-click manner, quickly resolving errors or questions encountered in daily use of the computer, especially error pop-ups and system messages that are not easy to retrieve directly.",
         imageUrl: "/img/sGPT.png",
         links: [
             { name: "GitHub", url: "https://github.com/yifanwow/sGPT" }
@@ -26,7 +26,7 @@ const projects = [
         id: 3,
         date: "Apr 7, 2024",
         title: "fanCtrl",
-        description: "A C# program to control your computer fan and water pump speed (Hardware) by sending PWM signal, and bypass the UAC prompts.",
+        description: "A C# program to control the speed of computer hardware such as fans and pumps by sending PWM signals. The difference with most software on the market is the ability to customize shortcuts to send commands while bypassing UAC prompts. Most other software speed control methods are limited to the software itself and are more complicated.",
         imageUrl: "/img/fanCtrl.png",
         links: [
             { name: "GitHub", url: "https://github.com/yifanwow/fanCtrl" }
@@ -36,7 +36,7 @@ const projects = [
         id: 4,
         date: "Apr 7, 2024",
         title: "Grid View Engine",
-        description: "A self-build software which can allow user to change the Grid on their Steam library.",
+        description: "Software in development that allows users to customize game grid for games in the Steam library, interacting and modifying them directly with local files, with all changes fed back to the user's Steam library in real time.",
         imageUrl: "/img/store_home_share.jpg",
         links: [
             { name: "GitHub", url: "https://github.com/yifanwow/Grid_view_Engine" }

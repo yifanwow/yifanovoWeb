@@ -44,7 +44,7 @@
   text-align: center;
   cursor: pointer;
   transition: transform 0.37s ease-in-out, color 0.7s ease, background-color 0.79s ease;
-  color: #dbdbdb81;
+  color: #dbdbdb9f;
 }
 
 
@@ -73,4 +73,30 @@
   opacity: 0;
   transform: translateY(-10px);
   transition: opacity 300ms, transform 300ms;
+}
+
+@media (max-width: 769px) {
+  .language-toggle-container {
+    position: absolute;
+    top: 3vw;
+    left: auto;
+    right: 3vw;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    z-index: 100;
+  }
+
+  .language-icon {
+    position: absolute;
+    top: 3vw;
+    left: auto;
+    right: 3vw;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    color: #dbdbdb81;
+    transition: transform 0.37s ease-in-out, color 0.7s ease;
+  }
+
 }
