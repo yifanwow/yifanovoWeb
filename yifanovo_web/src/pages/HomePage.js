@@ -6,7 +6,7 @@ import './language.css';
 import { CSSTransition } from 'react-transition-group';
 import { useTranslation } from 'react-i18next';
 import Project from '../components/Project';
-import SocialLinks from '../components/SocialLinks';
+import SocialLinks from '../components/SocialLinks_en';
 import ProfileBackground_big from '../components/ProfileBackground_big';
 
 function HomePage() {

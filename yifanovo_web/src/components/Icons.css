@@ -2,8 +2,9 @@
 .Icons a {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   font-size: 13px;
-  gap: 1px;
+  gap: 2px;
   /* 图标与文字之间的间距 */
   color: #888888c0;
   text-decoration: none;
@@ -34,7 +35,7 @@
 .Icons {
   display: flex;
   flex-wrap: wrap;
-  gap: 24px;
+  gap: 23px;
 }
 
 /* WeChat容器样式 */

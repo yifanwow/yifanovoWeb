@@ -4,5 +4,10 @@
     "description2": "Tech Makes Life Better.",
     "emailPlaceholder": "输入电子邮件",
     "getUpdates": "获取更新",
-    "version": "version 0.03"
+    "version": "version 0.03",
+    "GitHub": "GitHub",
+    "Instagram": "Instagram",
+    "Xiaohongshu": "小红书",
+    "Steam": "Steam",
+    "WeChat Public": "微信公众号"
 }
