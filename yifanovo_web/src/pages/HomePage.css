@@ -1,482 +1,477 @@
-    @media screen and (min-width:1919px) {
-
-      html,
-      body {
-        overflow: auto;
-      }
-
-      .homeStyle {
-        height: 100vh;
-        box-sizing: border-box;
-        overflow-x: hidden;
-        overflow-y: auto;
-      }
-
-
-
-      /* 定义滚动条的宽度 */
-      ::-webkit-scrollbar {
-        width: 7px;
-      }
-
-      /* 定义滚动条的轨道部分 */
-      ::-webkit-scrollbar-track {
-        background: transparent;
-        /* 轨道背景设置为透明 */
-        backdrop-filter: blur(10px);
-        /* 高斯模糊效果 */
-        border-radius: 8px;
-      }
-
-      /* 定义滚动条的滑块部分 */
-      ::-webkit-scrollbar-thumb {
-        background: rgba(80, 80, 80, 0.6);
-        border-radius: 10px;
-        backdrop-filter: blur(10px);
-        /* 高斯模糊效果 */
-      }
-
-      /* 滑块在悬停时的样式 */
-      ::-webkit-scrollbar-thumb:hover {
-        background: rgba(105, 105, 105, 0.8);
-      }
-    }
-
-    .homeStyle {
-      height: 100vh;
-      box-sizing: border-box;
-    }
-
-    .homeStyleLeft {
-      width: 47vw;
-    }
-
-    .leftContainerStyle {
-      position: fixed;
-      /* 固定位置，不随滚动条滚动 */
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 0 1rem;
-      background: linear-gradient(to left, rgba(35, 20, 79, 0.7), rgba(3, 7, 18, 0.7));
-      backdrop-filter: blur(3vw);
-      color: #fff;
-      min-height: 120vh;
-      width: 47.9%;
-      /* 确保宽度填充视口的左侧部分，根据实际布局调整 */
-      left: 0;
-      /* 与视口左侧对齐 */
-      top: 0;
-      /* 与视口顶部对齐 */
-      box-shadow: 7px 0px 30px rgba(0, 0, 0, 0.5);
-    }
-
-    .templeT {
-      margin-left: 11vw;
-    }
-
-    .rightContainerStyle {
-      position: relative;
-      top: 7vh;
-      /* 从顶部开始 */
-      left: 47.9%;
-      /* 从屏幕中间到右侧 */
-      width: 53%;
-      /* 占据屏幕右半部分 */
-      height: auto;
-      /* 可能需要调整，确保占满整个视口高度 */
-      padding: 20px;
-      /* 内边距 */
-      box-sizing: border-box;
-      /* 边框和内边距包含在宽度内 */
-
-    }
-
-    .textGroupStyle {
-      text-align: left;
-      margin-top: -19vh;
-      margin-bottom: 1.7rem;
-
-    }
-
-    .titleGroupStyle {
-      font-size: 3.5rem;
-      margin-bottom: 0.5rem;
-      text-shadow: 0px 0px 0.9vh rgba(0, 0, 0, 1.9);
-
-    }
-
-    .YuStyle {
-      font-weight: 500;
-      color: #cb9dff;
-      letter-spacing: 3px;
-      text-shadow: 0px 0px 0.9vh rgba(0, 0, 0, 0.7);
-    }
-
-    .AIOStyle {
-      font-weight: 500;
-      color: #ffffff;
-      letter-spacing: 5px;
-      text-shadow: 0px 0px 0.9vh rgba(0, 0, 0, 0.7);
-    }
-
-    .textDesc {
-      margin-left: 35px;
-      letter-spacing: 1px;
-      text-shadow: 0px 0px 0.5vh rgba(0, 0, 0, 0.9);
-    }
-
-    .textDesc2 {
-      color: #c6a8e9;
-      margin-left: 102px;
-      letter-spacing: 1px;
-      text-shadow: 0px 0px 0.5vh rgba(0, 0, 0, 0.9);
-    }
-
-    .inputButtonContainerStyle {
-      display: flex;
-      align-items: left;
-      background: #12121200;
-      border-radius: 15px;
-      border: 1.5px solid #4a4d54;
-      overflow: hidden;
-      margin-bottom: 1.3rem;
-      width: 77%;
-      height: 2.9rem;
-    }
-
-    .inputStyle {
-      flex-grow: 1;
-      padding: 5px 17px;
-      font-size: 1rem;
-      border: none;
-      outline: none;
-      color: #cecece;
-      background-color: #1f1f1f42;
-      width: 30%;
-      border-radius: 0px;
-    }
-
-    .buttonStyle {
-      padding: 10px 15px;
-      font-weight: 400;
-      border: none;
-      background-color: #2c2242b9;
-      color: #8b8b8b8f;
-      border-radius: 0;
-      cursor: pointer;
-    }
-
-    .GitHubStyle {
-      display: flex;
-      font-size: 0.77em;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 0.5rem;
-    }
-
-
-    .projectContainer {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .projectImage {
-      width: 100%;
-      height: auto;
-    }
-
-    .projectInfo {
-      padding: 10px;
-      text-align: center;
-    }
-
-    .projectDate {
-      font-size: 0.85em;
-      color: #666;
-    }
-
-    .projectTitle {
-      font-size: 1.2em;
-      margin: 10px 0;
-    }
-
-    .projectDescription {
-      font-size: 0.9em;
-    }
-
-    .projectLink {
-      margin-top: 10px;
-      text-decoration: none;
-      color: #007bff;
-    }
-
-    .Icons {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      margin-top: 11px;
-    }
-
-    .Version {
-
-      font-size: 0.77em;
-      color: #5a4d54d5;
-      position: absolute;
-      bottom: 21vh;
-      align-items: center;
-
-    }
-
-    .inputStyle::placeholder {
-      color: rgba(126, 126, 126, 0.5);
-    }
-
-    /*切换语言*/
-
-
-    /* Custom scrollbars for desktop */
-    @media (max-width: 1200px) {
-      .leftContainerStyle {
-        position: fixed;
-        /* 固定位置，不随滚动条滚动 */
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 0 1rem;
-        background: linear-gradient(to left, rgba(35, 20, 79, 0.5), rgba(3, 7, 18, 0.5));
-        backdrop-filter: blur(1vw);
-        color: #fff;
-        min-height: 120vh;
-        width: 50%;
-        /* 确保宽度填充视口的左侧部分，根据实际布局调整 */
-        left: 0;
-        /* 与视口左侧对齐 */
-        top: 0;
-        /* 与视口顶部对齐 */
-        box-shadow: 7px 0px 30px rgba(0, 0, 0, 0.5);
-      }
-
-      .templeT {
-        margin-left: 0vw;
-      }
-
-      /* 定义滚动条的宽度 */
-      ::-webkit-scrollbar {
-        width: 7px;
-      }
-
-      /* 定义滚动条的轨道部分 */
-      ::-webkit-scrollbar-track {
-        background: transparent;
-        /* 轨道背景设置为透明 */
-        backdrop-filter: blur(10px);
-        /* 高斯模糊效果 */
-        border-radius: 8px;
-      }
-
-      /* 定义滚动条的滑块部分 */
-      ::-webkit-scrollbar-thumb {
-        background: rgba(80, 80, 80, 0.6);
-        border-radius: 10px;
-        backdrop-filter: blur(10px);
-        /* 高斯模糊效果 */
-      }
-
-      /* 滑块在悬停时的样式 */
-      ::-webkit-scrollbar-thumb:hover {
-        background: rgba(105, 105, 105, 0.8);
-      }
-
-      .Version {
-        bottom: 21vh;
-        color: #5a4d5400;
-      }
-
-      .inputButtonContainerStyle {
-        display: flex;
-        align-items: left;
-        background: #12121200;
-        border-radius: 15px;
-        border: 1px solid #4a4d54;
-        overflow: hidden;
-        margin-bottom: 1.3rem;
-        width: 87%;
-        height: 2.9rem;
-      }
-
-      .inputStyle {
-        flex-grow: 1;
-        padding: 5px 17px;
-        border-radius: 0px;
-        font-size: 1rem;
-        border: none;
-        outline: none;
-        color: #cecece;
-        background-color: #1f1f1f33;
-        width: 30%;
-      }
-
-      .buttonStyle {
-        padding: 10px 15px;
-        font-weight: 400;
-        border: none;
-        background-color: #2c2242b9;
-        color: #8b8b8b8f;
-        border-radius: 0;
-        cursor: pointer;
-      }
-    }
-
-
-
-    @media (max-width: 768px) {
-      .Version {
-        top: 2vh;
-        color: #5a4d5400;
-      }
-
-      .homeStyle {
-        flex-direction: column;
-
-      }
-
-      .templeT {
-        margin-left: 0vw;
-      }
-
-      .Icons {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        margin-top: 5px;
-      }
-
-
-      .homeStyleLeft {
-        width: 100vw;
-        height: 77vh;
-      }
-
-      .leftContainerStyle {
-        position: relative;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 0 2rem;
-        background: linear-gradient(to left, rgba(35, 20, 79, 0.507), rgba(3, 7, 18, 0.493));
-        backdrop-filter: blur(3vw);
-        color: #fff;
-        width: 100%;
-        min-height: 77vh;
-        box-shadow: 0 7px 15px rgba(0, 0, 0, 0.5);
-      }
-
-      .temple {
-
-        height: 77vh;
-      }
-
-      .textGroupStyle {
-        margin-top: 7vh;
-        text-align: left;
-        margin-bottom: 1.7rem;
-      }
-
-      .titleGroupStyle {
-        font-size: 2.7rem;
-        margin-bottom: 0;
-        text-shadow: 0px 0px 0.9vw rgba(0, 0, 0, 1.9);
-      }
-
-      .SteamStyle {
-        font-weight: 500;
-        color: #cb9dff;
-        text-shadow: 0px 0px 0.9vw rgba(0, 0, 0, 0.7);
-      }
-
-      .AIOStyle {
-        font-weight: 500;
-        color: #ffffff;
-        text-shadow: 0px 0px 0.9vw rgba(0, 0, 0, 0.7);
-      }
-
-      .textDesc {
-        text-shadow: 0px 0px 0.5vw rgba(0, 0, 0, 0.9);
-      }
-
-      .textDesc2 {
-        text-shadow: 0px 0px 0.5vw rgba(0, 0, 0, 0.9);
-      }
-
-      .rightContainerStyle {
-        position: relative;
-        top: 13vw;
-        /* 从顶部开始 */
-        left: 0%;
-        /* 从屏幕中间到右侧 */
-        width: 100vw;
-        /* 占据屏幕右半部分 */
-        /* 可能需要调整，确保占满整个视口高度 */
-        margin-left: 0vw;
-        margin-right: 0vw;
-        padding: 2px;
-        /* 内边距 */
-        box-sizing: border-box;
-        /* 边框和内边距包含在宽度内 */
-
-      }
-
-      .projectContainer {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: 50px;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      }
-
-      .inputButtonContainerStyle {
-        display: flex;
-        align-items: left;
-        background: #12121200;
-        border-radius: 15px;
-        border: 1.5px solid #4a4d54;
-        overflow: hidden;
-        margin-bottom: 1.3rem;
-        width: 87%;
-        height: 2.9rem;
-      }
-
-      .inputStyle {
-        flex-grow: 1;
-        padding: 5px 17px;
-        font-size: 1rem;
-        border: none;
-        border-radius: 0px;
-        outline: none;
-        color: #cecece;
-        background-color: #1f1f1f42;
-        width: 30%;
-      }
-
-      .buttonStyle {
-        padding: 10px 15px;
-        font-weight: 400;
-        border: none;
-        background-color: #2c2242b9;
-        color: #8b8b8b8f;
-        border-radius: 0;
-        cursor: pointer;
-      }
-
-    }
+@media screen and (min-width: 1919px) {
+  html,
+  body {
+    overflow: auto;
+  }
+
+  .homeStyle {
+    height: 100vh;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  /* 定义滚动条的宽度 */
+  ::-webkit-scrollbar {
+    width: 7px;
+  }
+
+  /* 定义滚动条的轨道部分 */
+  ::-webkit-scrollbar-track {
+    background: transparent;
+    /* 轨道背景设置为透明 */
+    backdrop-filter: blur(10px);
+    /* 高斯模糊效果 */
+    border-radius: 8px;
+  }
+
+  /* 定义滚动条的滑块部分 */
+  ::-webkit-scrollbar-thumb {
+    background: rgba(80, 80, 80, 0.6);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    /* 高斯模糊效果 */
+  }
+
+  /* 滑块在悬停时的样式 */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(105, 105, 105, 0.8);
+  }
+}
+
+.homeStyle {
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+.homeStyleLeft {
+  width: 47vw;
+}
+
+.leftContainerStyle {
+  position: fixed;
+  /* 固定位置，不随滚动条滚动 */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 1rem;
+  background: linear-gradient(
+    to left,
+    rgba(35, 20, 79, 0.7),
+    rgba(3, 7, 18, 0.7)
+  );
+  backdrop-filter: blur(3vw);
+  color: #fff;
+  min-height: 120vh;
+  width: 47.9%;
+  /* 确保宽度填充视口的左侧部分，根据实际布局调整 */
+  left: 0;
+  /* 与视口左侧对齐 */
+  top: 0;
+  /* 与视口顶部对齐 */
+  box-shadow: 7px 0px 30px rgba(0, 0, 0, 0.5);
+}
+
+.templeT {
+  margin-left: 11vw;
+}
+
+.rightContainerStyle {
+  position: relative;
+  top: 7vh;
+  /* 从顶部开始 */
+  left: 47.9%;
+  /* 从屏幕中间到右侧 */
+  width: 53%;
+  /* 占据屏幕右半部分 */
+  height: auto;
+  /* 可能需要调整，确保占满整个视口高度 */
+  padding: 20px;
+  /* 内边距 */
+  box-sizing: border-box;
+  /* 边框和内边距包含在宽度内 */
+}
+
+.textGroupStyle {
+  text-align: left;
+  margin-top: -19vh;
+  margin-bottom: 1.7rem;
+}
+
+.titleGroupStyle {
+  font-size: 3.5rem;
+  margin-bottom: 0.5rem;
+  text-shadow: 0px 0px 0.9vh rgba(0, 0, 0, 1.9);
+}
+
+.YuStyle {
+  font-weight: 500;
+  color: #cb9dff;
+  letter-spacing: 3px;
+  text-shadow: 0px 0px 0.9vh rgba(0, 0, 0, 0.7);
+}
+
+.AIOStyle {
+  font-weight: 500;
+  color: #ffffff;
+  letter-spacing: 5px;
+  text-shadow: 0px 0px 0.9vh rgba(0, 0, 0, 0.7);
+}
+
+.textDesc {
+  margin-left: 35px;
+  letter-spacing: 1px;
+  text-shadow: 0px 0px 0.5vh rgba(0, 0, 0, 0.9);
+}
+
+.textDesc2 {
+  color: #c6a8e9;
+  margin-left: 102px;
+  letter-spacing: 1px;
+  text-shadow: 0px 0px 0.5vh rgba(0, 0, 0, 0.9);
+}
+
+.inputButtonContainerStyle {
+  display: flex;
+  align-items: left;
+  background: #12121200;
+  border-radius: 15px;
+  border: 1.5px solid #4a4d54;
+  overflow: hidden;
+  margin-bottom: 1.3rem;
+  width: 77%;
+  height: 2.9rem;
+}
+
+.inputStyle {
+  flex-grow: 1;
+  padding: 5px 17px;
+  font-size: 1rem;
+  border: none;
+  outline: none;
+  color: #cecece;
+  background-color: #1f1f1f42;
+  width: 30%;
+  border-radius: 0px;
+}
+
+.buttonStyle {
+  padding: 10px 15px;
+  font-weight: 400;
+  border: none;
+  background-color: #2c2242b9;
+  color: #8b8b8b8f;
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.GitHubStyle {
+  display: flex;
+  font-size: 0.77em;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+
+.projectContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.projectImage {
+  width: 100%;
+  height: auto;
+}
+
+.projectInfo {
+  padding: 10px;
+  text-align: center;
+}
+
+.projectDate {
+  font-size: 0.85em;
+  color: #666;
+}
+
+.projectTitle {
+  font-size: 1.2em;
+  margin: 10px 0;
+}
+
+.projectDescription {
+  font-size: 0.9em;
+}
+
+.projectLink {
+  margin-top: 10px;
+  text-decoration: none;
+  color: #007bff;
+}
+
+.Icons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 11px;
+}
+
+.Version {
+  font-size: 0.77em;
+  color: #5a4d54d5;
+  position: absolute;
+  bottom: 21vh;
+  align-items: center;
+}
+
+.inputStyle::placeholder {
+  color: rgba(126, 126, 126, 0.5);
+}
+
+/*切换语言*/
+
+/* Custom scrollbars for desktop */
+@media (max-width: 1200px) {
+  .leftContainerStyle {
+    position: fixed;
+    /* 固定位置，不随滚动条滚动 */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 1rem;
+    background: linear-gradient(
+      to left,
+      rgba(35, 20, 79, 0.5),
+      rgba(3, 7, 18, 0.5)
+    );
+    backdrop-filter: blur(1vw);
+    color: #fff;
+    min-height: 120vh;
+    width: 50%;
+    /* 确保宽度填充视口的左侧部分，根据实际布局调整 */
+    left: 0;
+    /* 与视口左侧对齐 */
+    top: 0;
+    /* 与视口顶部对齐 */
+    box-shadow: 7px 0px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .templeT {
+    margin-left: 0vw;
+  }
+
+  /* 定义滚动条的宽度 */
+  ::-webkit-scrollbar {
+    width: 7px;
+  }
+
+  /* 定义滚动条的轨道部分 */
+  ::-webkit-scrollbar-track {
+    background: transparent;
+    /* 轨道背景设置为透明 */
+    backdrop-filter: blur(10px);
+    /* 高斯模糊效果 */
+    border-radius: 8px;
+  }
+
+  /* 定义滚动条的滑块部分 */
+  ::-webkit-scrollbar-thumb {
+    background: rgba(80, 80, 80, 0.6);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    /* 高斯模糊效果 */
+  }
+
+  /* 滑块在悬停时的样式 */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(105, 105, 105, 0.8);
+  }
+
+  .Version {
+    bottom: 21vh;
+    color: #5a4d5400;
+  }
+
+  .inputButtonContainerStyle {
+    display: flex;
+    align-items: left;
+    background: #12121200;
+    border-radius: 15px;
+    border: 1px solid #4a4d54;
+    overflow: hidden;
+    margin-bottom: 1.3rem;
+    width: 87%;
+    height: 2.9rem;
+  }
+
+  .inputStyle {
+    flex-grow: 1;
+    padding: 5px 17px;
+    border-radius: 0px;
+    font-size: 1rem;
+    border: none;
+    outline: none;
+    color: #cecece;
+    background-color: #1f1f1f33;
+    width: 30%;
+  }
+
+  .buttonStyle {
+    padding: 10px 15px;
+    font-weight: 400;
+    border: none;
+    background-color: #2c2242b9;
+    color: #8b8b8b8f;
+    border-radius: 0;
+    cursor: pointer;
+  }
+}
+
+@media (max-width: 768px) {
+  .Version {
+    top: 2vh;
+    color: #5a4d5400;
+  }
+
+  .homeStyle {
+    flex-direction: column;
+  }
+
+  .templeT {
+    margin-left: 0vw;
+  }
+
+  .Icons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 5px;
+  }
+
+  .homeStyleLeft {
+    width: 100vw;
+    height: 77vh;
+  }
+
+  .leftContainerStyle {
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 2rem;
+    background: linear-gradient(
+      to left,
+      rgba(35, 20, 79, 0.507),
+      rgba(3, 7, 18, 0.493)
+    );
+    backdrop-filter: blur(3vw);
+    color: #fff;
+    width: 100%;
+    min-height: 77vh;
+    box-shadow: 0 7px 15px rgba(0, 0, 0, 0.5);
+  }
+
+  .temple {
+    height: 77vh;
+  }
+
+  .textGroupStyle {
+    margin-top: 7vh;
+    text-align: left;
+    margin-bottom: 1.7rem;
+  }
+
+  .titleGroupStyle {
+    font-size: 2.7rem;
+    margin-bottom: 0;
+    text-shadow: 0px 0px 0.9vw rgba(0, 0, 0, 1.9);
+  }
+
+  .SteamStyle {
+    font-weight: 500;
+    color: #cb9dff;
+    text-shadow: 0px 0px 0.9vw rgba(0, 0, 0, 0.7);
+  }
+
+  .AIOStyle {
+    font-weight: 500;
+    color: #ffffff;
+    text-shadow: 0px 0px 0.9vw rgba(0, 0, 0, 0.7);
+  }
+
+  .textDesc {
+    text-shadow: 0px 0px 0.5vw rgba(0, 0, 0, 0.9);
+  }
+
+  .textDesc2 {
+    text-shadow: 0px 0px 0.5vw rgba(0, 0, 0, 0.9);
+  }
+
+  .rightContainerStyle {
+    position: relative;
+    top: 13vw;
+    /* 从顶部开始 */
+    left: 0%;
+    /* 从屏幕中间到右侧 */
+    width: 100vw;
+    /* 占据屏幕右半部分 */
+    /* 可能需要调整，确保占满整个视口高度 */
+    margin-left: 0vw;
+    margin-right: 0vw;
+    padding: 2px;
+    /* 内边距 */
+    box-sizing: border-box;
+    /* 边框和内边距包含在宽度内 */
+  }
+
+  .projectContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 50px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .inputButtonContainerStyle {
+    display: flex;
+    align-items: left;
+    background: #12121200;
+    border-radius: 15px;
+    border: 1.5px solid #4a4d54;
+    overflow: hidden;
+    margin-bottom: 1.3rem;
+    width: 87%;
+    height: 2.9rem;
+  }
+
+  .inputStyle {
+    flex-grow: 1;
+    padding: 5px 17px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 0px;
+    outline: none;
+    color: #cecece;
+    background-color: #1f1f1f42;
+    width: 30%;
+  }
+
+  .buttonStyle {
+    padding: 10px 15px;
+    font-weight: 400;
+    border: none;
+    background-color: #2c2242b9;
+    color: #8b8b8b8f;
+    border-radius: 0;
+    cursor: pointer;
+  }
+}

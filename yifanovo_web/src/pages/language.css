@@ -43,10 +43,10 @@
   border: none;
   text-align: center;
   cursor: pointer;
-  transition: transform 0.37s ease-in-out, color 0.7s ease, background-color 0.79s ease;
+  transition: transform 0.37s ease-in-out, color 0.7s ease,
+    background-color 0.79s ease;
   color: #dbdbdb9f;
 }
-
 
 .language-menu button:hover {
   background-color: rgba(0, 0, 0, 0.37);
@@ -98,5 +98,4 @@
     color: #dbdbdb81;
     transition: transform 0.37s ease-in-out, color 0.7s ease;
   }
-
 }

@@ -76,14 +76,16 @@
   will-change: transform, box-shadow;
   /* 优化性能 */
 }
-
+/*
 .projectImage:hover {
   /* transform: scale(1.3);
   /* 放大 */
   /* 过渡效果 */
   /* --rotateX: 10deg;
-  --rotateY: 10deg; */
+  --rotateY: 10deg; 
 }
+  */
+
 
 .imageContainer {
   perspective: 1000px;
