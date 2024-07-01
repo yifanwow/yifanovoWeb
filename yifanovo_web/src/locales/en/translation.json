@@ -9,5 +9,7 @@
     "Instagram": "Instagram",
     "Xiaohongshu": "RED",
     "Steam": "Steam",
-    "WeChat Public": "WeChat Public"
+    "WeChat Public": "WeChat Public",
+    "sub_fail": "Subscription failed, \n please enter a valid email address and try again.",
+    "sub_successful": "Subscription successful"
 }

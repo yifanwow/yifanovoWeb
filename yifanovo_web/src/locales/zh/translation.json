@@ -9,5 +9,7 @@
     "Instagram": "Instagram",
     "Xiaohongshu": "小红书",
     "Steam": "Steam",
-    "WeChat Public": "微信公众号"
+    "WeChat Public": "微信公众号",
+    "sub_fail": "关注失败，邮箱格式为···@···.···，再试一次吧",
+    "sub_successful": "感谢关注"
 }

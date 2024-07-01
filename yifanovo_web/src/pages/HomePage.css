@@ -136,6 +136,7 @@
 .inputButtonContainerStyle {
   display: flex;
   align-items: left;
+  z-index: 1001;
   background: #12121200;
   border-radius: 15px;
   border: 1.5px solid #4a4d54;
