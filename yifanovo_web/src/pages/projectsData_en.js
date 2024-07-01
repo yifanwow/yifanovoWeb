@@ -5,7 +5,7 @@ const projects = [
         id: 1,
         date: "Mar 19, 2024",
         title: "s/AIO",
-        description: "Dynamic web application that integrates with Steam's API. A personalized dashboard where users can log in with their Steam accounts and access a wealth of information about their gaming library. Rating, adding tag and Changing the grid of games.",
+        description: "Dynamic web application that integrates with Steam's API. A personalized dashboard where users can log in with their Steam accounts and access a wealth of information about their gaming library. Rating, Adding tag and Changing the grid of games.",
         imageUrl: "/img/saio.png",
         links: [
             { name: "s/AIO", url: "http://saio.us-east-2.elasticbeanstalk.com" },
