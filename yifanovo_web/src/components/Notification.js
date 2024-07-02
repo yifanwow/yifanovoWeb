@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Notification.css'; // 添加样式文件
 
-const Notification = ({ message, type, onClose, style }) => {
+const Notification = ({ message, type, onClose, style, closing}) => {
   const [shouldRender, setShouldRender] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -24,6 +24,16 @@ const Notification = ({ message, type, onClose, style }) => {
   }, [shouldRender]);
 
   useEffect(() => {
+    if (closing) {
+      // 延迟足够时间以播放关闭动画
+      const timer = setTimeout(() => {
+        setIsVisible(false);
+      }, 50);  // 可以调整为动画时间
+      return () => clearTimeout(timer);
+    }
+  }, [closing]);
+
+  useEffect(() => {
     if (!isVisible) {
       const closeTimer = setTimeout(() => onClose(), 2000);
       return () => clearTimeout(closeTimer);
@@ -34,6 +44,12 @@ const Notification = ({ message, type, onClose, style }) => {
     setIsVisible(false);
   };
 
+  const handleAnimationEnd = () => {
+    if (!isVisible) {
+      onClose();  // 动画完成后触发关闭
+    }
+  };
+
   if (!shouldRender) {
     return null;
   }
@@ -41,7 +57,7 @@ const Notification = ({ message, type, onClose, style }) => {
   return (
     <div
       className={`notification ${type} ${isVisible ? 'visible' : 'hidden'}`}
-      onAnimationEnd={() => !isVisible && onClose()}
+      onAnimationEnd={handleAnimationEnd}
       style={style}  // 应用传入的样式
     >
       <span>{message}</span>

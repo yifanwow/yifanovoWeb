@@ -6,25 +6,35 @@ const SubscriptionForm = () => {
   const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [notifications, setNotifications] = useState([]);
+  let index = 0;
 
-  const validateEmail = (email) => {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(String(email).toLowerCase());
-  };
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.toLowerCase());
+
   const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       e.preventDefault(); // 阻止默认的表单提交
-      handleSubmit(e); // 显式调用提交处理函数
+      handleSubmit(e);    // 显式调用提交处理函数
     }
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    const isValidEmail = validateEmail(email);
     const newNotification = {
       id: new Date().getTime(),
-      message: validateEmail(email) ? t("sub_successful") : t("sub_fail"),
-      type: validateEmail(email) ? "success" : "error",
+      message: isValidEmail ? t("sub_successful") : t("sub_fail"),
+      type: isValidEmail ? "success" : "error",
+      closing: false  // 新增属性，标记是否正在关闭
     };
-    setNotifications((prev) => [...prev, newNotification]);
+
+    // 添加新通知并在必要时标记最旧的通知为关闭
+    setNotifications(prev => prev.length > 4 ? 
+      [{ ...prev[prev.length - 5], closing: true }, ...prev.slice(1), newNotification] :
+      [...prev, newNotification]);
+  };
+
+  const removeNotification = (id) => {
+    setNotifications(prev => prev.filter(notification => notification.id !== id));
   };
 
   return (
@@ -36,20 +46,20 @@ const SubscriptionForm = () => {
           className="inputStyle"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          onKeyPress={handleKeyPress} // 添加键盘事件监听器
+          onKeyPress={handleKeyPress}
         />
         <button type="submit" className="buttonStyle">
           {t("getUpdates")}
         </button>
       </form>
       <div className="notifications-container">
-      {notifications.map((notification, index) => (
+        {notifications.map((notification) => (
           <Notification
             key={notification.id}
             message={notification.message}
             type={notification.type}
-            onClose={() => setNotifications(prev => prev.filter(n => n.id !== notification.id))}
-            style={{ zIndex: notifications.length - index }}  // 设置动态 z-index
+            onClose={() => removeNotification(notification.id)}
+            closing={notification.closing}
           />
         ))}
       </div>
