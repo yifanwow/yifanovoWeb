@@ -8,7 +8,7 @@ const Notification = ({ message, type, onClose, style }) => {
   useEffect(() => {
     const renderTimer = setTimeout(() => {
       setShouldRender(true);
-    }, 10);  // 延迟10毫秒再渲染组件
+    }, 50);  // 延迟50毫秒再渲染组件
 
     return () => clearTimeout(renderTimer);
   }, []);
@@ -17,7 +17,7 @@ const Notification = ({ message, type, onClose, style }) => {
     if (shouldRender) {
       const visibleTimer = setTimeout(() => {
         setIsVisible(true);  // 在组件已渲染后触发显示
-      }, 10);
+      }, 50);
 
       return () => clearTimeout(visibleTimer);
     }

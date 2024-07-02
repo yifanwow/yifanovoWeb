@@ -100,7 +100,7 @@ function HomePage() {
               ))}
             </div>
           </div>
-          <ProfileBackgroundBig />
+          {/* <ProfileBackgroundBig /> */}
         </>
       ) : (
         <div className="loader-container">
