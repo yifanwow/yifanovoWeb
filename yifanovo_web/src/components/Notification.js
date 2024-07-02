@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Notification.css'; // 添加样式文件
 
-const Notification = ({ message, type, onClose }) => {
+const Notification = ({ message, type, onClose, style }) => {
   const [shouldRender, setShouldRender] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -39,8 +39,11 @@ const Notification = ({ message, type, onClose }) => {
   }
 
   return (
-    <div className={`notification ${type} ${isVisible ? 'visible' : 'hidden'}`}
-         onAnimationEnd={() => !isVisible && onClose()}>
+    <div
+      className={`notification ${type} ${isVisible ? 'visible' : 'hidden'}`}
+      onAnimationEnd={() => !isVisible && onClose()}
+      style={style}  // 应用传入的样式
+    >
       <span>{message}</span>
       <div onClick={handleClose} className="close-button">
         <svg width="24px" height="24px" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

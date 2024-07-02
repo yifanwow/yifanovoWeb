@@ -12,26 +12,19 @@ const SubscriptionForm = () => {
     return re.test(String(email).toLowerCase());
   };
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();  // 阻止默认的表单提交
-      handleSubmit(e);     // 显式调用提交处理函数
+    if (e.key === "Enter") {
+      e.preventDefault(); // 阻止默认的表单提交
+      handleSubmit(e); // 显式调用提交处理函数
     }
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    const isValidEmail = validateEmail(email);
-    setNotifications((prevNotifications) => [
-      ...prevNotifications,
-      {
-        id: new Date().getTime(),
-        message: isValidEmail ? t("sub_successful") : t("sub_fail"),
-        type: isValidEmail ? "success" : "error"
-      }
-    ]);
-  };
-
-  const removeNotification = (id) => {
-    setNotifications(notifications.filter((notification) => notification.id !== id));
+    const newNotification = {
+      id: new Date().getTime(),
+      message: validateEmail(email) ? t("sub_successful") : t("sub_fail"),
+      type: validateEmail(email) ? "success" : "error",
+    };
+    setNotifications((prev) => [...prev, newNotification]);
   };
 
   return (
@@ -43,19 +36,20 @@ const SubscriptionForm = () => {
           className="inputStyle"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          onKeyPress={handleKeyPress}  // 添加键盘事件监听器
+          onKeyPress={handleKeyPress} // 添加键盘事件监听器
         />
         <button type="submit" className="buttonStyle">
           {t("getUpdates")}
         </button>
       </form>
       <div className="notifications-container">
-        {notifications.map((notification) => (
+      {notifications.map((notification, index) => (
           <Notification
             key={notification.id}
             message={notification.message}
             type={notification.type}
-            onClose={() => removeNotification(notification.id)}
+            onClose={() => setNotifications(prev => prev.filter(n => n.id !== notification.id))}
+            style={{ zIndex: notifications.length - index }}  // 设置动态 z-index
           />
         ))}
       </div>
