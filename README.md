@@ -91,3 +91,11 @@ Link: [GitHub](https://github.com/yifanwow/Grid_view_Engine)
     npm install react-app-rewired copy-webpack-plugin --save-dev
 
 
+### Step:3 For Back-end:
+
+    mkdir server
+    cd server
+    mkdir routes, controllers
+    touch app.js
+    npm init -y
+    npm install express body-parser cors nodemailer
