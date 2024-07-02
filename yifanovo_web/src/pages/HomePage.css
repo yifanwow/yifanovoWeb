@@ -165,7 +165,13 @@
   background-color: #2c2242b9;
   color: #8b8b8b8f;
   border-radius: 0;
+  transition: color 0.7s ease, background-color 0.7s ease;
   cursor: pointer;
+}
+
+.buttonStyle:hover {
+  background-color: #692c85cc;
+  color: #a0a0a0;
 }
 
 .GitHubStyle {

@@ -16,6 +16,7 @@
   padding-right: 13px;
   border-radius: 17px;
   color: rgb(209, 209, 209);
+  box-shadow: 0 2px 11px rgba(0, 0, 0, 0.23);
   font-size: 15px;
   display: flex;
   justify-content: right;
@@ -30,7 +31,7 @@
 
 .notification.visible {
   opacity: 0.9;
-  transform: translateX(0);
+  transform: translateX(0px);
 }
 
 .notification.hidden {
@@ -40,7 +41,7 @@
 }
 
 .notification.success {
-  background: linear-gradient(135deg, rgba(90, 182, 174, 0.7), rgba(70, 162, 154, 0.7)); /* 渐变背景 */
+  background: linear-gradient(135deg, rgba(105, 180, 174, 0.7), rgba(46, 119, 141, 0.7)); /* 渐变背景 */
 }
 
 .notification.error {
