@@ -17,7 +17,7 @@
   padding-left: 17px;
   padding-right: 13px;
   border-radius: 17px;
-  color: rgb(209, 209, 209);
+  color: rgb(173, 173, 173);
   box-shadow: 0 2px 11px rgba(0, 0, 0, 0.23);
   font-size: 15px;
   display: flex;
@@ -39,7 +39,7 @@
 .notification.hidden {
   opacity: 0;
   transform: translateX(20px);
-  margin-top: -65px; /* 移除间隙 */
+  margin-top: -63.5px; /* 移除间隙 */
 }
 
 .notification.success {
@@ -58,7 +58,7 @@
   margin-left: 10px;
   display: flex;
   align-items: center;
-  color: rgb(209, 209, 209);
+  color: rgba(173, 173, 173, 0.7);
   transition: transform 0.37s ease-in-out, color 0.7s ease;
 }
 
@@ -68,8 +68,8 @@
 }
 
 .close-button svg {
-  width: 24px;
-  height: 24px;
+  width: 21px;
+  height: 21px;
 }
 @media (max-width: 769px) {
 
@@ -88,7 +88,7 @@
   .notification.hidden {
     opacity: 0;
     transform: translateX(-20px);
-    margin-top: -65px; /* 移除间隙 */
+    margin-top: -63.5px; /* 移除间隙 */
   }
 
 

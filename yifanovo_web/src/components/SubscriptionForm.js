@@ -6,31 +6,45 @@ const SubscriptionForm = () => {
   const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [notifications, setNotifications] = useState([]);
-  let index = 0;
+  const [index, setIndex] = useState(0); // 使用 useState 管理 index，为通知提供额外的唯一性标识
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
 
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.toLowerCase());
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      e.preventDefault(); // 阻止默认的表单提交
-      handleSubmit(e);    // 显式调用提交处理函数
+      e.preventDefault();
+      handleSubmit(e);
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const isValidEmail = validateEmail(email);
+    const uniqueId = `${new Date().getTime()}-${index}`;
     const newNotification = {
-      id: new Date().getTime(),
+      id: uniqueId,
       message: isValidEmail ? t("sub_successful") : t("sub_fail"),
       type: isValidEmail ? "success" : "error",
-      closing: false  // 新增属性，标记是否正在关闭
+      closing: false
     };
-
-    // 添加新通知并在必要时标记最旧的通知为关闭
-    setNotifications(prev => prev.length > 4 ? 
-      [{ ...prev[prev.length - 5], closing: true }, ...prev.slice(1), newNotification] :
-      [...prev, newNotification]);
+  
+    setNotifications(prev => {
+      // 如果通知数量已达到或超过五个，禁用按钮两秒
+      if (prev.length > 4) {
+        setIsButtonDisabled(true);
+        setTimeout(() => {
+          setIsButtonDisabled(false);
+        }, 2100);
+      }
+      return prev.length > 4 ? 
+        [{ ...prev[prev.length - 5], closing: true }, ...prev.slice(1), newNotification] :
+        [...prev, newNotification];
+        
+    });
+  
+    setIndex(prevIndex => prevIndex + 1);
   };
 
   const removeNotification = (id) => {
@@ -48,17 +62,18 @@ const SubscriptionForm = () => {
           onChange={(e) => setEmail(e.target.value)}
           onKeyPress={handleKeyPress}
         />
-        <button type="submit" className="buttonStyle">
+        <button type="submit" className="buttonStyle"disabled={isButtonDisabled}>
           {t("getUpdates")}
         </button>
       </form>
       <div className="notifications-container">
-        {notifications.map((notification) => (
+      {notifications.map((notification, index) => (
           <Notification
             key={notification.id}
             message={notification.message}
             type={notification.type}
             onClose={() => removeNotification(notification.id)}
+            style={{ zIndex: notifications.length - index }}  // 设置动态 z-index
             closing={notification.closing}
           />
         ))}

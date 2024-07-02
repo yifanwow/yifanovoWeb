@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import './Notification.css'; // 添加样式文件
+import React, { useEffect, useState } from "react";
+import "./Notification.css"; // 添加样式文件
 
-const Notification = ({ message, type, onClose, style, closing}) => {
+const Notification = ({ message, type, onClose, style, closing }) => {
   const [shouldRender, setShouldRender] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const renderTimer = setTimeout(() => {
       setShouldRender(true);
-    }, 50);  // 延迟50毫秒再渲染组件
+    }, 100); // 延迟50毫秒再渲染组件
 
     return () => clearTimeout(renderTimer);
   }, []);
@@ -16,8 +16,8 @@ const Notification = ({ message, type, onClose, style, closing}) => {
   useEffect(() => {
     if (shouldRender) {
       const visibleTimer = setTimeout(() => {
-        setIsVisible(true);  // 在组件已渲染后触发显示
-      }, 50);
+        setIsVisible(true); // 在组件已渲染后触发显示
+      }, 100);
 
       return () => clearTimeout(visibleTimer);
     }
@@ -28,7 +28,7 @@ const Notification = ({ message, type, onClose, style, closing}) => {
       // 延迟足够时间以播放关闭动画
       const timer = setTimeout(() => {
         setIsVisible(false);
-      }, 50);  // 可以调整为动画时间
+      }, 50); // 可以调整为动画时间
       return () => clearTimeout(timer);
     }
   }, [closing]);
@@ -46,7 +46,7 @@ const Notification = ({ message, type, onClose, style, closing}) => {
 
   const handleAnimationEnd = () => {
     if (!isVisible) {
-      onClose();  // 动画完成后触发关闭
+      onClose(); // 动画完成后触发关闭
     }
   };
 
@@ -56,14 +56,30 @@ const Notification = ({ message, type, onClose, style, closing}) => {
 
   return (
     <div
-      className={`notification ${type} ${isVisible ? 'visible' : 'hidden'}`}
+      className={`notification ${type} ${isVisible ? "visible" : "hidden"}`}
       onAnimationEnd={handleAnimationEnd}
-      style={style}  // 应用传入的样式
+      style={style} // 应用传入的样式
     >
       <span>{message}</span>
       <div onClick={handleClose} className="close-button">
-        <svg width="24px" height="24px" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-          <path fillRule="evenodd" clipRule="evenodd" d="M5.4 3h13.2A2.4 2.4 0 0 1 21 5.4v13.2a2.4 2.4 0 0 1-2.4 2.4H5.4A2.4 2.4 0 0 1 3 18.6V5.4A2.4 2.4 0 0 1 5.4 3Zm11.55 4.05a1 1 0 0 1 0 1.414L13.414 12l3.536 3.536a1 1 0 0 1-1.414 1.414L12 13.414 8.464 16.95a1 1 0 1 1-1.414-1.414L10.586 12 7.05 8.464A1 1 0 1 1 8.464 7.05L12 10.586l3.536-3.536a1 1 0 0 1 1.414 0Z"/>
+        <svg
+          width="21px"
+          height="21px"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M3 7C3 4.79086 4.79086 3 7 3H17C19.2091 3 21 4.79086 21 7V17C21 19.2091 19.2091 21 17 21H7C4.79086 21 3 19.2091 3 17V7Z"
+            stroke="currentColor"
+            stroke-width="1.7"
+          />
+          <path
+            d="M9 9L15 15M15 9L9 15"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+          />
         </svg>
       </div>
     </div>
