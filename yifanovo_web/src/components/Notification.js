@@ -8,7 +8,7 @@ const Notification = ({ message, type, onClose, style, closing }) => {
   useEffect(() => {
     const renderTimer = setTimeout(() => {
       setShouldRender(true);
-    }, 100); // 延迟50毫秒再渲染组件
+    }, 100); // 延迟100毫秒再渲染组件
 
     return () => clearTimeout(renderTimer);
   }, []);
@@ -34,9 +34,19 @@ const Notification = ({ message, type, onClose, style, closing }) => {
   }, [closing]);
 
   useEffect(() => {
-    if (!isVisible) {
-      const closeTimer = setTimeout(() => onClose(), 2000);
+    if (isVisible) {
+      const closeTimer = setTimeout(() => {
+        setIsVisible(false);  // 先隐藏通知
+      }, 5000);  // 7秒后触发隐藏动画
+
       return () => clearTimeout(closeTimer);
+    } else {
+      // 等待隐藏动画播放完毕后关闭通知
+      const removeTimer = setTimeout(() => {
+        onClose();
+      }, 2000);  // 确保这个时间足够动画播放完成
+
+      return () => clearTimeout(removeTimer);
     }
   }, [isVisible, onClose]);
 
