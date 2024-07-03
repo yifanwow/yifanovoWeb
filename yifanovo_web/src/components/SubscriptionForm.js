@@ -19,7 +19,7 @@ const SubscriptionForm = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const isValidEmail = validateEmail(email);
     const uniqueId = `${new Date().getTime()}-${index}`;
@@ -30,13 +30,36 @@ const SubscriptionForm = () => {
       closing: false
     };
   
+    if (isValidEmail) {
+      try {
+        const response = await fetch('/api/submit-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email: email })
+        });
+        const data = await response.json();
+        // if (response.ok) {
+        //   newNotification.message = t("verification_email_sent");
+        //   newNotification.type = "success";
+        // } else {
+        //   newNotification.message = t("error_sending_email") + data.message;
+        //   newNotification.type = "error";
+        // }
+      } catch (error) {
+        // newNotification.message = t("network_error");
+        // newNotification.type = "error";
+      }
+    }
+
     setNotifications(prev => {
       // 如果通知数量已达到或超过五个，禁用按钮两秒
       if (prev.length > 4) {
         setIsButtonDisabled(true);
         setTimeout(() => {
           setIsButtonDisabled(false);
-        }, 2100);
+        }, 2100);// 2000ms 动画时间 + 100ms 延迟
       }
       return prev.length > 4 ? 
         [{ ...prev[prev.length - 5], closing: true }, ...prev.slice(1), newNotification] :
