@@ -30,6 +30,7 @@ async function createTransporter() {
 
     await transporter.verify();
     console.log('Server is ready to take our messages');
+    console.log('Mail sent at ' + new Date().toLocaleString());
     return transporter;
   } catch (error) {
     console.error("Failed to create transporter", error);
