@@ -46,7 +46,7 @@ const SubscriptionForm = () => {
         // 检查距离上次成功提交是否已经超过10秒
         try {
           const response = await fetch(
-            "http://localhost:5000/api/submit-email",
+            "https://yifanovo.info/api/submit-email",
             {
               method: "POST",
               headers: {
@@ -89,7 +89,8 @@ const SubscriptionForm = () => {
       });
 
       setIndex((prevIndex) => prevIndex + 1);
-    }, 500); // 防抖时间设置为500毫秒
+      setEmail('');
+    }, 50); // 防抖时间设置为500毫秒
 
     setDebounceTimer(timer); // 保存定时器，以便可以在需要时清除
   };

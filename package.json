@@ -1,5 +1,15 @@
 {
+  "name": "yifanovo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node server/app.js",
+    "client": "npm start --prefix yifanovo_web",
+    "server": "node server/app.js",
+    "build": "npm run build --prefix yifanovo_web"
+  },
   "dependencies": {
-    "google": "^2.1.0"
+    "google": "^2.1.0",
+    "concurrently": "^6.0.0"
   }
 }

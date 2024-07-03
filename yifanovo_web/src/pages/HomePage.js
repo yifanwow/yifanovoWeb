@@ -37,7 +37,7 @@ function HomePage() {
 
         homeStyleLeft.style.height = heightValue + "px";
         leftContainerStyle.style.minHeight = leftContainerStyleHeight + "px";
-        leftContainerStyle.style.height = leftContainerStyleHeight + "px";
+        // leftContainerStyle.style.height = leftContainerStyleHeight + "px";
         temple.style.height = templeHeight + "px";
       }
     };
@@ -89,7 +89,7 @@ function HomePage() {
                     <SocialLinks />
                   </div>
                 </div>
-                <div className="Version">version 0.03</div>
+                <div className="Version">version 1.00.7.2.24</div>
               </div>
             </div>
           </div>
@@ -100,7 +100,7 @@ function HomePage() {
               ))}
             </div>
           </div>
-          {/* <ProfileBackgroundBig /> */}
+           <ProfileBackgroundBig />
         </>
       ) : (
         <div className="loader-container">

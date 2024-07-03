@@ -239,7 +239,7 @@
   font-size: 0.77em;
   color: #5a4d54d5;
   position: absolute;
-  bottom: 21vh;
+  bottom: 15vh;
   align-items: center;
 }
 
@@ -368,12 +368,12 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin-top: 5px;
+    margin-top: 19px;
   }
 
   .homeStyleLeft {
     width: 100vw;
-    height: 77vh;
+    height: 93vh;
   }
 
   .leftContainerStyle {
@@ -390,12 +390,16 @@
     backdrop-filter: blur(3vw);
     color: #fff;
     width: 100%;
-    min-height: 77vh;
+    min-height: 93vh;
+    max-height: 0; /* 初始 max-height 设置为 0 或适当的初始值 */
+    transition: max-height 1.1s ease-in-out; /* 过渡效果 */
+    overflow: hidden; /* 防止内容溢出在动画执行期间 */
     box-shadow: 0 7px 15px rgba(0, 0, 0, 0.5);
   }
 
   .temple {
-    height: 77vh;
+    
+    height: 93vh;
   }
 
   .textGroupStyle {
