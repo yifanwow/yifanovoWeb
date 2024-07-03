@@ -144,6 +144,11 @@
   margin-bottom: 1.3rem;
   width: 77%;
   height: 2.9rem;
+  transition: width 1.1s ease;
+}
+
+.inputButtonContainerStyle.active {
+  width: 93%;  /* 当活跃时，宽度变更为 90% */
 }
 
 .inputStyle {
@@ -307,7 +312,9 @@
     bottom: 21vh;
     color: #5a4d5400;
   }
-
+  .inputButtonContainerStyle.active {
+    width: 100%;  /* 当活跃时，宽度变更为 90% */
+  }
   .inputButtonContainerStyle {
     display: flex;
     align-items: left;

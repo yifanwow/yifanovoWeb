@@ -8,6 +8,10 @@ const SubscriptionForm = () => {
   const [notifications, setNotifications] = useState([]);
   const [index, setIndex] = useState(0); // 使用 useState 管理 index，为通知提供额外的唯一性标识
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [isActive, setIsActive] = useState(false);  // 管理表单的活跃状态
+
+  const handleFocus = () => setIsActive(true);  // 输入框获得焦点
+  const handleBlur = () => setIsActive(false);  // 输入框失去焦点
 
 
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.toLowerCase());
@@ -76,14 +80,15 @@ const SubscriptionForm = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="inputButtonContainerStyle">
+      <form onSubmit={handleSubmit} className={`inputButtonContainerStyle ${isActive ? 'active' : ''}`}>
         <input
           type="text"
           placeholder={t("emailPlaceholder")}
           className="inputStyle"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          onKeyPress={handleKeyPress}
+          onFocus={handleFocus}  // 绑定获得焦点事件
+          onBlur={handleBlur}    // 绑定失去焦点事件
         />
         <button type="submit" className="buttonStyle"disabled={isButtonDisabled}>
           {t("getUpdates")}
