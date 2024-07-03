@@ -7,7 +7,12 @@ Host on *AWS Elastic Beanstalk-t3*.
 Link: **[yifanovo.info](http://yifanovo.info "Personal project website by Yifan")**
 
 ## Development Plan
-
+#### *Version - 1.0.7.2.24*
+- Mail subscription system √  
+- Web message notification and dynamic effects of components √  
+- Front-end and back-end deployment √
+- Dynamic effects for subscription components √
+- Optimized visuals for mobile √
 ### Next Steps
 
 ### 1. Dynamic Timeline Display
