@@ -5,7 +5,9 @@ const emailRoutes = require('./routes/emailRoutes');
 require('dotenv').config();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000'  // 确保这里的 URL 是你的前端应用的 URL
+  }));
 app.use(bodyParser.json());
 app.use('/api', emailRoutes);
 

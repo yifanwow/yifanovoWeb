@@ -32,7 +32,7 @@ const SubscriptionForm = () => {
   
     if (isValidEmail) {
       try {
-        const response = await fetch('/api/submit-email', {
+        const response = await fetch('http://localhost:5000/api/submit-email', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
