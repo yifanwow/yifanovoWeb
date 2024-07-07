@@ -104,4 +104,9 @@ Link: [GitHub](https://github.com/yifanwow/Grid_view_Engine)
     touch app.js
     npm init -y
     npm install express body-parser cors nodemailer
-    
+
+### Final Step: For AWS Elastic Beanstalk:
+
+    yifanovo/npm install
+    yifanovo/npm run build
+    zip -r myapp.zip .
