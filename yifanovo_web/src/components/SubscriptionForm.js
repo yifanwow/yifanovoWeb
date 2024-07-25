@@ -71,6 +71,7 @@ const SubscriptionForm = () => {
       } else if (now - lastSuccessfulTimestamp < 10000) {
         console.log("Please wait for 10 seconds before submitting again.");
       }
+      setEmail('');
       setNotifications((prev) => {
         // 如果通知数量已达到或超过五个，禁用按钮两秒
         if (prev.length > 4) {
@@ -89,7 +90,7 @@ const SubscriptionForm = () => {
       });
 
       setIndex((prevIndex) => prevIndex + 1);
-      setEmail('');
+      
     }, 50); // 防抖时间设置为500毫秒
 
     setDebounceTimer(timer); // 保存定时器，以便可以在需要时清除

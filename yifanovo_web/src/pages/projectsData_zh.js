@@ -5,7 +5,7 @@ const projects = [
         id: 1,
         date: "Mar 19, 2024",
         title: "s/AIO",
-        description: "一个动态网页应用。用户可以通过Steam API登录自己的Steam账号，访问其游戏库中的项目，并能够通过网页进行自定义化的操作，包括评分、添加标签和改变游戏海报，所有的更改都是直接与数据库进行交互的。",
+        description: "s/AIO是一个动态网页应用。用户可以通过Steam API登录自己的Steam账号，访问其游戏库中的项目，并能够通过网页进行自定义化的操作，包括评分、添加标签和改变游戏海报，所有的更改都是直接与数据库进行交互的。",
         imageUrl: "/img/saio.png",
         links: [
             { name: "s/AIO", url: "http://saio.us-east-2.elasticbeanstalk.com" },
@@ -15,11 +15,11 @@ const projects = [
     {
         id: 2,
         date: "Apr 7, 2024",
-        title: "s/GPT",
-        description: "一个WinExe程序，用户可以一键式地通过调用GPT-4o的API接口完成功能请求，快速解决在日常使用计算机时遇到的错误或疑问，尤其是报错弹窗和系统信息等不便直接进行检索的内容。",
-        imageUrl: "/img/sGPT.png",
+        title: "Night Screen Viewer",
+        description: "NSV 是一个为Windows用户设计的程序，当有应用程序全屏运行或者在使用特定的软件时，它会使其他显示器的屏幕变暗。通过允许用户调整覆盖层的透明度，以减少干扰。可以增强专注力并能够缓解屏幕亮度造成的视觉疲劳。",
+        imageUrl: "/img/nsv.png",
         links: [
-            { name: "GitHub", url: "https://github.com/yifanwow/sGPT" }
+            { name: "GitHub", url: "https://github.com/yifanwow/NightScreenViewer" }
         ]
     },
     {
@@ -30,6 +30,16 @@ const projects = [
         imageUrl: "/img/fanCtrl.png",
         links: [
             { name: "GitHub", url: "https://github.com/yifanwow/fanCtrl" }
+        ]
+    },
+    {
+        id: 2,
+        date: "Apr 7, 2024",
+        title: "s/GPT",
+        description: "一个WinExe程序，用户可以一键式地通过调用GPT-4o的API接口完成功能请求，快速解决在日常使用计算机时遇到的错误或疑问，尤其是报错弹窗和系统信息等不便直接进行检索的内容。",
+        imageUrl: "/img/sGPT.png",
+        links: [
+            { name: "GitHub", url: "https://github.com/yifanwow/sGPT" }
         ]
     },
     {
