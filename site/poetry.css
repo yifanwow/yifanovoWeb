@@ -1,0 +1,113 @@
+/* Time falls before the date index; the shared shell stays unchanged. */
+.theme-poetry { --paper:#0e1019; --ink:#e4e1d9; --muted:#90929e; --line:#2c2f40; --accent:#c8c3d5; }
+.ambient-field { position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 80% 25%,#8d7ba910 0,transparent 50%),radial-gradient(ellipse at 8% 85%,#53588515 0,transparent 55%); }
+.site-header,main,.site-footer { position:relative;z-index:1; }
+.theme-poetry.is-reading .ambient-field { opacity:.4; }
+.visually-hidden { position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
+.theme-poetry:not(.is-reading) main { width:100%; }
+.time-rain { position:relative;height:calc(100svh - 88px);min-height:400px;overflow:hidden;isolation:isolate; }
+.time-rain-atmosphere { position:absolute;inset:0;will-change:opacity,transform; }
+.time-rain canvas,.time-rain-letters { position:absolute;inset:0;width:100%;height:100%; }
+.time-rain canvas { pointer-events:none; }
+/* Each drop is one poem's date; its leading glyph is the brightest. */
+.rain-drop { position:absolute;top:0;left:0;display:block;padding:6px 7px;color:#ddd8e3;opacity:calc(.26 + var(--depth)*.56);font:400 calc(9.5px + var(--depth)*3.6px)/1.3 var(--serif);will-change:transform;transition:opacity .35s; }
+.rain-glyphs { display:block;writing-mode:vertical-rl;text-orientation:upright;white-space:nowrap;letter-spacing:calc(.08em + var(--depth)*.16em);transition:color .35s,text-shadow .35s; }
+.rain-glyphs>span { display:inline-block;opacity:var(--o,1);transition:opacity 2s cubic-bezier(.3,.6,.2,1),transform 2.4s cubic-bezier(.12,.75,.2,1),filter 1.8s cubic-bezier(.3,.6,.2,1); }
+.rain-glyphs>span.is-spread { opacity:0;transform:translate(var(--sx,0),var(--sy,0)) scale(var(--ss,1.6),calc(1.1 - var(--ss,1.6)*.35));filter:blur(var(--sb,3px)); }
+.rain-drop.is-held { opacity:1;z-index:2; }
+.rain-drop.is-held .rain-glyphs>span { opacity:1; }
+.rain-drop.is-held .rain-glyphs { color:#f2e7d3;text-shadow:0 0 14px rgba(242,231,211,.32); }
+.time-rain-caption { position:absolute;top:0;left:0;z-index:3;margin:0;display:flex;flex-direction:column;gap:7px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .3s; }
+.time-rain-caption.is-visible { opacity:1; }
+.time-rain-caption.is-left { align-items:flex-end; }
+.time-rain-caption time { font:400 13px/1.4 var(--serif);letter-spacing:.8px;color:#efe5d3;font-variant-numeric:lining-nums; }
+.time-rain-caption span { font:400 12px/1.6 var(--serif);letter-spacing:1.5px;color:#a9a5b4; }
+.time-rain-motion { position:absolute;right:max(22px,calc((100% - 1320px)/2));bottom:20px;width:44px;height:44px;display:grid;place-items:center;background:none;border:0;color:#94909e;opacity:.6;transition:opacity .2s; }
+.time-rain-motion:hover,.time-rain-motion:focus-visible { opacity:1; }
+.time-rain-motion>span { display:block;width:9px;height:10px;border-left:1px solid currentColor;border-right:1px solid currentColor; }
+.time-rain-motion.is-paused>span { width:0;height:0;border:0;border-top:5px solid transparent;border-bottom:5px solid transparent;border-left:7px solid currentColor; }
+.poetry-index { width:min(960px,var(--site-width));margin:auto;padding:90px 0 120px; }
+/* Dates: one per line, centred under quiet year dividers. */
+.poetry-dates { width:min(560px,var(--site-width));margin:auto;padding:110px 0 40px; }
+.date-year-group+.date-year-group { margin-top:64px; }
+.year-mark { display:flex;align-items:center;gap:26px;margin:0 0 22px;font:400 12px/1 var(--serif);color:#8f8b99; }
+.year-mark:before,.year-mark:after { content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,#ffffff1c); }
+.year-mark:after { background:linear-gradient(270deg,transparent,#ffffff1c); }
+.year-mark span { letter-spacing:.62em;margin-right:-.62em; }
+.date-list { list-style:none;margin:0;padding:0;text-align:center; }
+.poem-date { --focus:0;position:relative;z-index:1;display:inline-block;padding:10px 6px;transition:opacity .5s; }
+/* Focus is set from scroll position: the date at the centre is sharp and slightly larger, the rest recede. */
+.poem-date time { display:inline-block;font:400 23px/1.4 var(--serif);font-weight:300;letter-spacing:.09em;font-variant-numeric:lining-nums tabular-nums;color:color-mix(in oklab,#efe2cd calc(var(--focus)*100%),#76727f);opacity:calc(.55 + var(--focus)*.45);filter:blur(calc((1 - var(--focus))*2.2px));transform:scale(calc(.95 + var(--focus)*.13));transition:color .3s,filter .3s,transform .45s cubic-bezier(.16,1,.3,1),opacity .3s,font-weight .3s;will-change:filter,transform; }
+/* Memories: words from the poems near the focused date rise slowly behind the list. */
+.memory-field { position:fixed;inset:0;pointer-events:none;overflow:hidden;opacity:0;transition:opacity 1.6s ease; }
+.memory-field.is-active { opacity:1; }
+.memory-word { position:absolute;white-space:nowrap;font-family:var(--serif);font-weight:300;letter-spacing:.24em;color:rgba(220,212,230,var(--alpha));will-change:transform,opacity,filter; }
+/* Falling in: each row drops a short way, sharpening as it lands; a thin tail fades above it. */
+.date-index [data-drop] { position:relative;transition:opacity 1s cubic-bezier(.3,.6,.2,1) var(--delay,0ms),transform 1.2s cubic-bezier(.2,.9,.25,1) var(--delay,0ms),filter 1s cubic-bezier(.3,.6,.2,1) var(--delay,0ms); }
+.date-index [data-drop].is-falling:not(.is-landed) { opacity:0;transform:translateY(-26px);filter:blur(5px); }
+.date-list>li:before { content:'';position:absolute;left:50%;bottom:calc(100% - 10px);width:1px;height:34px;background:linear-gradient(rgba(214,208,226,0),rgba(214,208,226,.45));opacity:0;transform-origin:50% 100%;pointer-events:none; }
+.date-list>li.is-falling.is-landed:before { animation:date-tail 1.3s cubic-bezier(.3,.6,.2,1) var(--delay,0ms) both; }
+@keyframes date-tail { 0% { opacity:0;transform:translateY(-30px) scaleY(1); } 35% { opacity:1; } 100% { opacity:0;transform:translateY(0) scaleY(0); } }
+.date-index.is-filtering .poem-date:not(.is-match) { opacity:.16; }
+.date-index.is-filtering .poem-date.is-match time { color:color-mix(in oklab,#f3e3c4 calc(40% + var(--focus)*60%),#76727f); }
+.date-index.is-filtering .date-year-group.is-empty .year-mark { opacity:.3; }
+.poem-date[data-hits]:before { content:attr(data-hits);position:absolute;top:10px;right:-12px;font-size:11px;line-height:1;color:#c3ad88;font-variant-numeric:lining-nums; }
+/* Rain at night: mist instead of stars and a distant warm light, painted once onto .poetry-mist. */
+.poetry-mist { display:none;position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none; }
+.theme-poetry>.poetry-mist,.theme-index>.poetry-mist,.theme-project>.poetry-mist { display:block; }
+.theme-poetry .ambient-field,.theme-poetry.is-reading .ambient-field { display:none; }
+/* Your words: scattered across the screen, each at its own depth. Near words are larger, warmer and sharp;
+   far words are smaller, cooler and a little soft. Frequency still sets the base size. */
+.motifs { padding-top:28px; }
+.motifs-title { margin-bottom:10px; }
+.word-cloud { position:relative;width:min(1560px,calc(100vw - 48px));margin-left:50%;transform:translateX(-50%); }
+.cloud-word { --t:0;--z:.5;position:absolute;margin:0;padding:0;border:0;background:none;white-space:nowrap;line-height:1.2;letter-spacing:.05em;font-family:var(--serif);
+  font-weight:calc(560 - var(--t)*300);
+  color:color-mix(in oklab,#e8d6b8 calc((1 - var(--t))*(.35 + var(--z)*.65)*100%),color-mix(in oklab,#a9a5c6 calc(40% + var(--z)*45%),#4b4a5c));
+  opacity:calc(.42 + var(--z)*.5);
+  filter:blur(calc((1 - var(--z))*(1 - var(--z))*1.5px));
+  text-shadow:0 0 calc(10px + var(--z)*16px) color-mix(in oklab,#e9d7b6 calc(18% + (1 - var(--t))*30%),transparent);
+  transition:opacity 1.5s cubic-bezier(.3,.6,.2,1) var(--d),transform 1.8s cubic-bezier(.16,1,.3,1) var(--d),filter 1.5s cubic-bezier(.3,.6,.2,1) var(--d),scale .6s cubic-bezier(.16,1,.3,1),color .45s,text-shadow .45s;animation:word-sway var(--sdur,20s) ease-in-out var(--sdel,0s) infinite;pointer-events:auto; }
+.cloud-layer { position:absolute;inset:0;pointer-events:none;will-change:transform; }
+@keyframes word-sway { 0%,100% { translate:0 0; } 25% { translate:var(--sx) calc(var(--sy)*-1); } 50% { translate:calc(var(--sx)*-.6) var(--sy); } 75% { translate:calc(var(--sx)*-1) calc(var(--sy)*-.4); } }
+.motifs:not(.is-live) .cloud-word { animation-play-state:paused; }
+/* After the words have surfaced, no stagger: hover and blur respond together. */
+.motifs.is-settled .cloud-word { transition-delay:0s; }
+.cloud-word.is-vertical { writing-mode:vertical-rl;text-orientation:upright;letter-spacing:.03em; }
+/* Fully off screen the words reset to hidden, so they surface again one by one on return.
+   The gradual fade while scrolling away is applied to the whole layer from poetry.js. */
+.motifs:not(.is-in) .cloud-word { opacity:0;transform:translateY(12px) scale(.97);filter:blur(9px);transition-duration:1.6s,1.8s,1.6s,.5s,.35s,.35s;transition-delay:calc(var(--d)*.6); }
+/* Focus: the chosen word comes forward; everything else falls out of focus. */
+.word-cloud.is-hovering .cloud-word,.motifs.has-active .cloud-word { opacity:calc(.18 + var(--z)*.22);filter:blur(calc(2px + (1 - var(--z))*1.6px));transition-delay:0s;transition-duration:.7s,1.8s,.7s,.6s,.45s,.45s; }
+.word-cloud .cloud-word.is-hover,.motifs.has-active .cloud-word[aria-pressed=true] { z-index:2;opacity:1;filter:none;scale:1.22;color:#f7e5c4;text-shadow:0 0 22px rgba(247,229,196,.45),0 0 60px rgba(247,229,196,.18); }
+.cloud-word:focus-visible { outline-offset:4px; }
+.word-time { width:min(760px,100%);margin:22px auto 0; }
+.word-time-label { display:flex;align-items:baseline;justify-content:center;gap:16px;min-height:26px;margin:0 0 12px;font:400 11px/1.6 var(--serif);letter-spacing:.3em;color:#6f6c7a; }
+.word-time-label b { font-weight:400;font-size:17px;letter-spacing:.12em;color:#efe1c8; }
+.word-time-track { position:relative;height:52px;border-bottom:1px solid #ffffff14; }
+.word-time-track i { position:absolute;bottom:0;left:calc(var(--x)*100%);width:1px;height:calc(8px + 42px*var(--h));background:linear-gradient(to top,rgba(239,225,200,.75),rgba(239,225,200,0));transform-origin:50% 100%;animation:word-tick .9s cubic-bezier(.16,1,.3,1) var(--d) both; }
+@keyframes word-tick { from { opacity:0;transform:translateY(-26px) scaleY(.4); } }
+.word-time-axis { position:relative;height:26px; }
+.word-time-axis span { position:absolute;left:calc(var(--x)*100%);top:10px;transform:translateX(-50%);font:400 10px/1 var(--serif);letter-spacing:.06em;color:#5f5d6a;font-variant-numeric:lining-nums tabular-nums; }
+.motif-note { display:flex;align-items:baseline;justify-content:center;gap:20px;margin:30px 0 0;font:400 14px/1.6 var(--serif);letter-spacing:1px;color:#e2d3b8; }
+.motif-note[hidden] { display:none; }
+.motif-note button { background:none;border:0;padding:6px 0;color:var(--muted);font-size:12px;letter-spacing:.5px;transition:color .2s; }.motif-note button:hover { color:var(--ink); }
+.poetry-reader { width:min(100%,680px);margin:auto;padding:65px 0 110px; }
+.poetry-back { display:inline-block;font:400 19px/1.5 var(--serif);color:var(--muted);padding:4px 10px 4px 0; }
+.poem-heading { margin:54px 0 60px; }.poem-heading h1 { font:400 35px/1.5 var(--serif);letter-spacing:1px;color:#e4e0d6; }
+.poem-prose { font:400 20px/2.15 var(--serif);letter-spacing:.35px;overflow-wrap:anywhere;color:#ddd9d0; }
+.poem-prose>p { margin:0 0 28px; }.poem-prose figure { margin:45px 0; }.poem-prose figure img { max-height:650px;width:auto;margin:auto; }.poem-prose figcaption { text-align:center;font-size:11px;line-height:1.8;color:var(--muted);margin-top:14px; }.poem-prose a { border-bottom:1px solid var(--line); }
+.poem-neighbours { display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:95px;padding-top:26px;border-top:1px solid #77778924;font:400 16px/1.5 var(--serif);letter-spacing:.6px;color:#a6a2a9; }.poem-neighbours>a:last-child { text-align:right; }.poem-neighbours a { padding:8px 0;transition:color .2s; }.poem-neighbours a:hover { color:var(--ink); }
+html:has(body.theme-poetry)::view-transition-old(root) { animation:poetry-fade-out .12s both; }html:has(body.theme-poetry)::view-transition-new(root) { animation:poetry-fade-in .2s both; }
+@keyframes poetry-fade-out { to{opacity:0;} }@keyframes poetry-fade-in { from{opacity:0;}to{opacity:1;} }
+/* The other doorways continue to use the common shell. */
+.poetry-kicker { font-size:10px;letter-spacing:1px;color:var(--muted); }
+.poetry-link { display:inline-flex;align-items:center;gap:25px;padding:10px 0;border-bottom:1px solid #73778e;font-size:11px; }
+.theme-home.is-collection { overflow:auto;background:var(--paper); }.theme-home.is-collection .site-header nav,.theme-home.is-collection .site-footer { display:flex; }.theme-home.is-collection .site-header nav a:first-child { display:block; }.theme-home.is-collection .home-tagline { display:none; }.theme-home.is-collection main { width:var(--site-width); }
+.collection-pending { position:relative;padding:100px 0 140px;min-height:75svh; }.collection-pending h1 { font:400 clamp(36px,5vw,72px)/1.4 var(--serif);margin:30px 0;letter-spacing:3px; }.collection-pending h1>span { color:#c8c3d5; }.collection-pending p { color:var(--muted);font-size:12px;line-height:2;margin-bottom:28px; }.collection-outline { position:absolute;top:110px;right:5%;width:230px;height:310px;border:1px solid #45413d;transform:rotate(5deg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:30px; }.collection-outline>span { font-size:65px;color:#92938d; }.collection-outline>small { font-size:8px;letter-spacing:2px;color:#888a8f; }
+@media(max-width:1050px) { .poetry-index { padding-top:75px; } }
+@media(max-width:700px) { .poetry-index { padding:52px 0 70px; }.poetry-dates { padding:70px 0 20px; }.poem-date time { font-size:20px; }.date-year-group+.date-year-group { margin-top:48px; }.poetry-reader { padding:32px 0 70px; }.poem-heading { margin:38px 0 42px; }.poem-heading h1 { font-size:29px;letter-spacing:.4px; }.poem-prose { font-size:19px;line-height:2.1;letter-spacing:.2px; }.poem-prose>p { margin-bottom:26px; }.poem-neighbours { font-size:14px;letter-spacing:0;gap:20px;margin-top:65px;padding-top:20px; }.collection-pending { padding:55px 0 310px; }.collection-pending h1 { font-size:37px; }.collection-outline { top:auto;bottom:40px;right:22px;width:130px;height:170px; }.collection-outline>span { font-size:40px; }.collection-outline>small { font-size:7px; } }
+@media(max-width:700px) { .time-rain { height:calc(100svh - 76px); }.time-rain-motion { right:4px;top:4px;bottom:auto; }.motifs-title { margin-bottom:4px; }.word-cloud { width:calc(100vw - 20px); }.word-time { margin-top:16px; }.word-time-axis span:nth-child(even) { display:none; }.motif-note { margin:-12px 0 30px;font-size:13px; } }
+@media(max-width:370px) { .poem-heading h1 { font-size:27px; } }
+@media(prefers-reduced-motion:reduce) { .date-list>li:before { animation:none!important; } .cloud-word,.word-time-track i,.motifs-title,.word-time { transition:none!important;animation:none!important; }.cloud-layer { transform:none!important; } .date-index [data-drop],.poem-date time,.rain-drop,.rain-glyphs,.rain-glyphs>span,.time-rain-caption { transition:none; }.time-rain-atmosphere { transform:none; } }
+@media print { .theme-poetry { --ink:#111;--paper:#fff;color:#111;background:#fff; }.ambient-field,.site-header,.site-footer,.poetry-back,.poem-neighbours,.time-rain { display:none!important; }.poem-prose { color:#111; }.poetry-reader { padding:0; } }
