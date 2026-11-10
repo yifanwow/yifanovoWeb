@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#10151f">
+    <meta name="description" content="Yifan Yu 的个人空间。诗歌、随笔、项目，以及生活中值得记住的片刻。">
+    <title>叙己 Yifanovo</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link rel="preload" href="/assets/fonts/yifanovo-serif.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/poetry.css">
+    <link rel="stylesheet" href="/home.css">
+    <link rel="stylesheet" href="/project.css">
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <script>document.body.className = 'theme-' + (location.pathname.split('/')[1] || 'index');</script>
+    <a class="skip" href="#main">跳到正文</a>
+    <header class="site-header">
+      <a class="wordmark" href="/" aria-label="yifanovo / 叙己"><span>yifanovo</span><span class="brand-divider" aria-hidden="true">/</span><span class="brand-cn">叙己</span></a>
+      <span class="home-tagline">A REALISTIC ROMANTIC.</span>
+      <nav aria-label="主导航">
+        <a href="/poetry">诗歌</a><a href="/project">项目</a><a href="/home">小家</a>
+      </nav>
+      <button class="index-trigger" id="index-trigger" aria-label="打开网站索引" aria-controls="site-index" aria-expanded="false">索引 <span aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor"><rect x="1.5" y="1.5" width="4" height="4"/><rect x="10.5" y="1.5" width="4" height="4"/><rect x="1.5" y="10.5" width="4" height="4"/><rect x="10.5" y="10.5" width="4" height="4"/></svg></span></button>
+    </header>
+    <main id="main" tabindex="-1"><p class="loading">正在翻开这一页…</p></main>
+    <footer class="site-footer">
+      <a class="wordmark" href="/"><span>yifanovo</span><span class="brand-divider" aria-hidden="true">/</span><span class="brand-cn">叙己</span></a>
+      <nav class="social-links" aria-label="社交媒体"><a href="https://github.com/yifanwow" target="_blank" rel="noopener noreferrer">GitHub<span aria-hidden="true">↗</span></a><a href="https://instagram.com/yifanovo_" target="_blank" rel="noopener noreferrer">Instagram<span aria-hidden="true">↗</span></a><a href="https://steamcommunity.com/id/yifanovo/" target="_blank" rel="noopener noreferrer">Steam<span aria-hidden="true">↗</span></a><a href="https://www.xiaohongshu.com/user/profile/5b2eb172f7e8b940e52e00c2" target="_blank" rel="noopener noreferrer">小红书<span aria-hidden="true">↗</span></a><span class="wechat"><button type="button" aria-describedby="footer-qr">公众号<span aria-hidden="true">+</span></button><span class="wechat-qr" id="footer-qr" role="tooltip"><img src="/assets/wechat-qr.jpg" alt="微信公众号二维码" width="143" height="143" loading="lazy"><small>微信扫一扫</small></span></span></nav>
+    </footer>
+    <dialog id="photo-dialog" aria-label="照片大图"><button class="dialog-close" aria-label="关闭大图">关闭 ×</button><button class="photo-prev" aria-label="上一张照片">←</button><figure></figure><button class="photo-next" aria-label="下一张照片">→</button></dialog>
+    <dialog id="site-index" aria-label="网站索引" tabindex="-1">
+      <div class="index-top"><span class="index-title">索引<small>INDEX</small></span><span class="index-now" aria-hidden="true"></span><button class="dialog-close" aria-label="关闭索引">关闭 ×</button></div>
+      <nav class="index-list" aria-label="网站栏目"><a href="/" style="--k:0"><small>00</small><b>首页</b><i>Home</i><em>此刻</em></a><a href="/poetry" style="--k:1"><small>01</small><b>诗歌</b><i>Poetry</i><em>无关风月</em></a><a href="/project" style="--k:2"><small>02</small><b>项目</b><i>Projects</i><em>好奇心驱动</em></a><a href="/photos" style="--k:3"><small>03</small><b>摄影</b><i>Photography</i><em>不想忘记的片刻</em></a><a href="/home" style="--k:4"><small>04</small><b>家居</b><i>Home</i><em>布置中</em></a><span class="is-soon" style="--k:5"><small>05</small><b>影视</b><i>Film</i><em>即将到来</em></span><span class="is-soon" style="--k:6"><small>06</small><b>音乐</b><i>Music</i><em>即将到来</em></span></nav>
+      <div class="index-foot"><span>也在别的地方，留下印记。</span><nav class="social-links" aria-label="社交媒体"><a href="https://github.com/yifanwow" target="_blank" rel="noopener noreferrer">GitHub<span aria-hidden="true">↗</span></a><a href="https://instagram.com/yifanovo_" target="_blank" rel="noopener noreferrer">Instagram<span aria-hidden="true">↗</span></a><a href="https://steamcommunity.com/id/yifanovo/" target="_blank" rel="noopener noreferrer">Steam<span aria-hidden="true">↗</span></a><a href="https://www.xiaohongshu.com/user/profile/5b2eb172f7e8b940e52e00c2" target="_blank" rel="noopener noreferrer">小红书<span aria-hidden="true">↗</span></a><span class="wechat"><button type="button" aria-describedby="index-qr">公众号<span aria-hidden="true">+</span></button><span class="wechat-qr" id="index-qr" role="tooltip"><img src="/assets/wechat-qr.jpg" alt="微信公众号二维码" width="143" height="143" loading="lazy"><small>微信扫一扫</small></span></span></nav></div>
+    </dialog>
+    <dialog id="outside-panel" aria-label="门外的世界"><button class="dialog-close" aria-label="关闭站外链接">关闭 ×</button><span class="eyebrow">OUTSIDE THIS LITTLE HOME</span><h2>出门，走走。</h2><p>也在这些地方，分享创作与生活。</p><a href="https://github.com/yifanwow" target="_blank" rel="noopener noreferrer">GitHub <span>项目和代码 ↗</span></a><a href="https://instagram.com/yifanovo_" target="_blank" rel="noopener noreferrer">Instagram <span>生活的片刻 ↗</span></a><a href="https://steamcommunity.com/id/yifanovo/" target="_blank" rel="noopener noreferrer">Steam <span>玩一会儿 ↗</span></a></dialog>
+    <noscript>这个预览需要启用 JavaScript。原文也可以在 <a href="https://github.com/yifanwow/esilhmt">esilhmt 仓库</a>阅读。</noscript>
+  </body>
+</html>
