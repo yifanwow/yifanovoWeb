@@ -6,3 +6,8 @@
 *.zip
 .psd*
 *.psd
+# macOS folder metadata
+.DS_Store
+
+# Film clip used on the project page: cut from a commercial film, for local demo only. Replace with your own footage.
+site/assets/code-film.mp4
