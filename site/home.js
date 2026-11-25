@@ -27,7 +27,7 @@ function sections(data) {
     { mode: 'rain', cn: '诗歌', en: 'Poetry', href: '/poetry', text: '无关风月。<br>字里行间，都是我青春无数的瞬间。', meta: `${data.poems.length} 首 · ${Math.min(...years)}—${Math.max(...years)}`,
       extra: (latest ? `<p class="door-quote"><time datetime="${latest.date}">${dated(latest.date)}</time><span>「${esc(firstLine)}」</span></p>` : '') + poemLinks },
     { mode: 'build', cn: '项目', en: 'Projects', href: '/project', text: '科技之美。<br>创造与实现，进步就在指尖。', meta: `${data.projects.length} 个作品`,
-      extra: `<ul class="door-list">${data.projects.slice(0, 3).map(p => `<li><span>${esc(p.title)}</span><small>${esc(p.category)}</small></li>`).join('')}</ul>` },
+      extra: `<ul class="door-list">${data.projects.slice(0, 3).map(p => `<li><a href="${esc(p.url)}" target="_blank" rel="noopener noreferrer"><span>${esc(p.title)}<i aria-hidden="true">↗</i></span><small>${esc(p.category)}</small></a></li>`).join('')}</ul>` },
     { mode: 'lens', cn: '摄影', en: 'Photography', href: '/photos', text: '我眼中的世界。', meta: `${data.photos.length} 张`,
       extra: `<div class="door-photos">${data.photos.slice(0, 3).map(p => `<img src="${p.src}" alt="${esc(p.title)}" loading="lazy">`).join('')}</div>` },
     { mode: 'room', cn: '家居', en: 'Home', text: 'Caer Fannos，<br>属于我回忆的归处，收藏我人生的过往。' },

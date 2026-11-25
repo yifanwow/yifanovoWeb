@@ -506,7 +506,7 @@ function partialLine(g, pts, f) {
 }
 const LOGOS = {
   mne: {
-    view: 100, loop: 9, still: 5,
+    view: 100, loop: 9, still: 5, cells: 42, // the box fills about half of its square
     // Returns how much of the mark has dissolved (0: all of it shows).
     paint(g, t, it) {
       const grad = g.createLinearGradient(20, 12, 78, 84);
@@ -528,7 +528,7 @@ const LOGOS = {
     },
   },
   watchcat: {
-    view: 48, loop: 0, still: 2,
+    view: 48, loop: 0, still: 2, cells: 30,
     paint(g, t) {
       g.fillStyle = '#ff2853'; polygon(g, CAT.red); g.fill();
       g.fillStyle = '#15101a'; polygon(g, CAT.face); g.fill();
@@ -553,7 +553,7 @@ function mountLogos(root) {
   function size(it) {
     const css = it.canvas.clientWidth; if (!css) return false;
     const dpr = Math.min(devicePixelRatio || 1, 2);
-    it.cw = Math.max(5, Math.round(css / 30)); it.ch = Math.round(it.cw * 1.6);
+    it.cw = Math.max(5, Math.round(css / it.def.cells)); it.ch = Math.round(it.cw * 1.6);
     it.cols = Math.floor(css / it.cw); it.rows = Math.floor(it.canvas.clientHeight / it.ch);
     it.ox = (css - it.cols * it.cw) / 2; it.oy = (it.canvas.clientHeight - it.rows * it.ch) / 2;
     it.canvas.width = Math.round(css * dpr); it.canvas.height = Math.round(it.canvas.clientHeight * dpr);

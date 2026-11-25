@@ -63,6 +63,13 @@ html.is-turning,html.is-turning * { cursor:grabbing!important;user-select:none!i
 .door-list { list-style:none;margin:26px 0 0;padding:0;width:100%; }
 .door-list li { display:flex;align-items:baseline;justify-content:space-between;gap:20px;padding:9px 0;border-bottom:1px solid #ffffff10;font:400 13px/1.4 var(--serif);letter-spacing:.06em;color:#c3bdc8; }
 .door-list small { font-size:10px;letter-spacing:.14em;color:#73707e; }
+.door-list a { flex:1;display:flex;align-items:baseline;justify-content:space-between;gap:20px;color:inherit; }
+.door-list li { transition:color .65s ease,translate .95s cubic-bezier(.4,0,.2,1); }
+.door-list li i { display:inline-block;margin-left:.5em;font-style:normal;font-size:.8em;opacity:0;translate:-4px 0;transition:opacity .5s ease,translate .7s cubic-bezier(.4,0,.2,1); }
+@media(hover:hover) {
+  .door-list li:hover,.door-list li:has(a:focus-visible) { translate:5px 0;color:var(--warm); }
+  .door-list li:hover i,.door-list li:has(a:focus-visible) i { opacity:.8;translate:0 0; }
+}
 .door-photos { display:flex;gap:10px;margin-top:28px; }
 .door-photos img { width:96px;height:120px;object-fit:cover;filter:grayscale(.7) brightness(.8);transition:filter .6s,transform .8s cubic-bezier(.16,1,.3,1); }
 .door-photos img:hover { filter:none;transform:translateY(-4px); }
@@ -274,3 +281,5 @@ html.is-turning,html.is-turning * { cursor:grabbing!important;user-select:none!i
   .home-deck .door-poem time { font-size:10px;letter-spacing:.025em;white-space:nowrap; }
   .home-deck .poem-glimpse { font-size:11px;line-height:1.7;letter-spacing:.03em; }
 }
+@media(max-width:760px) { .door-list a { padding:9px 0;margin:-9px 0; } }
+@media(hover:none) { .door-list li i { opacity:.45;translate:0 0; } }
