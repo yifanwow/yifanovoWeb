@@ -1,4 +1,5 @@
 import { mountMist } from './poetry.js';
+import { screenHeight, onResize } from './viewport.js';
 
 const esc = (value = '') => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const ext = href => href.startsWith('http') ? ' target="_blank" rel="noopener noreferrer"' : '';
@@ -13,9 +14,9 @@ export function projectLanding(data) {
   const years = list.map(p => p.year);
   const links = p => p.links.map(l => `<a href="${l.href}"${ext(l.href)}>${esc(l.label)}<span aria-hidden="true">↗</span></a>`).join('');
   const blocks = featured.map((p, i) => `
-    <article class="work${i % 2 ? ' is-flip' : ''}" id="work-${p.id}" data-tone="${p.id === 'mne' ? '#b9a2ff' : p.id === 'watchdog' ? '#ff6a7a' : ''}" aria-labelledby="work-title-${p.id}">
+    <article class="work${i % 2 ? ' is-flip' : ''}" id="work-${p.id}" data-tone="${p.id === 'mne' ? '#b9a2ff' : p.id === 'watchcat' ? '#ff6a7a' : ''}" aria-labelledby="work-title-${p.id}">
       <a class="work-frame" href="${p.url}"${ext(p.url)} aria-label="打开 ${esc(p.title)}">
-        <span class="work-glass"><img src="${p.image}" alt="${esc(p.title)} 的页面截图" loading="${i ? 'lazy' : 'eager'}"></span>
+        <span class="work-glass"><img src="${p.image}" alt="${esc(p.title)} 的页面截图" loading="${i ? 'lazy' : 'eager'}">${LOGOS[p.id] ? `<canvas class="work-logo is-${p.id}" data-logo="${p.id}" aria-hidden="true"></canvas>` : ''}</span>
         <span class="work-caption" aria-hidden="true">FIG.${String(i + 1).padStart(2, '0')} · ${esc(p.url.replace(/^https?:\/\//, ''))}</span>
       </a>
       <div class="work-copy">
@@ -62,7 +63,7 @@ function mountCodeField(root) {
   // Bright colours (the film uses the first nine; project pictures may use all); darkness is transparency.
   const PALETTE = ['#5b6fb8', '#4f86e8', '#6fa8ff', '#8fd8ff', '#5fe0e8', '#c8f0ff', '#ffffff', '#f2c8b8', '#d8a890', '#a98bff', '#f3a6c8', '#cbb8ff', '#ffd9b0'];
   const RGB = PALETTE.map(c => [1, 3, 5].map(k => parseInt(c.slice(k, k + 2), 16)));
-  const ASSEMBLE = 2.6, SCAN_RATE = .25, SCAN_PAUSE = 1.4, GHOST = .14;
+  const STAGE_TOP = 14, ASSEMBLE = 2.6, SCAN_RATE = .25, SCAN_PAUSE = 1.4, GHOST = .14;
   let reduced = media.matches, text = '', W = 0, H = 0, cw = 9, ch = 15, cols = 0, rows = 0, dpr = 1;
   let fcols = 0, frows = 0, fn = 0, sx, sy, delay, leave, seed, drift, lum, shade, rowVer, colW, colH, colX, rowY, rowH, rowS, frameMid = 0, fx0 = 0, fw = 0, fh = 0;
   // The screen's tilt: a resting turn (left side farther), plus a little lean toward the pointer or the phone's angle.
@@ -101,7 +102,7 @@ function mountCodeField(root) {
     }
   }
   function layout() {
-    W = innerWidth; H = innerHeight; dpr = Math.min(devicePixelRatio || 1, 2);
+    W = innerWidth; H = screenHeight(); dpr = Math.min(devicePixelRatio || 1, 2);
     canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     const narrow = W < 760;
     cw = narrow ? 5 : 6; ch = Math.round(cw * 1.6);
@@ -109,9 +110,11 @@ function mountCodeField(root) {
     cols = Math.ceil(W / cw); rows = Math.ceil(H / ch);
     // The film's frame (in page coordinates at the top of the page): widescreen, on the right.
     const head = narrow ? 76 : 88;
-    fw = narrow ? W * .94 : Math.min(W * .7, 1280); fh = fw / 2.4;
-    fx0 = narrow ? W * .03 : W - fw - Math.max(24, (W - 1320) / 2 - 20);
-    frameMid = narrow ? head + 36 + fh / 2 : head + (H - head) * .4;
+    // Phones: the screen is wider than the phone and cropped at both sides; it is decoration, it need not fit.
+    // Phones: a margin of air on the left; the near (right) side runs off the screen.
+    fw = narrow ? W * 1.42 : Math.min(W * .7, 1280); fh = fw / (narrow ? 2.05 : 2.4);
+    fx0 = narrow ? W * .07 : W - fw - Math.max(24, (W - 1320) / 2 - 20);
+    frameMid = narrow ? Math.max(head + fh * .68 + 30, H * .32) : head + (H - head) * .4;
     // A bigger screen gets slightly bigger characters rather than more of them (about 5,600 at most).
     while (!narrow && (fw / cw) * (fh / ch) > 5600) { cw += 1; ch = Math.round(cw * 1.6); }
     cols = Math.ceil(W / cw); rows = Math.ceil(H / ch);
@@ -119,7 +122,7 @@ function mountCodeField(root) {
     // Perspective: columns grow toward the right, as if the frame were turned slightly away on its left.
     colX = new Float32Array(fcols); colW = new Float32Array(fcols); colH = new Float32Array(fcols);
     rowY = new Float32Array(frows); rowH = new Float32Array(frows); rowS = new Float32Array(frows);
-    baseNear = narrow ? 1 : 1.16; baseFar = narrow ? 1 : .7;
+    baseNear = narrow ? 1.36 : 1.16; baseFar = narrow ? .66 : .7; // phones: a much deeper turn
     shownTiltX = NaN; perspective();
     sx = new Float32Array(fn); sy = new Float32Array(fn); delay = new Float32Array(fn); leave = new Float32Array(fn); seed = new Float32Array(fn); drift = new Float32Array(fn);
     for (let i = 0; i < fn; i++) {
@@ -159,9 +162,11 @@ function mountCodeField(root) {
       const frameEl = work.querySelector('.work-frame'), glass = work.querySelector('.work-glass'), img = glass?.querySelector('img');
       if (!frameEl || !glass || !img) return null;
       const r = frameEl.getBoundingClientRect(), w = glass.clientWidth, h = glass.clientHeight;
-      const chars = work._codeChars || [], T = Math.min(chars.length, Math.floor(fn * .4));
+      const chars = work._codeChars || [], T = W < 760 ? 0 : Math.min(chars.length, Math.floor(fn * .4));
       const s = old[k] && old[k].w === w && old[k].h === h && old[k].T === T ? old[k] : { k, w, h, T, src: img.currentSrc || img.src };
-      s.x = r.left + glass.clientLeft; s.y = r.top + scrollY + glass.clientTop; s.chars = chars;
+      s.x = r.left + glass.clientLeft; s.y = r.top + scrollY + glass.clientTop; s.chars = chars; s.glass = glass;
+      // Phones: the picture sticks near the top while its words scroll; it starts sticking at this scroll position.
+      s.stick = work.getBoundingClientRect().top + scrollY + parseFloat(getComputedStyle(work).paddingTop) - STAGE_TOP;
       // Where every letter sits on the page.
       s.cx = new Float32Array(T); s.cy = new Float32Array(T); s.cwid = new Float32Array(T); s.chgt = new Float32Array(T);
       for (let j = 0; j < T; j++) { const b = chars[j].el.getBoundingClientRect(); s.cx[j] = b.left; s.cy[j] = b.top + scrollY; s.cwid[j] = b.width; s.chgt[j] = b.height; }
@@ -180,7 +185,8 @@ function mountCodeField(root) {
       return s;
     }).filter(Boolean);
     anchors = [0];
-    stations.forEach(s => anchors.push(Math.max(anchors[anchors.length - 1] + H * .5, s.y + s.h / 2 - H / 2)));
+    if (W < 760) stations.forEach(s => anchors.push(Math.max(anchors[anchors.length - 1] + H * .4, s.stick)));
+    else stations.forEach(s => anchors.push(Math.max(anchors[anchors.length - 1] + H * .5, s.y + s.h / 2 - H / 2)));
     root._codeStops = anchors;
   }
   // A project picture, read on its grid: brightness and the nearest bright colour of every cell.
@@ -197,6 +203,15 @@ function mountCodeField(root) {
     // Stretch the picture's own range (most captures are dark interfaces) so its shapes read clearly in code.
     const sorted = Float32Array.from(s.lum).sort(), lo = sorted[Math.floor(s.gn * .3)], hi = Math.max(lo + .05, sorted[Math.floor(s.gn * .985)]);
     for (let i = 0; i < s.gn; i++) s.lum[i] = clamp((s.lum[i] - lo) / (hi - lo)) ** .75;
+    // Where the project's logo is drawn over the picture, the picture's code thins out around it.
+    const logo = s.glass.querySelector('.work-logo');
+    if (logo && logo.offsetWidth) {
+      const rx = logo.offsetWidth / s.w * .7, ry = logo.offsetHeight / s.h * .7;
+      for (let r = 0; r < s.grows; r++) for (let c = 0; c < s.gcols; c++) {
+        const u = ((c + .5) / s.gcols - .5) / rx, v = ((r + .5) / s.grows - .5) / ry, d = Math.sqrt(u * u + v * v);
+        if (d < 1) { const t = clamp((d - .45) / .55); s.lum[r * s.gcols + c] *= .1 + .9 * t * t * (3 - 2 * t); }
+      }
+    }
   }
   // The settled picture is painted once; a line is repainted when the scan line rewrites it.
   function paintCache(s) {
@@ -233,25 +248,38 @@ function mountCodeField(root) {
   // A playback HUD around the film: corner brackets, timecode, frame counter and a decoding status line.
   function hud(alpha, top) {
     if (alpha < .02) return;
-    const x0 = fx0, x1 = fx0 + fw, hL = colH[0], hR = colH[fcols - 1], yL = top + fh / 2 - hL / 2, yR = top + fh / 2 - hR / 2, k = 16;
+    // The HUD follows the screen's perspective: brackets run along its edges, and the labels lean with the top and
+    // bottom edges and grow toward the near (right) side. Edges are the first and last columns still on screen.
+    let c1 = fcols - 1; while (c1 > 0 && fx0 + colX[c1] + colW[c1] > W - 18) c1--;
+    let c0 = 0; while (c0 < c1 && fx0 + colX[c0] < 18) c0++;
+    const x0 = fx0 + colX[c0], x1 = fx0 + colX[c1] + colW[c1], hL = colH[c0], hR = colH[c1];
+    const yL = top + fh / 2 - hL / 2, yR = top + fh / 2 - hR / 2, k = 16;
+    const sT = (yR - yL) / (x1 - x0), sB = (yR + hR - yL - hL) / (x1 - x0);
+    const kL = Math.max(.8, Math.min(1.4, hL / fh)), kR = Math.max(.8, Math.min(1.5, hR / fh));
     ctx.globalAlpha = alpha * .8; ctx.strokeStyle = '#8fd8ff'; ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.moveTo(x0 - 8, yL - 8 + k); ctx.lineTo(x0 - 8, yL - 8); ctx.lineTo(x0 - 8 + k, yL - 8);
-    ctx.moveTo(x1 + 8 - k, yR - 10); ctx.lineTo(x1 + 8, yR - 10); ctx.lineTo(x1 + 8, yR - 10 + k);
-    ctx.moveTo(x1 + 8 - k, yR + hR + 10); ctx.lineTo(x1 + 8, yR + hR + 10); ctx.lineTo(x1 + 8, yR + hR + 10 - k);
+    ctx.moveTo(x0 - 8, yL - 8 + k * kL); ctx.lineTo(x0 - 8, yL - 8); ctx.lineTo(x0 - 8 + k, yL - 8 + sT * k);
+    ctx.moveTo(x1 + 8 - k, yR - 10 - sT * k); ctx.lineTo(x1 + 8, yR - 10); ctx.lineTo(x1 + 8, yR - 10 + k * kR);
+    ctx.moveTo(x1 + 8 - k, yR + hR + 10 - sB * k); ctx.lineTo(x1 + 8, yR + hR + 10); ctx.lineTo(x1 + 8, yR + hR + 10 - k * kR);
     ctx.stroke();
     const t = video?.currentTime || 0, f = Math.floor(t * 24), tc = `00:00:${String(Math.floor(t)).padStart(2, '0')}:${String(f % 24).padStart(2, '0')}`;
-    ctx.font = `400 10px ui-monospace, 'SF Mono', Menlo, monospace`; ctx.fillStyle = '#8fd8ff'; ctx.textBaseline = 'bottom';
-    ctx.globalAlpha = alpha * .9; ctx.fillText(`● PLAY  ${tc}`, x0 - 8, yL - 16);
-    ctx.textAlign = 'right'; ctx.globalAlpha = alpha * .7; ctx.fillText(`FRAME ${String(f).padStart(4, '0')} / 0515`, x1 + 8, yR - 18);
-    ctx.textBaseline = 'top'; ctx.globalAlpha = alpha * .55;
-    ctx.fillText(`decode ${fcols}×${frows} · 24fps · ${scan >= 0 ? 'rewriting line ' + String(Math.floor(scan * frows)).padStart(2, '0') : 'idle'}`, x1 + 8, yR + hR + 18);
-    const dur = video?.duration || 21.5;
-    const px0 = x1 + 8 - fw * .3, py0 = yR + hR + 34;
-    ctx.textAlign = 'left'; ctx.globalAlpha = alpha * .35; ctx.fillRect(px0, py0, fw * .3, 1);
-    ctx.globalAlpha = alpha * .9; ctx.fillRect(px0, py0, fw * .3 * (t / dur), 1);
-    ctx.globalAlpha = 1;
+    ctx.font = `400 10px ui-monospace, 'SF Mono', Menlo, monospace`; ctx.fillStyle = '#8fd8ff';
+    const label = (text, x, y, slope, scale, align, base, a) => {
+      ctx.save(); ctx.translate(x, y); ctx.transform(1, slope, 0, 1, 0, 0); ctx.scale(scale, scale);
+      ctx.textAlign = align; ctx.textBaseline = base; ctx.globalAlpha = alpha * a; ctx.fillText(text, 0, 0); ctx.restore();
+    };
+    label(`● PLAY  ${tc}`, x0 - 8, yL - 15, sT, kL, 'left', 'bottom', .9);
+    label(`FRAME ${String(f).padStart(4, '0')} / 0515`, x1 + 8, yR - 17, sT, kR, 'right', 'bottom', .7);
+    label(`decode ${fcols}×${frows} · 24fps · ${scan >= 0 ? 'rewriting line ' + String(Math.floor(scan * frows)).padStart(2, '0') : 'idle'}`, x1 + 8, yR + hR + 17, sB, kR, 'right', 'top', .55);
+    // Playhead: a thin line along the bottom edge.
+    const dur = video?.duration || 21.5, len = Math.min(fw * .3, (x1 - x0) * .6), ex = x1 + 8, ey = yR + hR + 18 + 18 * kR, sx0 = ex - len;
+    ctx.lineWidth = 1; ctx.globalAlpha = alpha * .35;
+    ctx.beginPath(); ctx.moveTo(sx0, ey - sB * len); ctx.lineTo(ex, ey); ctx.stroke();
+    ctx.globalAlpha = alpha * .9; const pe = sx0 + len * (t / dur);
+    ctx.beginPath(); ctx.moveTo(sx0, ey - sB * len); ctx.lineTo(pe, ey - sB * (ex - pe)); ctx.stroke();
+    ctx.globalAlpha = 1; ctx.textAlign = 'left';
   }
+
   // Where character i sits at stop st (0 = the film, then each project), written into o.
   function stop(st, i, sY, o) {
     o.txt = 0;
@@ -287,11 +315,16 @@ function mountCodeField(root) {
     const sY = scrollY, jY = vY < 0 ? sY : vY, now = performance.now();
     lastY = sY;
     ctx.clearRect(0, 0, W, H);
-    ctx.drawImage(bgCache, 0, 0, W, H);
+    if (bgCache.width && bgCache.height) ctx.drawImage(bgCache, 0, 0, W, H);
     // Which leg of the journey: between stop k and stop k + 1, with the flight in the middle of the leg.
     let k = 0; while (k < anchors.length - 1 && jY >= anchors[k + 1]) k++;
     const lastStop = k >= anchors.length - 1, p = lastStop ? 0 : (jY - anchors[k]) / (anchors[k + 1] - anchors[k]);
     let q = lastStop ? 0 : k === 0 ? clamp((p - .06) / .94) : clamp((p - .15) / .7);
+    if (W < 760) {
+      for (const s of stations) { const r = s.glass.getBoundingClientRect(); s.x = r.left + s.glass.clientLeft; s.y = r.top + sY + s.glass.clientTop; }
+      // Phones: a picture holds the stage while its words are read; the code moves on only as the next picture rises in.
+      if (k > 0 && !lastStop) { const span = Math.min(H * .6, anchors[k + 1] - anchors[k]); q = clamp((jY - (anchors[k + 1] - span)) / span); }
+    }
     let from = k, to = k + 1;
     if (q >= .995) { from = to; q = 0; }
     const flying = q > 0; wasFlying = flying || from === 0;
@@ -386,8 +419,8 @@ function mountCodeField(root) {
     const ease = 1 - Math.exp(-dt * 3.2);
     tiltX += (aimX - tiltX) * ease; tiltY += (aimY - tiltY) * ease;
     if (scrollY < (anchors[1] ?? H)) perspective();
-    // However fast the page is flung, the swarm travels at most about one screen every 1.6 seconds.
-    if (vY < 0 || reduced) vY = scrollY;
+    // On desktop the swarm travels at most one screen every 1.6 seconds; on phones it follows the finger.
+    if (vY < 0 || reduced || W < 760) vY = scrollY;
     else {
       const gap = scrollY - vY, max = Math.max(420, H * .62) * dt;
       if (Math.abs(gap) > H * 2.2) vY = scrollY - Math.sign(gap) * H * 2.2; // far behind: skip ahead, then travel
@@ -401,7 +434,7 @@ function mountCodeField(root) {
     frame = requestAnimationFrame(loop);
   }
   const start = () => { if (!frame && !document.hidden && text) { last = 0; frame = requestAnimationFrame(loop); } };
-  on(window, 'resize', () => { if (!text) return; layout(); assembleT = ASSEMBLE + 2; draw(); }, { passive: true });
+  onResize(() => { if (!text) return; layout(); assembleT = ASSEMBLE + 2; draw(); }, { signal: controller.signal });
   on(document, 'visibilitychange', () => { if (document.hidden) video?.pause(); else { if (!reduced) video?.play().catch(() => {}); start(); } });
   on(media, 'change', e => { reduced = e.matches; });
   // The pointer (anywhere on the first screen) or, on phones, the way the phone is held tilts the screen a little.
@@ -409,9 +442,11 @@ function mountCodeField(root) {
   on(document, 'pointerleave', () => { aimX = aimY = 0; });
   const lim = v => Math.max(-1, Math.min(1, v));
   on(window, 'deviceorientation', e => { if (reduced || e.gamma == null) return; aimX = lim(e.gamma / 25); aimY = lim((e.beta - 45) / 25); }, { passive: true });
-  // iPhone asks once for motion access; the first tap on the first screen requests it.
+  // Keep motion permission on larger screens; phones tilt with a touch gesture.
   const DOE = window.DeviceOrientationEvent;
-  if (DOE && typeof DOE.requestPermission === 'function') root.querySelector('.proj-hero')?.addEventListener('touchend', () => DOE.requestPermission().catch(() => {}), { once: true, signal: controller.signal });
+  if (innerWidth >= 760 && DOE && typeof DOE.requestPermission === 'function') root.querySelector('.proj-hero')?.addEventListener('touchend', () => DOE.requestPermission().catch(() => {}), { once: true, signal: controller.signal });
+  on(root.querySelector('.proj-hero'), 'touchmove', e => { if (innerWidth >= 760 || reduced || e.touches.length !== 1) return; const t = e.touches[0]; aimX = lim((t.clientX / innerWidth - .5) * 1.4); aimY = lim((t.clientY / innerHeight - .3) * .7); }, { passive: true });
+  on(root.querySelector('.proj-hero'), 'touchend', () => { if (innerWidth < 760) aimX = aimY = 0; }, { passive: true });
   // Fonts and images can move the frames after the first measure.
   const ro = new ResizeObserver(() => { if (text) measure(); });
   ro.observe(root);
@@ -423,6 +458,179 @@ function mountCodeField(root) {
   video?.play().catch(() => {});
   fetch('/assets/life-code.json').then(r => r.json()).then(json => { text = json.life; layout(); start(); }).catch(() => {});
   return () => { controller.abort(); cancelAnimationFrame(frame); toneObserver.disconnect(); ro.disconnect(); video?.pause(); };
+}
+
+// The featured projects' own animated logos, redrawn in code over their pictures, so a project stays
+// recognisable while its picture is still code (the logo fades when the real picture shows). Each logo is
+// drawn as vector shapes onto a small mask every frame, and every cell of a character grid the shape covers
+// shows a code character in the shape's colour; cells that light up flash and scramble first.
+// Mne (mne.yifanovo.com): the memory box draws itself stroke by stroke while two photos drop into it, rests,
+// dissolves and starts again. watchCat (watchcat.yifanovo.com): the cat decodes in, then glitches like its
+// site's boot logo: a band tears sideways in the other colour now and then, and the whole mark jolts with a
+// cyan/red split.
+const MNE_STROKES = [
+  [[25.36, 63.2], [25.36, 31.52], [50, 47.36], [74.64, 31.52], [74.64, 63.2]],
+  [[25.36, 63.2], [50, 77.28], [74.64, 63.2]],
+  [[50, 54.4], [50, 77.28]],
+  [[33.28, 26.68], [50, 17], [66.72, 26.68]],
+  [[57.92, 61.44], [66.72, 56.16]],
+];
+// The two photos' flight (the site's memory-gather keyframes, in the logo's 100-unit space).
+const MNE_PHOTOS = [
+  { start: 1.1, color: '#e6c8f2', move: [[0, -61, -25, -17, 1], [.6, -9, 1.3, -4, 1], [1, 2.6, 15.6, 0, .4]], fade: [[0, 0], [.2, .75], [.6, .7], [1, 0]] },
+  { start: 1.24, color: '#f4aacb', move: [[0, 58.5, -31, 17, 1], [.6, 10.4, -1.3, 3, 1], [1, 1.3, 16.9, 0, .4]], fade: [[0, 0], [.2, .65], [.6, .65], [1, 0]] },
+];
+const CAT = {
+  red: '6.6,8 17,13 31,13 41.4,8 41,24 39,37 9,37 7,24',
+  face: '8.7,11 16.6,15 31.4,15 39.3,11 39,23.7 37.3,35 10.7,35 9,23.7',
+  cyan: ['13.1,21.9 20.1,25.6 20.1,27 13.1,30.7 12.4,29.1 17.7,26.3 12.4,23.5', '34.9,21.9 27.9,25.6 27.9,27 34.9,30.7 35.6,29.1 30.3,26.3 35.6,23.5',
+    '2.4,23.3 8.4,26.6 8.4,27.8 2.4,31.1 1.7,29.8 6.4,27.2 1.7,24.6', '45.6,23.3 39.6,26.6 39.6,27.8 45.6,31.1 46.3,29.8 41.6,27.2 46.3,24.6', '21.6,31.9 26.4,31.9 26.4,33.3 21.6,33.3'],
+};
+const easeOut = t => 1 - (1 - t) ** 3, easeInOut = t => t < .5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2;
+const unit = v => v < 0 ? 0 : v > 1 ? 1 : v;
+const track = (keys, p, ease) => {
+  let k = 0; while (k < keys.length - 2 && p > keys[k + 1][0]) k++;
+  const a = keys[k], b = keys[k + 1], q = ease(unit((p - a[0]) / (b[0] - a[0])));
+  return a.map((v, i) => v + (b[i] - v) * q);
+};
+function polygon(g, pts) { const n = pts.split(' ').map(x => x.split(',').map(Number)); g.beginPath(); n.forEach(([x, y], i) => i ? g.lineTo(x, y) : g.moveTo(x, y)); g.closePath(); }
+function partialLine(g, pts, f) {
+  let total = 0; for (let i = 1; i < pts.length; i++) total += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
+  let left = total * f, x = pts[0][0], y = pts[0][1];
+  g.beginPath(); g.moveTo(x, y);
+  for (let i = 1; i < pts.length && left > 0; i++) {
+    const d = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]), k = Math.min(1, left / d);
+    x = pts[i - 1][0] + (pts[i][0] - pts[i - 1][0]) * k; y = pts[i - 1][1] + (pts[i][1] - pts[i - 1][1]) * k; g.lineTo(x, y); left -= d;
+  }
+  g.stroke(); return [x, y];
+}
+const LOGOS = {
+  mne: {
+    view: 100, loop: 9, still: 5,
+    // Returns how much of the mark has dissolved (0: all of it shows).
+    paint(g, t, it) {
+      const grad = g.createLinearGradient(20, 12, 78, 84);
+      grad.addColorStop(0, '#e9ddff'); grad.addColorStop(.55, '#c2a6fa'); grad.addColorStop(1, '#8063a9');
+      for (const ph of MNE_PHOTOS) {
+        const p = (t - ph.start) / 2.4; if (p <= 0 || p >= 1) continue;
+        const [, x, y, r, sc] = track(ph.move, p, easeOut), [, o] = track(ph.fade, p, x => x);
+        g.save(); g.translate(49.4 + x, 47.4 + y); g.rotate(r * Math.PI / 180); g.scale(sc, sc);
+        g.globalAlpha = o; g.strokeStyle = ph.color; g.lineWidth = it.stroke / sc * .9; g.strokeRect(-9, -12.5, 18, 25); g.restore();
+      }
+      g.globalAlpha = 1; g.strokeStyle = grad; g.lineWidth = it.stroke; g.lineCap = g.lineJoin = 'round';
+      const tips = [];
+      MNE_STROKES.forEach((pts, k) => {
+        const f = easeInOut(unit((t - .2 - k * .34) / .55)); if (f <= 0) return;
+        const end = partialLine(g, pts, f); if (f < 1) tips.push(end);
+      });
+      g.fillStyle = '#ffffff'; for (const [x, y] of tips) { g.beginPath(); g.arc(x, y, it.stroke * .9, 0, Math.PI * 2); g.fill(); }
+      return unit((t - 7.4) / .9);
+    },
+  },
+  watchcat: {
+    view: 48, loop: 0, still: 2,
+    paint(g, t) {
+      g.fillStyle = '#ff2853'; polygon(g, CAT.red); g.fill();
+      g.fillStyle = '#15101a'; polygon(g, CAT.face); g.fill();
+      g.fillStyle = '#6ff4f8'; for (const p of CAT.cyan) { polygon(g, p); g.fill(); }
+      return 1 - unit(t / 1.2);
+    },
+    // The boot logo's faults: a torn band in the other colour (every 2.8 s) and a jolt with a colour split (every 4.3 s).
+    glitch(t) {
+      const f = (t % 2.8) / 2.8, s = (t % 4.3) / 4.3;
+      const band = f > .33 && f < .37 ? { from: .2, to: .35, dx: 1, a: 1 } : f > .75 && f < .78 ? { from: .65, to: .85, dx: -1, a: .8 } : null;
+      const jolt = s > .885 && s < .9 ? 1 : s >= .9 && s < .91 ? -1 : s >= .91 && s < .92 ? 1 : 0;
+      return { band, jolt };
+    },
+  },
+};
+function mountLogos(root) {
+  const items = [...root.querySelectorAll('.work-logo')].map(canvas => ({ canvas, ctx: canvas.getContext('2d'), def: LOGOS[canvas.dataset.logo], t: 0, shown: false, away: true }));
+  if (!items.length) return () => {};
+  const reduced = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const FONT = "ui-monospace, 'SF Mono', Menlo, Consolas, monospace", SUB = [3, 5];
+  let frame = 0, last = 0, acc = 0;
+  function size(it) {
+    const css = it.canvas.clientWidth; if (!css) return false;
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    it.cw = Math.max(5, Math.round(css / 30)); it.ch = Math.round(it.cw * 1.6);
+    it.cols = Math.floor(css / it.cw); it.rows = Math.floor(it.canvas.clientHeight / it.ch);
+    it.ox = (css - it.cols * it.cw) / 2; it.oy = (it.canvas.clientHeight - it.rows * it.ch) / 2;
+    it.canvas.width = Math.round(css * dpr); it.canvas.height = Math.round(it.canvas.clientHeight * dpr);
+    it.ctx.setTransform(dpr, 0, 0, dpr, 0, 0); it.ctx.textAlign = 'center'; it.ctx.textBaseline = 'middle';
+    it.ctx.font = `700 ${Math.round(it.ch * .82)}px ${FONT}`;
+    it.mask = document.createElement('canvas'); it.mask.width = it.cols * SUB[0]; it.mask.height = it.rows * SUB[1];
+    it.m = it.mask.getContext('2d', { willReadFrequently: true });
+    const n = it.cols * it.rows;
+    it.glyph = new Uint8Array(n); it.litAt = new Float32Array(n).fill(-1); it.rank = new Float32Array(n);
+    for (let i = 0; i < n; i++) { it.glyph[i] = Math.random() * 94; it.rank[i] = Math.random(); }
+    it.stroke = it.def.view / it.cols * 1.15;
+    return true;
+  }
+  function render(it) {
+    const { def, m, cols, rows, cw, ch, ctx } = it, t = it.t, sx = SUB[0], sy = SUB[1];
+    m.setTransform(1, 0, 0, 1, 0, 0); m.clearRect(0, 0, it.mask.width, it.mask.height);
+    m.setTransform(it.mask.width / def.view, 0, 0, it.mask.height / def.view, 0, 0);
+    const lt = def.loop ? t % def.loop : t, gone = def.paint(m, lt, it);
+    if (def.loop && lt < (it.lastLt ?? 0)) it.litAt.fill(-1);
+    it.lastLt = lt;
+    const px = m.getImageData(0, 0, it.mask.width, it.mask.height).data, W = it.mask.width;
+    const cells = [];
+    for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+      let sum = 0, best = 0, bi = 0;
+      for (let y = 0; y < sy; y++) for (let x = 0; x < sx; x++) { const k = ((r * sy + y) * W + c * sx + x) * 4, a = px[k + 3]; sum += a; if (a > best) { best = a; bi = k; } }
+      const i = r * cols + c, a = sum / (sx * sy * 255);
+      if (a < .3 || it.rank[i] < gone) { it.litAt[i] = -1; continue; }
+      if (it.litAt[i] < 0) it.litAt[i] = t;
+      const R = px[bi], G = px[bi + 1], B = px[bi + 2];
+      cells.push({ i, r, c, a, R, G, B, dark: R + G + B < 120 });
+    }
+    ctx.clearRect(0, 0, it.canvas.clientWidth, it.canvas.clientHeight);
+    const gl = !reduced && def.glitch ? def.glitch(t) : { band: null, jolt: 0 };
+    const put = (cell, dx, R, G, B, alpha) => {
+      const x = it.ox + (cell.c + dx) * cw, y = it.oy + cell.r * ch;
+      if (cell.dark) { ctx.fillStyle = `rgba(18,13,23,${(.92 * alpha).toFixed(3)})`; ctx.fillRect(x, y, cw, ch); R = 255; G = 40; B = 83; alpha *= .14; }
+      const age = t - it.litAt[cell.i], flash = reduced ? 0 : unit(1 - age / .35);
+      if (flash > 0 || Math.random() < .015) it.glyph[cell.i] = Math.random() * 94;
+      const k = flash * .8;
+      const rgb = `${R + (255 - R) * k | 0},${G + (255 - G) * k | 0},${B + (255 - B) * k | 0}`, op = unit(alpha * (.6 + .4 * Math.min(1, cell.a * 1.5)) + flash * .3);
+      // A tinted block behind each character makes the shape read as solid strokes.
+      if (!cell.dark) { ctx.fillStyle = `rgba(${rgb},${(op * .24).toFixed(3)})`; ctx.fillRect(x + .5, y + .5, cw - 1, ch - 1); }
+      ctx.fillStyle = `rgba(${rgb},${op.toFixed(3)})`;
+      ctx.fillText(String.fromCharCode(33 + it.glyph[cell.i]), x + cw / 2, y + ch / 2 + .5);
+    };
+    if (gl.jolt) for (const cell of cells) if (!cell.dark) { put(cell, gl.jolt - 1, 111, 244, 248, .5); put(cell, gl.jolt + 1, 255, 40, 83, .5); }
+    for (const cell of cells) put(cell, gl.jolt, cell.R, cell.G, cell.B, 1);
+    if (gl.band) for (const cell of cells) {
+      const v = (cell.r + .5) / rows; if (v < gl.band.from || v > gl.band.to || cell.dark) continue;
+      const cyan = cell.B > cell.R;
+      put({ ...cell, dark: false }, gl.band.dx, cyan ? 255 : 111, cyan ? 40 : 244, cyan ? 83 : 248, gl.band.a);
+    }
+  }
+  function loop(ts) {
+    frame = 0;
+    const dt = last ? Math.min((ts - last) / 1000, .1) : 0; last = ts; acc += dt;
+    const live = items.filter(it => it.shown && it.cols);
+    live.forEach(it => { it.t += dt; });
+    if (acc >= 1 / 30) { acc = 0; live.forEach(render); }
+    if (live.length && !document.hidden) frame = requestAnimationFrame(loop);
+  }
+  const wake = () => { if (!frame && !reduced) { last = 0; frame = requestAnimationFrame(loop); } };
+  const still = it => { if (!it.cols && !size(it)) return; it.t = it.def.still; render(it); };
+  const io = new IntersectionObserver(entries => entries.forEach(e => {
+    const it = items.find(x => x.canvas === e.target); it.shown = e.isIntersecting;
+    if (!e.isIntersecting) { it.away = true; return; }
+    if (!it.cols && !size(it)) return;
+    if (reduced) { still(it); return; }
+    // Coming back into view replays the logo from the start.
+    if (it.away) { it.away = false; it.t = 0; it.litAt.fill(-1); }
+    wake();
+  }), { threshold: .2 });
+  const ro = new ResizeObserver(() => items.forEach(it => { if (size(it) && (reduced || !it.shown)) still(it); }));
+  items.forEach(it => { io.observe(it.canvas); ro.observe(it.canvas); });
+  const onVis = () => { if (!document.hidden) wake(); };
+  document.addEventListener('visibilitychange', onVis);
+  return () => { cancelAnimationFrame(frame); io.disconnect(); ro.disconnect(); document.removeEventListener('visibilitychange', onVis); };
 }
 
 // Words on this page are written over code. Each character is wrapped and can be absent, scrambled or itself.
@@ -541,6 +749,7 @@ export function mountProject(root, data) {
   const reduced = matchMedia('(prefers-reduced-motion:reduce)').matches;
   const disposeText = mountCodeText(root);
   const disposeCode = mountCodeField(root);
+  const disposeLogos = mountLogos(root);
 
   // Like the homepage: after 1 second without input, a page left between two stops (the top, then each
   // project) glides to the nearest one. The list of earlier works and the footer are left alone.
@@ -558,7 +767,7 @@ export function mountProject(root, data) {
   }
   function settle() {
     const stops = root._codeStops || [];
-    if (reduced || stops.length < 2 || glideFrame) return;
+    if (innerWidth < 760 || reduced || stops.length < 2 || glideFrame) return;
     if (scrollY > stops[stops.length - 1] + innerHeight * .35) return;
     let to = stops[0]; stops.forEach(t => { if (Math.abs(t - scrollY) < Math.abs(to - scrollY)) to = t; });
     const gap = to - scrollY;
@@ -591,8 +800,29 @@ export function mountProject(root, data) {
     on(el, 'pointerleave', () => { state[i].tx = 0; state[i].ty = 0; wake(); });
     // The real picture shows on hover; on touch screens the first tap shows it and the second opens the link.
     on(el, 'pointerdown', e => { el.dataset.touch = e.pointerType === 'mouse' ? '' : '1'; });
-    on(el, 'click', e => { if (el.dataset.touch && !el.classList.contains('is-real')) { e.preventDefault(); frames.forEach(f => f.classList.toggle('is-real', f === el)); } });
+    on(el, 'click', e => { if (el.dataset.touch && !el.classList.contains('is-real')) { e.preventDefault(); frames.forEach(f => f.classList.toggle('is-real', f === el)); realY = scrollY; } });
   });
+  // A picture shown by a tap goes back to code when you tap anywhere else or scroll on.
+  let realY = 0;
+  const hideReal = () => frames.forEach(f => f.classList.remove('is-real'));
+  on(document, 'click', e => { if (!e.target.closest('.work-frame')) hideReal(); });
+  on(window, 'scroll', () => { if (Math.abs(scrollY - realY) > 90 && frames.some(f => f.classList.contains('is-real'))) hideReal(); }, { passive: true });
+
+  // Phones: words fade as they slide under the picture stage, and the code layer's top fade leaves with the header.
+  const field = root.querySelector('.code-field'), blocks = [...root.querySelectorAll('.work')].map(w => ({ frame: w.querySelector('.work-frame'), parts: [...w.querySelectorAll('.work-copy>*')] }));
+  let stageFrame = 0;
+  function stage() {
+    stageFrame = 0;
+    if (innerWidth >= 760) { field?.style.removeProperty('--mt'); field?.style.removeProperty('--mf'); blocks.forEach(b => b.parts.forEach(el => { el.style.opacity = ''; })); return; }
+    const y = scrollY;
+    field?.style.setProperty('--mt', Math.max(0, 60 - y) + 'px'); field?.style.setProperty('--mf', Math.max(0, 140 - y) + 'px');
+    for (const b of blocks) {
+      const edge = b.frame.getBoundingClientRect().bottom;
+      for (const el of b.parts) { const t = el.getBoundingClientRect().top; const o = Math.max(0, Math.min(1, (t - edge - 6) / 56)); el.style.opacity = o < 1 ? o.toFixed(2) : ''; }
+    }
+  }
+  const stageSoon = () => { if (!stageFrame) stageFrame = requestAnimationFrame(stage); };
+  on(window, 'scroll', stageSoon, { passive: true }); on(window, 'resize', stageSoon, { passive: true }); stage();
 
   // Earlier works: a preview follows the cursor beside the hovered row.
   const preview = root.querySelector('.archive-preview');
@@ -604,5 +834,5 @@ export function mountProject(root, data) {
     on(row, 'pointerleave', () => preview?.classList.remove('is-on'));
   });
   on(window, 'scroll', () => preview?.classList.remove('is-on'), { passive: true });
-  return () => { controller.abort(); clearTimeout(idle); cancelAnimationFrame(glideFrame); cancelAnimationFrame(frame); cancelAnimationFrame(pf); disposeCode(); disposeText(); };
+  return () => { controller.abort(); cancelAnimationFrame(stageFrame); clearTimeout(idle); cancelAnimationFrame(glideFrame); cancelAnimationFrame(frame); cancelAnimationFrame(pf); disposeCode(); disposeText(); disposeLogos(); };
 }

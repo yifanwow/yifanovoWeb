@@ -1,8 +1,12 @@
 import { mountMist } from './poetry.js';
+import { screenHeight, onResize } from './viewport.js';
 
 const esc = (value = '') => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const dated = date => `${date.slice(5, 7)}/${date.slice(8, 10)}/${date.slice(0, 4)}`;
 
+// Small icons for phones (the names stay for screen readers); desktop shows the names.
+const ICONS = {"GitHub": "<svg class=\"social-icon\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><path fill=\"currentColor\" d=\"M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z\"/></svg>", "Instagram": "<svg class=\"social-icon\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><g fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"><rect x=\"2.8\" y=\"2.8\" width=\"18.4\" height=\"18.4\" rx=\"5.2\"/><circle cx=\"12\" cy=\"12\" r=\"4.3\"/></g><circle cx=\"17.4\" cy=\"6.6\" r=\"1.15\" fill=\"currentColor\"/></svg>", "Steam": "<svg class=\"social-icon\" viewBox=\"0 0 32 32\" aria-hidden=\"true\"><path fill=\"currentColor\" d=\"M18.102 12.129c0-0 0-0 0-0.001 0-1.564 1.268-2.831 2.831-2.831s2.831 1.268 2.831 2.831c0 1.564-1.267 2.831-2.831 2.831-0 0-0 0-0.001 0h0c-0 0-0 0-0.001 0-1.563 0-2.83-1.267-2.83-2.83 0-0 0-0 0-0.001v0zM24.691 12.135c0-2.081-1.687-3.768-3.768-3.768s-3.768 1.687-3.768 3.768c0 2.081 1.687 3.768 3.768 3.768v0c2.080-0.003 3.765-1.688 3.768-3.767v-0zM10.427 23.76l-1.841-0.762c0.524 1.078 1.611 1.808 2.868 1.808 1.317 0 2.448-0.801 2.93-1.943l0.008-0.021c0.155-0.362 0.246-0.784 0.246-1.226 0-1.757-1.424-3.181-3.181-3.181-0.405 0-0.792 0.076-1.148 0.213l0.022-0.007 1.903 0.787c0.852 0.364 1.439 1.196 1.439 2.164 0 1.296-1.051 2.347-2.347 2.347-0.324 0-0.632-0.066-0.913-0.184l0.015 0.006zM15.974 1.004c-7.857 0.001-14.301 6.046-14.938 13.738l-0.004 0.054 8.038 3.322c0.668-0.462 1.495-0.737 2.387-0.737 0.001 0 0.002 0 0.002 0h-0c0.079 0 0.156 0.005 0.235 0.008l3.575-5.176v-0.074c0.003-3.12 2.533-5.648 5.653-5.648 3.122 0 5.653 2.531 5.653 5.653s-2.531 5.653-5.653 5.653h-0.131l-5.094 3.638c0 0.065 0.005 0.131 0.005 0.199 0 0.001 0 0.002 0 0.003 0 2.342-1.899 4.241-4.241 4.241-2.047 0-3.756-1.451-4.153-3.38l-0.005-0.027-5.755-2.383c1.841 6.345 7.601 10.905 14.425 10.905 8.281 0 14.994-6.713 14.994-14.994s-6.713-14.994-14.994-14.994c-0 0-0.001 0-0.001 0h0z\"/></svg>", "小红书": "<svg class=\"social-icon\" viewBox=\"0 0 256 256\" aria-hidden=\"true\"><path fill=\"currentColor\" fill-rule=\"evenodd\" transform=\"translate(-256 -256)\" d=\"M289.44,256H477.67c17.93,0,33.86,15.57,34.33,33.48V477.72A35.09,35.09,0,0,1,477.66,512H289.5A35.14,35.14,0,0,1,256,477.64V289.56C256.43,271.93,271.81,256.5,289.44,256Zm16.73,91.44c-.13,19.87-.06,39.75-.16,59.63a2.1,2.1,0,0,1-2.13,2.6c-2.39.14-4.79.06-7.19.08,1.61,4,3.35,7.86,5.15,11.73,4.52-.15,9.68.79,13.54-2.17,3.47-2.58,4.58-7.17,4.51-11.3,0-20.19,0-40.39-.09-60.58C315.26,347.41,310.71,347.4,306.17,347.44Zm56.08-.9q-5.08,11.67-10.36,23.24c-1,2.31-2.21,5.37-.11,7.46,2.69,2.44,6.64,1.5,9.94,1.72-2.29,5.78-5.3,11.27-7.23,17.19-1.07,2.92,1.6,5.89,4.52,5.92,5.29.36,10.6,0,15.9.14,1.73-3.87,3.47-7.73,5.17-11.62-3.09,0-6.21.22-9.25-.39,3.29-8.26,7.19-16.25,10.68-24.41-4.27-.5-9.1.89-13-.77,1.9-6.4,5.36-12.27,7.8-18.5C371.61,346.5,366.93,346.47,362.25,346.54Zm72.75.05,0,5.21c-3.06,0-6.12,0-9.18,0q0,7,0,13.93c3.07,0,6.13,0,9.19.06q.12,6,0,12.08c-4.6.09-9.21,0-13.81.07-.06,4.64-.05,9.27,0,13.9,4.61.05,9.23,0,13.84,0,0,9.86,0,19.73,0,29.59,4.62,0,9.23,0,13.85,0q0-14.79,0-29.57c6.74,0,13.47-.1,20.21,0,2.37-.2,5.08,1.46,5,4.07a110.67,110.67,0,0,1,0,11.08,2.26,2.26,0,0,1-2.12,2.39c-3.85.28-7.71,0-11.57.13,1.7,4,3.35,8,5.28,11.95,6.35-.33,14.11,1.27,18.95-4,4.6-4.26,3.22-11,3.41-16.56-.29-5.85,1.14-12.46-2.49-17.58-3.09-4.34-8.66-5.52-13.68-5.61-.3-7,1.37-15.19-3.78-20.88-4.8-5.38-12.53-5.4-19.17-5.14l0-5.2C444.23,346.56,439.61,346.57,435,346.59Zm-49.42,5.22q0,7,0,13.92c2.9,0,5.79,0,8.69,0,0,13.91,0,27.83,0,41.74-4.15.07-8.31,0-12.46.05-2.15,4.62-4.25,9.26-6.34,13.9,15.48.06,31,0,46.44,0q0-6.94,0-13.9c-4.45,0-8.91,0-13.36-.05q0-20.88,0-41.77c2.91,0,5.81,0,8.72,0,0-4.64,0-9.29,0-13.93C406.73,351.79,396.16,351.77,385.58,351.81Zm91.35,1.28c-3.88,2.94-2.61,8.32-2.78,12.51,2.59,0,5.19.14,7.78-.09,4.16-.38,7.29-5.23,5.62-9.15C486.24,352.06,480.43,350.19,476.93,353.09ZM283,365.72c-.7,9.12-1.41,18.23-2.07,27.35a22.12,22.12,0,0,1-1.32,6.06c2.34,5.35,4.68,10.7,7.18,16,5.6-7.49,7.68-16.93,8.26-26.1.49-7.8,1.36-15.59,1.64-23.4C292.1,365.79,287.54,365.68,283,365.72Zm46.13,0q1,12.69,2,25.37c.73,8.48,2.92,17.12,8.1,24,2.47-5.29,4.83-10.63,7.17-16A21.67,21.67,0,0,1,345,393c-.66-9.09-1.38-18.18-2.08-27.27Q336,365.69,329.1,365.72Zm17.16,54.69c7.08,2.09,14.58.66,21.85,1.05,2.14-4.63,4.27-9.27,6.35-13.93-7.27-.28-14.67.76-21.8-1.07Q349.42,413.41,346.26,420.41Z\"/></svg>"};
+const WECHAT_ICON = "<svg class=\"social-icon\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><defs><mask id=\"wechat-cut\"><rect width=\"24\" height=\"24\" fill=\"#fff\"/><ellipse cx=\"16.2\" cy=\"15\" rx=\"7.4\" ry=\"6.3\" fill=\"#000\"/></mask></defs><g fill=\"currentColor\"><g mask=\"url(#wechat-cut)\"><ellipse cx=\"9.2\" cy=\"9.4\" rx=\"7.7\" ry=\"6.5\"/><path d=\"M4.3 13.4 3.5 17.4l3.9-2.3z\"/></g><ellipse cx=\"16.2\" cy=\"15\" rx=\"6.1\" ry=\"5.1\"/><path d=\"M19.9 18.3l.9 2.9-3.4-1.6z\"/></g><g fill=\"#0e1019\"><circle cx=\"6.6\" cy=\"8\" r=\"1.05\"/><circle cx=\"11.8\" cy=\"8\" r=\"1.05\"/><circle cx=\"14.1\" cy=\"13.9\" r=\".85\"/><circle cx=\"18.3\" cy=\"13.9\" r=\".85\"/></g></svg>";
 const SOCIAL = [
   { name: 'GitHub', href: 'https://github.com/yifanwow' },
   { name: 'Instagram', href: 'https://instagram.com/yifanovo_' },
@@ -14,11 +18,16 @@ const SOCIAL = [
 function sections(data) {
   const years = data.poems.map(p => Number(p.year)), latest = data.poems[0];
   const firstLine = (latest?.excerpt || '').split('\n')[0].replace(/[，、；：,;:]+$/, '');
+  const selectedPoems = ['2019-04-01', '2019-04-24', '2017-12-30'].map(date => data.poems.find(p => p.date === date)).filter(Boolean);
+  const poemLinks = `<div class="door-poems">${selectedPoems.map(p => {
+    const date = dated(p.date), line = (p.body || p.excerpt || '').split('\n').find(line => line.trim()) || '';
+    return `<a class="door-poem" href="/poetry/${encodeURIComponent(p.id)}"><time datetime="${esc(p.date)}"><span>${date.slice(0, 5)}</span><span class="poem-year">${date.slice(5)}</span></time><span class="poem-glimpse">${esc(line.trim())}</span></a>`;
+  }).join('')}</div>`;
   return [
     { mode: 'rain', cn: '诗歌', en: 'Poetry', href: '/poetry', text: '无关风月。<br>字里行间，都是我青春无数的瞬间。', meta: `${data.poems.length} 首 · ${Math.min(...years)}—${Math.max(...years)}`,
-      extra: latest ? `<p class="door-quote"><time datetime="${latest.date}">${dated(latest.date)}</time><span>「${esc(firstLine)}」</span></p>` : '' },
+      extra: (latest ? `<p class="door-quote"><time datetime="${latest.date}">${dated(latest.date)}</time><span>「${esc(firstLine)}」</span></p>` : '') + poemLinks },
     { mode: 'build', cn: '项目', en: 'Projects', href: '/project', text: '科技之美。<br>创造与实现，进步就在指尖。', meta: `${data.projects.length} 个作品`,
-      extra: `<ul class="door-list">${data.projects.slice(0, 5).map(p => `<li><span>${esc(p.title)}</span><small>${esc(p.category)}</small></li>`).join('')}</ul>` },
+      extra: `<ul class="door-list">${data.projects.slice(0, 3).map(p => `<li><span>${esc(p.title)}</span><small>${esc(p.category)}</small></li>`).join('')}</ul>` },
     { mode: 'lens', cn: '摄影', en: 'Photography', href: '/photos', text: '我眼中的世界。', meta: `${data.photos.length} 张`,
       extra: `<div class="door-photos">${data.photos.slice(0, 3).map(p => `<img src="${p.src}" alt="${esc(p.title)}" loading="lazy">`).join('')}</div>` },
     { mode: 'room', cn: '家居', en: 'Home', text: 'Caer Fannos，<br>属于我回忆的归处，收藏我人生的过往。' },
@@ -29,13 +38,15 @@ function sections(data) {
 
 export function homeLanding(data) {
   const list = sections(data);
-  const social = SOCIAL.map(s => `<a href="${s.href}" target="_blank" rel="noopener noreferrer">${esc(s.name)}<span aria-hidden="true">↗</span></a>`).join('')
-    + `<span class="wechat"><button type="button" aria-describedby="wechat-qr">公众号<span aria-hidden="true">+</span></button><span class="wechat-qr" id="wechat-qr" role="tooltip"><img src="/assets/wechat-qr.jpg" alt="微信公众号二维码" width="143" height="143" loading="lazy"><small>微信扫一扫</small></span></span>`;
+  const social = SOCIAL.map(s => `<a href="${s.href}" target="_blank" rel="noopener noreferrer">${ICONS[s.name] || ''}<i class="social-name">${esc(s.name)}</i><span aria-hidden="true">↗</span></a>`).join('')
+    + `<span class="wechat"><button type="button" aria-describedby="wechat-qr">${WECHAT_ICON}<i class="social-name">公众号</i><span aria-hidden="true">+</span></button><span class="wechat-qr" id="wechat-qr" role="tooltip"><img src="/assets/wechat-qr.jpg" alt="微信公众号二维码" width="143" height="143" loading="lazy"><small>微信扫一扫</small></span></span>`;
   const doors = list.map((s, i) => {
     const side = i % 2 ? 'is-right' : 'is-left'; // text side; the clock takes the other half
     const action = s.href ? `<a class="door-link" href="${s.href}">进入${s.cn}<span aria-hidden="true">→</span></a>` : '<span class="door-soon">即将到来</span>';
     return `<section class="home-door ${side}${s.href ? '' : ' is-soon'}" data-mode="${s.mode}" aria-labelledby="door-${i}">
+      <div class="page-air" aria-hidden="true"></div>
       <div class="door-copy">
+        <p class="door-head" aria-hidden="true"><span>${String(i + 1).padStart(2, '0')} <i>/</i> ${String(list.length).padStart(2, '0')}</span><i class="door-rule"></i>${s.meta ? `<span class="door-head-meta">${esc(s.meta)}</span>` : ''}</p>
         <span class="door-no">${String(i + 1).padStart(2, '0')} <i>/</i> ${String(list.length).padStart(2, '0')}</span>
         <h2 id="door-${i}"><span class="door-cn">${s.cn}</span><span class="door-en">${s.en}</span></h2>
         <p class="door-text">${s.text}</p>
@@ -45,17 +56,21 @@ export function homeLanding(data) {
     </section>`;
   }).join('');
   const rail = ['此刻', ...list.map(x => x.cn)].map((name, i) => `<button type="button" data-stop="${i}" aria-label="${name}"><i></i><span>${String(i).padStart(2, '0')} ${name}</span></button>`).join('');
+  const dots = ['此刻', ...list.map(x => x.cn)].map((name, i) => `<button type="button" data-page="${i}" aria-label="${name}"><i></i></button>`).join('');
   return `<canvas class="home-clock" aria-hidden="true"></canvas>
   <nav class="home-rail" aria-label="首页栏目">${rail}</nav>
+  <div class="home-pager"><div class="home-deck">
   <section class="home-hero" data-mode="time" aria-labelledby="home-name">
     <span class="hero-tag hero-tag-left" aria-hidden="true">0119 · 起始</span>
     <span class="hero-tag hero-tag-right"><span class="field-clock"></span></span>
+    <div class="page-air" aria-hidden="true"></div>
     <div class="hero-foot">
       <div class="hero-id"><p class="hero-thought">The Future named Past<br>无数过往回忆，引领此刻你我的相遇。</p><h1 id="home-name"><span class="name-en">Yifan Yu</span><span class="name-dot" aria-hidden="true">·</span><span class="name-cn">叙己</span></h1><p class="hero-intro">一个现实的浪漫主义者。<small>A REALISTIC ROMANTIC.</small></p></div>
       <nav class="hero-social" aria-label="社交媒体">${social}</nav>
     </div>
   </section>
-  ${doors}`;
+  ${doors}
+  </div><nav class="home-dots" aria-label="首页栏目">${dots}</nav></div>`;
 }
 
 /* ---------- Time ----------
@@ -263,6 +278,15 @@ const SCENES = {
   },
 };
 // How each scene is seen: tilt (rx), turn (ry), roll (rz), slow spin, and size.
+// Desktop resting states chosen from reference screenshots. Instead of spinning away from that view they sway
+// gently around it (sway: how far, in radians). Roll turns a scene in the screen's own plane.
+// fill: share of the screen's width and height the object may take (default .36 wide, .62 tall).
+const DESK_CAMERA = {
+  rain:  { rx: 0,   ry: -.5,   rz: .1,   roll: -.4, spin: 0, sway: .3, size: .92, fill: [.46, .9] },
+  build: { rx: .62, ry: .32,   rz: -.32, spin: 0, sway: .25, size: .88 },
+  room:  { rx: .45, ry: -2.55, rz: -.2,  roll: -.35, spin: 0, sway: .25, size: .82, fill: [.44, .8] },
+  film:  { rx: .95, ry: -.5,   rz: -.8,  roll: 1.15, spin: 0, sway: .45, size: .95 },
+};
 const CAMERA = {
   time:  { rx: -.42, ry: .58, rz: -.15, spin: 0,   size: 1.05 },
   rain:  { rx: .32, ry: .2,   rz: 0,   spin: .05,  size: .92 },
@@ -287,26 +311,58 @@ function mountClock(root) {
   const ctx = canvas.getContext('2d'), media = matchMedia('(prefers-reduced-motion:reduce)');
   const controller = new AbortController(), on = (t, n, f, o = {}) => t.addEventListener(n, f, { ...o, signal: controller.signal });
   let width = 0, height = 0, narrow = false, frame = 0, last = 0, time = 0, reduced = media.matches;
-  let tops = [], shown = -1, tx = 0, ty = 0, px = 0, py = 0, vx = 0, vy = 0;
+  let shownWords = '', tops = [], shown = -1, tx = 0, ty = 0, px = 0, py = 0, vx = 0, vy = 0;
   // Turned by hand: press and drag to turn the object; let go and it coasts, rests a moment, then drifts home.
   let dYaw = 0, dPitch = 0, vYaw = 0, vPitch = 0, grab = null, letGo = 0;
+  // Desktop: each scene's visible middle and size, measured once at its resting angle (unit size, centred at 0).
+  const extents = {}, probe = new Float32Array(N * 8);
+  function extent(name, C, clock) {
+    if (extents[name]) return extents[name];
+    const f = 3.6, cX = Math.cos(C.rx), sX = Math.sin(C.rx), cY = Math.cos(C.ry), sY = Math.sin(C.ry), cZ = Math.cos(C.rz), sZ = Math.sin(C.rz);
+    const roll = C.roll || 0, cR = Math.cos(roll), sR = Math.sin(roll), xs = [], ys = [];
+    const add = (x, y, z) => {
+      const x1 = x * cZ - y * sZ, y1 = x * sZ + y * cZ, y2 = y1 * cX - z * sX, z2 = y1 * sX + z * cX;
+      const x3 = x1 * cY + z2 * sY, z3 = -x1 * sY + z2 * cY, k = f / (f - z3);
+      xs.push((x3 * cR - y2 * sR) * k); ys.push((x3 * sR + y2 * cR) * k);
+    };
+    // Several moments, so moving parts (falling drops) are measured where they usually are.
+    for (const t of [0, 2.3, 4.7, 7.1, 9.4]) {
+      SCENES[name](probe, t, clock);
+      for (let i = 0; i < N; i++) { const o = i * 8; if (probe[o + 6] > .05) { add(probe[o], probe[o + 1], probe[o + 2]); add(probe[o + 3], probe[o + 4], probe[o + 5]); } }
+    }
+    xs.sort((a, b) => a - b); ys.sort((a, b) => a - b);
+    // Ignore the outermost 1% of points (stray drops and rays), but keep whole rings in view.
+    const lo = Math.floor(xs.length * .01), hi = xs.length - 1 - lo;
+    return (extents[name] = { mx: (xs[lo] + xs[hi]) / 2, my: (ys[lo] + ys[hi]) / 2, w: Math.max(.05, xs[hi] - xs[lo]), h: Math.max(.05, ys[hi] - ys[lo]) });
+  }
+  // Pointer on the object: where it is over the object (-.5 to .5 across it); null when it is elsewhere.
+  let aim = null, hot = { x: 0, y: 0, rx: 0, ry: 0 };
   const A = new Float32Array(N * 8), B = new Float32Array(N * 8);
   const BUCKETS = 6;
 
   // Section centres: a scene is complete when its section sits in the middle of the screen.
   function measure() { tops = stops.map(s => { const r = s.getBoundingClientRect(); return r.top + scrollY + r.height / 2; }); }
   function resize() {
-    width = innerWidth; height = innerHeight; narrow = width < 760;
+    width = innerWidth; height = screenHeight(); narrow = width < 760;
     const dpr = Math.min(devicePixelRatio || 1, 1.5);
     canvas.width = Math.round(width * dpr); canvas.height = Math.round(height * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     measure();
   }
+  // Phones, per page: 0 clock, 1 rain, 2 build, 3 lens, 4 room, 5 film, 6 sound (x, y share of the screen; s size).
+  const PHONE_PLACE = [{ x: .63, y: .40, s: 1.08 }, { x: .63, y: .32, s: 1.16 }, { x: .61, y: .32, s: 1.1 }, { x: .64, y: .40, s: 1.12 }, { x: .66, y: .44, s: 1.22 }, { x: .61, y: .41, s: 1.02 }, { x: .66, y: .45, s: 1.24 }];
   function place(index) {
-    if (index === 0) return narrow ? { x: .5, y: .37, s: .78 } : { x: .54, y: .49, s: .94 };
+    // Phones: the object fills the upper part of the screen at nearly full width; the words scroll below it.
+    // Phones: the words sit bottom-left, so each object leans into the space they leave: mostly right and down.
+    if (narrow) { const p = PHONE_PLACE[index] || PHONE_PLACE[5], k = height < 700 ? .9 : 1; return { x: p.x, y: p.y, s: p.s * k }; }
+    if (index === 0) return { x: .54, y: .49, s: .94 };
     const textLeft = (index - 1) % 2 === 0;
-    return narrow ? { x: .5, y: .27, s: .56 } : { x: textLeft ? .67 : .33, y: .5, s: .86 };
+    return { x: textLeft ? .69 : .31, y: .5, s: .86 };
   }
+  const deck = root.querySelector('.home-deck');
+  const swiping = () => narrow && deck && deck.scrollWidth > deck.clientWidth + 4;
   function progress() {
+    // Phones: the sections sit side by side and the object follows the sideways swipe.
+    if (swiping()) return clamp(deck.scrollLeft / deck.clientWidth, 0, stops.length - 1);
     const mid = scrollY + height * .5;
     for (let i = 0; i < tops.length - 1; i++) {
       const a = tops[i], b = tops[i + 1];
@@ -323,11 +379,25 @@ function mountClock(root) {
     const sec = (now.getSeconds() - 1 + (reduced ? 1 : back)) / 60;
     const dayFrac = (now.getHours() + (now.getMinutes() + sec) / 60) / 24;
     const clock = { sec, min: (now.getMinutes() + sec) / 60, hour: (now.getHours() % 12 + (now.getMinutes() + sec) / 60) / 12, day: dayFrac, years: YEARS };
-    shown = shown < 0 || reduced ? progress() : shown + (progress() - shown) * Math.min(1, dt * 6);
+    if (shown < 0 || reduced) shown = progress();
+    else if (swiping()) {
+      // Phones: the page snaps quickly, but the object takes its time (about two seconds per page),
+      // easing in and out, so it leads the eye; the words of the new page rise only once it is nearly formed.
+      // (A jump of several pages, from the dashes, travels faster so it never takes long.)
+      const goal = progress(), cap = dt * Math.max(.6, Math.abs(goal - shown) * .75), step = (goal - shown) * (1 - Math.exp(-dt * 1.8));
+      shown += Math.max(-cap, Math.min(cap, step)); if (Math.abs(goal - shown) < .02) shown = goal; // the shape is already complete this close
+      // The words never go blank: the next page's words are already there, faint and soft, and sharpen as the
+      // object forms; the last page's words soften as it comes apart.
+      // Words are fully sharp once the object is 80% of the way; then the blur is removed entirely (a blur filter,
+      // even a tiny one, keeps text soft until it is gone).
+      const words = stops.map((st, i) => { const v = Math.min(1, (1 - clamp(Math.abs(i - shown) / .85)) / .8); return (v * v * (3 - 2 * v)).toFixed(3); }).join(',');
+      if (words !== shownWords) { shownWords = words; const k = words.split(','); stops.forEach((st, i) => { st.classList.add('is-in'); st.classList.toggle('is-settled', k[i] === '1.000'); st.style.setProperty('--scene-reveal', k[i]); }); }
+    } else shown += (progress() - shown) * Math.min(1, dt * 6);
     // A short hold at each end: the scene stays assembled for the first and last 10% of the way to its
     // neighbour, so most of the travel between scenes stays visible.
     const i0 = Math.floor(shown), i1 = Math.min(stops.length - 1, i0 + 1), w = clamp((shown - i0 - .1) / .8);
-    const n0 = sceneOf(i0), n1 = sceneOf(i1), C0 = CAMERA[n0], C1 = CAMERA[n1];
+    const cam = n => narrow || !DESK_CAMERA[n] ? CAMERA[n] : { ...CAMERA[n], ...DESK_CAMERA[n] };
+    const n0 = sceneOf(i0), n1 = sceneOf(i1), C0 = cam(n0), C1 = cam(n1);
     const p0 = place(i0), p1 = place(i1), we = ease(w);
     const t = reduced ? 0 : time, travel = Math.sin(Math.PI * w);
     // The object leans toward the pointer like something with weight: a soft spring that lags, then settles.
@@ -345,19 +415,40 @@ function mountClock(root) {
       }
     }
 
-    const rx = mix(C0.rx, C1.rx, we) + .04 * Math.sin(t * .23) + py * .5 + dPitch;
-    const ry = mix(C0.ry + C0.spin * t, C1.ry + C1.spin * t, we) + .06 * Math.sin(t * .31) + px * .75 + travel * .5 * (i0 % 2 ? -1 : 1) + dYaw;
+    const rx = mix(C0.rx, C1.rx, we) + .04 * Math.sin(t * .23) + py * .5;
+    const ry = mix(C0.ry + C0.spin * t + (C0.sway || 0) * Math.sin(t * .14), C1.ry + C1.spin * t + (C1.sway || 0) * Math.sin(t * .14), we) + .06 * Math.sin(t * .31) + px * .75 + travel * .5 * (i0 % 2 ? -1 : 1) + dYaw;
     const rz = mix(C0.rz, C1.rz, we);
-    const cx = mix(p0.x, p1.x, we) * width + px * width * .03, cy = mix(p0.y, p1.y, we) * height + py * height * .03;
-    const R = Math.min(width, height) * (narrow ? .38 : .3) * mix(p0.s * C0.size, p1.s * C1.size, we);
+    // Desktop: each object is measured on screen and eased so its visible middle sits on its spot and it fills
+    // its half of the screen evenly (a new viewing angle shifts a shape's visual centre). The clock keeps its own.
+    // Desktop: each object's visible middle sits on its spot and it fills its half of the screen evenly
+    // (a new viewing angle shifts a shape's visual centre). Measured once per scene, so it never wanders.
+    const fitOf = (n, C, p) => {
+      const base = Math.min(width, height) * .3 * p.s * C.size;
+      if (narrow || n === 'time') return { x: 0, y: 0, R: base, hw: base * .8, hh: base * .8 };
+      const e = extent(n, C, clock), fill = C.fill || [.36, .62], s = clamp(Math.min(width * fill[0] / (e.w * base), height * fill[1] / (e.h * base)), .85, 2);
+      return { x: -e.mx * base * s, y: -e.my * base * s, R: base * s, hw: e.w * base * s / 2, hh: e.h * base * s / 2 };
+    };
+    const F0 = fitOf(n0, C0, p0), F1 = fitOf(n1, C1, p1);
+    const cx = mix(p0.x, p1.x, we) * width + px * width * .03 + mix(F0.x, F1.x, we), cy = mix(p0.y, p1.y, we) * height + py * height * .03 + mix(F0.y, F1.y, we);
+    const R = narrow ? Math.min(width, height) * .38 * mix(p0.s * C0.size, p1.s * C1.size, we) : mix(F0.R, F1.R, we);
+    // The pointer only steers the object while it is over it.
+    // The hot zone is the object's own drawn area, a little inside its edges.
+    hot = { x: mix(p0.x, p1.x, we) * width, y: mix(p0.y, p1.y, we) * height, rx: mix(F0.hw, F1.hw, we) * .85, ry: mix(F0.hh, F1.hh, we) * .85 };
+    if (aim) { tx = aim.x; ty = aim.y; } else { tx = 0; ty = 0; }
     const f = 3.6;
     const cX = Math.cos(rx), sX = Math.sin(rx), cY = Math.cos(ry), sY = Math.sin(ry), cZ = Math.cos(rz), sZ = Math.sin(rz);
+    // The hand's up-down tilt is applied last, about the screen's own horizontal axis: dragging down always
+    // brings the front of the object down, however far it has been turned around.
+    const cP = Math.cos(dPitch), sP = Math.sin(dPitch);
+    // A scene may also be turned in the screen's own plane (roll).
+    const roll = mix(C0.roll || 0, C1.roll || 0, we), cR = Math.cos(roll), sR = Math.sin(roll);
     const project = (x, y, z) => {
       const x1 = x * cZ - y * sZ, y1 = x * sZ + y * cZ;
       const y2 = y1 * cX - z * sX, z2 = y1 * sX + z * cX;
       const x3 = x1 * cY + z2 * sY, z3 = -x1 * sY + z2 * cY;
-      const k = f / (f - z3);
-      return [cx + x3 * R * k, cy + y2 * R * k, z3];
+      const y4 = y2 * cP + z3 * sP, z4 = z3 * cP - y2 * sP;
+      const k = f / (f - z4), xs = x3 * cR - y4 * sR, ys = x3 * sR + y4 * cR;
+      return [cx + xs * R * k, cy + ys * R * k, z4];
     };
 
     // Parts travel one by one: each starts at its own moment, flies out along its drift and lands in the next scene.
@@ -436,9 +527,20 @@ function mountClock(root) {
     frame = requestAnimationFrame(loop);
   }
   const start = () => { if (!frame && !document.hidden) { last = 0; frame = requestAnimationFrame(loop); } };
-  on(window, 'resize', () => { resize(); draw(0); }, { passive: true });
-  on(window, 'pointermove', e => { if (e.pointerType !== 'mouse') return; tx = e.clientX / width - .5; ty = e.clientY / height - .5; }, { passive: true });
-  // Mouse: press anywhere that isn't a link or control and drag to turn (left-right) and tip (up-down).
+  onResize(() => { resize(); draw(0); }, { signal: controller.signal });
+  const overObject = e => {
+    const dx = (e.clientX - hot.x) / hot.rx, dy = (e.clientY - hot.y) / hot.ry;
+    return dx * dx + dy * dy < 1 && !e.target.closest(HANDS_OFF) ? { x: dx * .5, y: dy * .5 } : null;
+  };
+  // Mouse: the object leans toward the pointer only while the pointer is over it; elsewhere it keeps its own slow show.
+  on(window, 'pointermove', e => {
+    if (e.pointerType !== 'mouse') return;
+    aim = overObject(e);
+    document.documentElement.classList.toggle('can-turn', !!aim && !narrow);
+  }, { passive: true });
+  const off = () => { aim = null; document.documentElement.classList.remove('can-turn'); };
+  on(document, 'pointerleave', off); on(window, 'blur', off);
+  // Mouse: press on the object (not on a link or control) and drag to turn (left-right) and tip (up-down).
   // Touch: a sideways swipe turns it; up-down swipes still scroll the page.
   const HANDS_OFF = 'a, button, input, textarea, select, label, summary, [role="button"], .site-header, .home-rail, .wechat-qr, dialog';
   const turn = (dx, dy, dtS) => {
@@ -448,7 +550,7 @@ function mountClock(root) {
   };
   const release = () => { if (grab?.moved) { letGo = performance.now(); document.documentElement.classList.remove('is-turning'); } grab = null; };
   on(window, 'pointerdown', e => {
-    if (e.pointerType !== 'mouse' || e.button !== 0 || reduced || e.target.closest(HANDS_OFF)) return;
+    if (e.pointerType !== 'mouse' || e.button !== 0 || reduced || !overObject(e)) return;
     grab = { x: e.clientX, y: e.clientY, t: performance.now(), moved: false };
   });
   on(window, 'pointermove', e => {
@@ -466,15 +568,17 @@ function mountClock(root) {
   on(window, 'click', e => { if (performance.now() - letGo < 60) { e.preventDefault(); e.stopPropagation(); } }, { capture: true });
   let swipe = null;
   on(window, 'touchstart', e => {
-    if (reduced || e.touches.length !== 1 || e.target.closest(HANDS_OFF)) { swipe = null; return; }
-    const p = e.touches[0]; swipe = { x: p.clientX, y: p.clientY, t: performance.now(), mode: '' };
+    // Phones: swiping on the words changes page; a drag in the empty area above them turns the object.
+    const air = !!e.target.closest('.page-air');
+    if (reduced || (swiping() && !air) || e.touches.length !== 1 || e.target.closest(HANDS_OFF)) { swipe = null; return; }
+    const p = e.touches[0]; swipe = { x: p.clientX, y: p.clientY, t: performance.now(), mode: '', air };
   }, { passive: true });
   on(window, 'touchmove', e => {
     if (!swipe) return;
     const p = e.touches[0], dx = p.clientX - swipe.x, dy = p.clientY - swipe.y, now = performance.now();
-    if (!swipe.mode) { if (Math.hypot(dx, dy) < 8) return; swipe.mode = Math.abs(dx) > Math.abs(dy) * 1.2 ? 'turn' : 'scroll'; if (swipe.mode === 'turn') { grab = { moved: true }; vYaw = vPitch = 0; } }
+    if (!swipe.mode) { if (Math.hypot(dx, dy) < 6) return; swipe.mode = swipe.air || Math.abs(dx) > Math.abs(dy) * 1.2 ? 'turn' : 'scroll'; if (swipe.mode === 'turn') { grab = { moved: true }; vYaw = vPitch = 0; } }
     if (swipe.mode !== 'turn') return;
-    turn(dx, 0, Math.max(.008, (now - swipe.t) / 1000));
+    turn(dx, swipe.air ? dy : 0, Math.max(.008, (now - swipe.t) / 1000));
     swipe.x = p.clientX; swipe.y = p.clientY; swipe.t = now;
   }, { passive: true });
   on(window, 'touchend', () => { if (swipe?.mode === 'turn') { letGo = performance.now(); grab = null; } swipe = null; }, { passive: true });
@@ -551,10 +655,11 @@ export function mountHome(root) {
   // Our own glide (the browser's smooth scroll is short and abrupt): slow, eased in and out.
   let glideFrame = 0;
   const stopGlide = () => { cancelAnimationFrame(glideFrame); glideFrame = 0; settling = false; };
-  function glide(to, duration) {
+  function glide(to, duration, even = false) {
     stopGlide(); settling = true;
     const from = scrollY, start = performance.now();
-    const easeInOut = x => x < .5 ? 8 * x ** 4 : 1 - (-2 * x + 2) ** 4 / 2; // speeds up, then slows to rest
+    // Speeds up, then slows to rest. "even" is a gentler curve whose top speed is close to its average.
+    const easeInOut = even ? x => (1 - Math.cos(Math.PI * x)) / 2 : x => x < .5 ? 8 * x ** 4 : 1 - (-2 * x + 2) ** 4 / 2;
     const step = now => {
       const p = Math.min(1, (now - start) / duration);
       scrollTo({ top: from + (to - from) * easeInOut(p), behavior: 'instant' });
@@ -562,22 +667,46 @@ export function mountHome(root) {
     };
     glideFrame = requestAnimationFrame(step);
   }
+  let restAt = -1; // the section the page last came to rest on
   ['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach(type => on(window, type, () => { if (glideFrame) stopGlide(); }, { passive: true }));
   // After 1 second without any input, a page left between two sections glides slowly to the nearest one.
   // The first screen settles to the very top; the bottom of the page (the footer) is left alone.
   function settle() {
-    if (reducedMotion || !centres.length || glideFrame) return;
+    if (innerWidth < 760 || reducedMotion || !centres.length || glideFrame) return;
     const max = document.documentElement.scrollHeight - innerHeight;
     if (scrollY >= max - 4) return;
     const targets = centres.map((c, i) => i === 0 ? 0 : Math.max(0, Math.min(max, c - innerHeight / 2)));
     let to = targets[0];
     targets.forEach(tg => { if (Math.abs(tg - scrollY) < Math.abs(to - scrollY)) to = tg; });
     const gap = to - scrollY;
+    restAt = targets.indexOf(to);
     if (Math.abs(gap) < 4) return;
     glide(to, Math.min(2400, 1100 + Math.abs(gap) * 1.6));
   }
+  // As soon as a scroll ends (wheel or trackpad let go, momentum done), read the intent: a clear move away from
+  // the section the page rested on carries on to the next section in that direction, gliding slowly so the
+  // object leads the eye. Small nudges are left to the 1-second settle above, which returns to the nearest.
+  let release = 0;
+  function carryOn() {
+    if (innerWidth < 760 || reducedMotion || !centres.length || glideFrame) return;
+    const max = document.documentElement.scrollHeight - innerHeight;
+    const targets = centres.map((c, i) => i === 0 ? 0 : Math.max(0, Math.min(max, c - innerHeight / 2)));
+    let near = 0; targets.forEach((tg, i) => { if (Math.abs(tg - scrollY) < Math.abs(targets[near] - scrollY)) near = i; });
+    const last = targets.length - 1;
+    if (scrollY > targets[last] + innerHeight * .2) return; // down at the footer: leave it
+    if (restAt < 0) restAt = near;
+    const delta = scrollY - targets[restAt];
+    let to = -1;
+    if (near !== restAt) to = near;
+    else if (Math.abs(delta) > innerHeight * .08) to = Math.max(0, Math.min(last, restAt + Math.sign(delta)));
+    if (to < 0 || (to === last && restAt === last && delta > 0)) return;
+    const gap = targets[to] - scrollY;
+    restAt = to; clearTimeout(idle);
+    if (Math.abs(gap) < 4) return;
+    glide(targets[to], Math.min(2600, 1500 + Math.abs(gap) * .8));
+  }
   const wait = () => { clearTimeout(idle); if (!settling) idle = setTimeout(settle, 1000); };
-  on(window, 'scroll', () => { if (!settling) wait(); }, { passive: true });
+  on(window, 'scroll', () => { if (settling) return; wait(); clearTimeout(release); release = setTimeout(carryOn, 180); }, { passive: true });
   ['wheel', 'touchstart', 'touchmove', 'keydown', 'pointerdown'].forEach(type => on(window, type, wait, { passive: true }));
 
   // Each section's words rise in while it holds the middle of the screen, and blur away as it leaves.
@@ -592,21 +721,39 @@ export function mountHome(root) {
     const mid = scrollY + innerHeight / 2;
     let best = 0, gap = Infinity;
     centres.forEach((c, i) => { const g = Math.abs(c - mid); if (g < gap) { gap = g; best = i; } });
-    if (best === current) return;
+    if (deck && deck.scrollWidth > deck.clientWidth + 4) {
+      // Phones: the page in view shows its words; a page sliding away lets them go a moment before it leaves.
+      // (Which page's words show is decided by the object, in mountClock: they follow its morph.)
+      const at = deck.scrollLeft / deck.clientWidth; best = Math.round(at);
+      dots.forEach((d, j) => d.classList.toggle('is-active', j === best));
+    } else {
+      if (best === current) return;
+      stops.forEach((st, i) => st.classList.toggle('is-in', i === best));
+    }
     current = best;
-    stops.forEach((st, i) => st.classList.toggle('is-in', i === best));
     railButtons.forEach((b, j) => b.classList.toggle('is-active', j === best));
   }
+  const deck = root.querySelector('.home-deck'), dots = [...root.querySelectorAll('.home-dots button')];
   const queue = () => { if (!pick) pick = requestAnimationFrame(choose); };
   on(window, 'scroll', queue, { passive: true });
+  if (deck) on(deck, 'scroll', queue, { passive: true });
+  dots.forEach(d => on(d, 'click', () => deck.scrollTo({ left: Number(d.dataset.page) * deck.clientWidth, behavior: matchMedia('(prefers-reduced-motion:reduce)').matches ? 'instant' : 'smooth' })));
   on(window, 'resize', () => { measureStops(); queue(); }, { passive: true });
   const ro = new ResizeObserver(() => { measureStops(); queue(); }); ro.observe(root);
   measureStops(); choose();
+  // The side rail travels with our own glide, at most about one section per 1.3 seconds, so each change of shape
+  // on the way has time to play (jumping several sections takes longer).
   railButtons.forEach(b => on(b, 'click', () => {
-    const target = stops[Number(b.dataset.stop)]; if (!target) return;
-    const r = target.getBoundingClientRect();
-    scrollTo({ top: r.top + scrollY - Math.max(0, (innerHeight - r.height) / 2), behavior: matchMedia('(prefers-reduced-motion:reduce)').matches ? 'instant' : 'smooth' });
+    const idx = Number(b.dataset.stop), target = stops[idx]; if (!target) return;
+    const r = target.getBoundingClientRect(), max = document.documentElement.scrollHeight - innerHeight;
+    const to = idx === 0 ? 0 : Math.max(0, Math.min(max, r.top + scrollY - Math.max(0, (innerHeight - r.height) / 2)));
+    if (reducedMotion) { scrollTo({ top: to, behavior: 'instant' }); return; }
+    const mid = scrollY + innerHeight / 2;
+    let from = 0; centres.forEach((c, i) => { if (Math.abs(c - mid) < Math.abs(centres[from] - mid)) from = i; });
+    const passes = Math.max(Math.abs(idx - from), Math.abs(to - scrollY) / innerHeight);
+    restAt = idx; clearTimeout(idle); clearTimeout(release);
+    if (Math.abs(to - scrollY) > 4) glide(to, Math.max(1500, passes * 1300), passes > 1.2);
   }));
 
-  return () => { controller.abort(); clearTimeout(idle); cancelAnimationFrame(glideFrame); cancelAnimationFrame(pick); ro.disconnect(); disposeClock(); disposeLabel(); };
+  return () => { controller.abort(); clearTimeout(idle); clearTimeout(release); cancelAnimationFrame(glideFrame); cancelAnimationFrame(pick); ro.disconnect(); disposeClock(); disposeLabel(); };
 }

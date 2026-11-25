@@ -140,8 +140,8 @@ h1, h2, h3 { font-weight: 400; }
 .project-card { display: grid; grid-template-columns: 1.35fr 1fr; gap: 7%; align-items: center; padding: 55px 0; border-top: 1px solid var(--line); }
 .project-card:nth-child(even) .project-image { order: 2; }
 .project-image { background: #262b29; aspect-ratio: 1.5; display: grid; align-items: center; padding: 30px; overflow: hidden; }
-.project-image img { width: 100%; max-height: 100%; object-fit: contain; box-shadow: 0 20px 35px #0005; transition: transform .6s cubic-bezier(.2,.6,.2,1); }
-.project-image:hover img { transform: scale(1.035); }
+.project-image img { width: 100%; max-height: 100%; object-fit: contain; box-shadow: 0 20px 35px #0005; transition: transform 1.2s cubic-bezier(.4,0,.2,1); }
+.project-image:hover img { transform: scale(1.06); }
 .project-number { font-size: 9px; letter-spacing: 1.7px; color: var(--muted); }
 .project-copy h2 { font: 400 clamp(28px, 3vw, 45px)/1.2 var(--sans); letter-spacing: -1.5px; margin: 25px 0 14px; }
 .project-category { color: var(--accent); font-size: 11px; }
@@ -154,8 +154,8 @@ h1, h2, h3 { font-weight: 400; }
 .photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 70px 35px; margin-bottom: 100px; }
 .photo-grid figure:first-child { grid-column: span 2; }
 .photo-button { display: block; width: 100%; padding: 0; background: #171b1b; border: 0; cursor: zoom-in; overflow: hidden; }
-.photo-button img { width: 100%; aspect-ratio: 1.1; object-fit: cover; transition: transform .8s cubic-bezier(.2,.6,.2,1); }
-.photo-button:hover img { transform: scale(1.025); }
+.photo-button img { width: 100%; aspect-ratio: 1.1; object-fit: cover; transition: transform 1.2s cubic-bezier(.4,0,.2,1); }
+.photo-button:hover img { transform: scale(1.06); }
 .photo-grid figure:first-child img { aspect-ratio: 2; }
 .photo-grid figure:nth-child(3n) { padding-top: 100px; }
 .photo-caption { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-top: 18px; font-size: 10px; color: var(--muted); }
@@ -284,7 +284,9 @@ dialog::backdrop { background: rgba(8,10,18,.72); backdrop-filter: blur(8px); }
 .wechat-qr { position:absolute;right:0;bottom:calc(100% + 12px);width:max-content;display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px;background:#151826;border:1px solid #ffffff17;opacity:0;transform:translateY(6px);pointer-events:none;transition:opacity .35s,transform .45s cubic-bezier(.16,1,.3,1);z-index:40; }
 .wechat-qr img { display:block;width:112px;height:112px;max-width:none; }
 .wechat-qr small { font-size:10px;letter-spacing:.2em;color:#8a8796;white-space:nowrap; }
-.wechat:hover .wechat-qr,.wechat:focus-within .wechat-qr,.wechat.is-open .wechat-qr { opacity:1;transform:none;pointer-events:auto; }
+/* Hover only where there is a mouse: on iPhone a hover style makes the first tap a "hover" and swallows the click. */
+@media(hover:hover) { .wechat:hover .wechat-qr { opacity:1;transform:none;pointer-events:auto; } }
+.wechat:focus-within .wechat-qr,.wechat.is-open .wechat-qr { opacity:1;transform:none;pointer-events:auto; }
 .site-footer .social-links { margin-left:auto; }
 .site-footer>div { display:none; }
 
@@ -325,3 +327,47 @@ dialog::backdrop { background: rgba(8,10,18,.72); backdrop-filter: blur(8px); }
   .site-footer .wechat-qr { left:0;right:auto; }
 }
 @media(prefers-reduced-motion:reduce) { #site-index[open],#site-index[open] .index-list>* { animation:none; } }
+
+@media(max-width:759px) {
+  .site-header { gap:8px; }
+  .site-header nav { gap:12px; }
+  .index-trigger { display:flex!important;font-size:0;gap:0;padding:0;min-width:44px;min-height:44px;justify-content:center; }
+  /* Every link (the first one included) is the same 44px-tall box, centred on the wordmark's line; the current-page dot sits inside it. */
+  .site-header nav { align-items:center; }
+  .site-header nav a,.site-header nav a:first-child { display:flex;align-items:center;min-height:44px;padding:0;line-height:1; }
+  .site-header nav a[aria-current=page]:after { bottom:8px; }
+  .site-header .wordmark { line-height:1; }
+  .site-footer .social-links a,.site-footer .wechat button { min-height:44px;align-items:center; }
+  #site-index { max-height:100dvh;padding-bottom:max(24px,env(safe-area-inset-bottom)); }
+  #site-index .index-top,#site-index .index-foot { flex-shrink:0; }
+  #site-index .index-list { flex-shrink:0;padding:20px 0; }
+  #site-index .dialog-close { min-height:44px;min-width:44px; }
+}
+/* Phones: the WeChat QR opens centred near the bottom of the screen instead of hanging off the button (it could
+   stick out past the right edge and widen the page); nothing may widen the page sideways. */
+html { overflow-x:clip; }
+@media(max-width:759px) {
+  .wechat-qr,.site-footer .wechat-qr,.hero-social .wechat-qr { display:none!important; } /* phones use the centred sheet below */
+}
+@media(max-width:380px) {
+  .site-header nav { display:none!important; }
+  .site-header .index-trigger { margin-left:auto; }
+}
+
+/* Phones: tapping 公众号 opens the QR code centred on the whole screen; a tap anywhere closes it. */
+.qr-sheet { position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:rgba(8,10,18,.62);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);opacity:0;transition:opacity .25s ease; }
+.qr-sheet.is-on { opacity:1; }
+.qr-sheet:not(.is-on) { pointer-events:none; } /* while fading out it lets touches through */
+.qr-card { display:flex;flex-direction:column;align-items:center;gap:10px;padding:16px 16px 14px;background:#151826;border:1px solid #ffffff17;box-shadow:0 30px 80px -20px #000c;transform:translateY(10px) scale(.97);transition:transform .4s cubic-bezier(.16,1,.3,1); }
+.qr-sheet.is-on .qr-card { transform:none; }
+.qr-card img { display:block;width:184px;height:184px; }
+.qr-card small { font-size:11px;letter-spacing:.2em;color:#8a8796; }
+
+/* Mouse hover: the header identity stays still; other targets ease into a larger scale. */
+@media(hover:hover) and (pointer:fine) {
+  .site-header nav a,.site-footer .wordmark,.index-trigger,.door-link,.hero-social a,.wechat button,.social-links>a,.work-links a,.index-list>a,.home-rail button,.dialog-close,.archive-row {
+    transition:color .65s ease,scale .95s cubic-bezier(.4,0,.2,1); }
+  .site-header nav a:hover,.site-footer .wordmark:hover,.index-trigger:hover,.door-link:hover,.hero-social a:hover,.wechat button:hover,.social-links>a:hover,.work-links a:hover,.home-rail button:hover,.dialog-close:hover { scale:1.12; }
+  .index-list>a:hover { scale:1.04; }
+  .archive-row:hover { scale:1.025; }
+}

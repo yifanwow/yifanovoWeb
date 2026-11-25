@@ -6,7 +6,7 @@ import shutil
 ROOT = Path(__file__).resolve().parent
 OUT = ROOT / 'dist'
 OUT.mkdir(exist_ok=True)
-for name in ['index.html', 'style.css', 'poetry.css', 'home.css', 'project.css', 'app.js', 'poetry.js', 'home.js', 'project.js', 'ambient.js', 'space.js', 'apartment.js', 'home-art.js', 'content.json']:
+for name in ['index.html', 'style.css', 'poetry.css', 'home.css', 'project.css', 'app.js', 'poetry.js', 'home.js', 'project.js', 'ambient.js', 'space.js', 'apartment.js', 'home-art.js', 'viewport.js', 'content.json']:
     shutil.copy2(ROOT / name, OUT / name)
 shutil.copytree(ROOT / 'assets', OUT / 'assets', dirs_exist_ok=True)
 shutil.copytree(ROOT / 'vendor', OUT / 'vendor', dirs_exist_ok=True)

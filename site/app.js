@@ -131,7 +131,7 @@ function readingPage(work, poetry) {
 }
 
 function notFound() {
-  return '<section class="error-page"><span class="eyebrow">404 / A LITTLE DETOUR</span><h1>似乎走到了一条小岔路。</h1><p>这一页还不存在，一起回到熟悉的地方吧。</p><a class="text-link" href="/home">回到首页 <span>↗</span></a></section>';
+  return '<section class="error-page"><span class="eyebrow">404 / A LITTLE DETOUR</span><h1>似乎走到了一条小岔路。</h1><p>这一页还不存在，一起回到熟悉的地方吧。</p><a class="text-link" href="/">回到首页 <span>↗</span></a></section>';
 }
 
 function render() {
@@ -234,12 +234,28 @@ indexTrigger.addEventListener('click', () => {
   siteIndex.focus({ preventScroll: true }); // focus the panel, not the close button, so no focus ring appears on open
 });
 // WeChat QR wherever it appears (homepage, footer, index): hover or focus shows it, a tap toggles it.
+// Phones: the QR opens as a sheet centred on the screen (inside the homepage's sliding pages a popup
+// would be positioned against the page, not the screen); any tap closes it.
+let qrSheet = null;
+function closeQrSheet() { if (!qrSheet) return; const sheet = qrSheet; qrSheet = null; sheet.classList.remove('is-on'); setTimeout(() => sheet.remove(), 300); }
+function openQrSheet(qr) {
+  qrSheet = document.createElement('div'); qrSheet.className = 'qr-sheet';
+  qrSheet.setAttribute('role', 'dialog'); qrSheet.setAttribute('aria-label', '微信公众号二维码');
+  qrSheet.innerHTML = `<div class="qr-card">${qr.innerHTML}</div>`;
+  document.body.append(qrSheet); requestAnimationFrame(() => qrSheet?.classList.add('is-on'));
+}
 document.addEventListener('click', event => {
   const button = event.target.closest('.wechat button');
+  if (innerWidth < 760) {
+    if (qrSheet) { closeQrSheet(); return; }
+    const qr = button?.parentElement.querySelector('.wechat-qr');
+    if (qr) openQrSheet(qr);
+    return;
+  }
   document.querySelectorAll('.wechat.is-open').forEach(w => { if (!button || w !== button.parentElement) w.classList.remove('is-open'); });
   if (button) button.parentElement.classList.toggle('is-open');
 });
-document.addEventListener('keydown', event => { if (event.key === 'Escape') document.querySelectorAll('.wechat.is-open').forEach(w => w.classList.remove('is-open')); });
+document.addEventListener('keydown', event => { if (event.key === 'Escape') { closeQrSheet(); document.querySelectorAll('.wechat.is-open').forEach(w => w.classList.remove('is-open')); } });
 siteIndex.addEventListener('close', () => { siteIndex.classList.remove('open'); indexTrigger.setAttribute('aria-expanded', 'false'); });
 document.querySelectorAll('#site-index, #outside-panel').forEach(d => {
   d.querySelector('.dialog-close').addEventListener('click', () => d.close());

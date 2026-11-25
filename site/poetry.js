@@ -1,3 +1,4 @@
+import { screenHeight, onResize } from './viewport.js';
 const esc = (value = '') => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const dated = date => `${date.slice(5,7)}/${date.slice(8,10)}/${date.slice(0,4)}`;
 const storage = {
@@ -419,18 +420,20 @@ function mountMotifs(root, poems) {
   const pageObserver=new ResizeObserver(()=>{measure();wake();});pageObserver.observe(root);
   const observer=new IntersectionObserver(entries=>{
     for(const entry of entries){
-      if(entry.intersectionRatio>=.2&&!section.classList.contains('is-in')){
+      if(entry.isIntersecting&&!section.classList.contains('is-in')){
         section.classList.add('is-in');
         // Once every word has surfaced, drop the staggered delays so hover and fade respond at once.
         clearTimeout(settleTimer);settleTimer=setTimeout(()=>section.classList.add('is-settled'),2600);
       }
-      // Fully off screen: reset, so the words surface again next time.
+      // Reset only outside the preparation zone, keeping nearby words ready for the first view.
       else if(!entry.isIntersecting&&section.classList.contains('is-in')){section.classList.remove('is-in','is-settled');clearTimeout(settleTimer);hover(null);}
       wake();
     }
-  },{threshold:[0,.2]});
+  },{rootMargin:'100% 0px',threshold:0});
   if(reduced)section.classList.add('is-in');else observer.observe(section);
   render();
+  // Start off-screen layers faded before the observer can reveal prepared words.
+  applyLeave(reduced?0:leaveTarget());
   return {dispose(){controller.abort();clearTimeout(settleTimer);observer.disconnect();resizeObserver.disconnect();liveObserver.disconnect();pageObserver.disconnect();cancelAnimationFrame(frame);live=false;}};
 }
 
@@ -517,10 +520,20 @@ function mountDateFocus(root, poems) {
     const words=memoryWords(source);if(!words.length)return;
     const el=document.createElement('span');el.className='memory-word';el.textContent=pick(words);
     const narrow=innerWidth<700,side=random()<.5;
-    const x=narrow?4+random()*80:side?4+random()*30:64+random()*30;
+    const x=narrow?0:side?4+random()*30:64+random()*30;
     const depth=random();
     el.style.left=x.toFixed(1)+'%';el.style.top=(38+random()*52).toFixed(1)+'%';
-    el.style.fontSize=(narrow?13:15)+depth*(narrow?14:26)+'px';
+    el.style.fontSize=(narrow?11:15)+depth*(narrow?8:26)+'px';
+    if(narrow){
+      // Phones: the dates fill the middle, so a word only surfaces in the margin left or right of them, where it fits.
+      el.style.visibility='hidden';field.append(el);
+      const t=focused.querySelector('time')||focused,r=t.getBoundingClientRect(),w=el.offsetWidth,half=r.width*.62+10;
+      const mid=r.left+r.width/2,slots=[];
+      if(mid-half-w>=6)slots.push(6+random()*(mid-half-w-6));
+      if(innerWidth-6-w>=mid+half)slots.push(mid+half+random()*(innerWidth-6-w-mid-half));
+      if(!slots.length){el.remove();return;}
+      el.style.left=slots[Math.floor(random()*slots.length)].toFixed(0)+'px';el.style.visibility='';
+    }
     el.style.setProperty('--alpha',(.22+depth*.3).toFixed(3));
     field.append(el);live++;
     const rise=40+depth*70,duration=7000+random()*5000;
@@ -568,7 +581,7 @@ export function mountMist() {
   canvas=document.createElement('canvas');canvas.className='poetry-mist';canvas.setAttribute('aria-hidden','true');document.body.prepend(canvas);
   let timer=0;
   function paint() {
-    const scale=Math.min(devicePixelRatio||1,1.5),w=Math.round(innerWidth*scale),h=Math.round(innerHeight*scale);
+    const scale=Math.min(devicePixelRatio||1,1.5),w=Math.round(innerWidth*scale),h=Math.round(screenHeight()*scale);
     if(!w||!h)return;
     canvas.width=w;canvas.height=h;
     const ctx=canvas.getContext('2d');
@@ -589,7 +602,7 @@ export function mountMist() {
     }
     ctx.putImageData(image,0,0);
   }
-  addEventListener('resize',()=>{clearTimeout(timer);timer=setTimeout(paint,200);},{passive:true});
+  onResize(()=>{clearTimeout(timer);timer=setTimeout(paint,200);});
   paint();
 }
 

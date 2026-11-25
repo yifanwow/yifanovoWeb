@@ -1,6 +1,6 @@
 /* Time falls before the date index; the shared shell stays unchanged. */
 .theme-poetry { --paper:#0e1019; --ink:#e4e1d9; --muted:#90929e; --line:#2c2f40; --accent:#c8c3d5; }
-.ambient-field { position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 80% 25%,#8d7ba910 0,transparent 50%),radial-gradient(ellipse at 8% 85%,#53588515 0,transparent 55%); }
+.ambient-field { position:fixed;left:0;top:0;width:100%;height:100vh;height:100lvh;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 80% 25%,#8d7ba910 0,transparent 50%),radial-gradient(ellipse at 8% 85%,#53588515 0,transparent 55%); }
 .site-header,main,.site-footer { position:relative;z-index:1; }
 .theme-poetry.is-reading .ambient-field { opacity:.4; }
 .visually-hidden { position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
@@ -53,7 +53,7 @@
 .date-index.is-filtering .date-year-group.is-empty .year-mark { opacity:.3; }
 .poem-date[data-hits]:before { content:attr(data-hits);position:absolute;top:10px;right:-12px;font-size:11px;line-height:1;color:#c3ad88;font-variant-numeric:lining-nums; }
 /* Rain at night: mist instead of stars and a distant warm light, painted once onto .poetry-mist. */
-.poetry-mist { display:none;position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none; }
+.poetry-mist { display:none;position:fixed;left:0;top:0;width:100%;height:100vh;height:100lvh;z-index:0;pointer-events:none; }
 .theme-poetry>.poetry-mist,.theme-index>.poetry-mist,.theme-project>.poetry-mist { display:block; }
 .theme-poetry .ambient-field,.theme-poetry.is-reading .ambient-field { display:none; }
 /* Your words: scattered across the screen, each at its own depth. Near words are larger, warmer and sharp;

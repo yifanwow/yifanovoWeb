@@ -86,7 +86,7 @@ def main():
         ('poetry/日食1.png', '光的片刻', '纽约', '2024-04-08', '日食景观。'),
     ]
     photos = [dict(id=str(i), src=image_map['images/' + p], title=t, location=place, date=d, caption=c) for i, (p, t, place, d, c) in enumerate(photo_specs)]
-    # Projects, newest first. Old-site projects copy their screenshots; Mne and watchDog images were captured
+    # Projects, newest first. Old-site projects copy their screenshots; Mne and watchCat images were captured
     # from their own sites and already live in assets/.
     projects = [
         {
@@ -108,24 +108,24 @@ def main():
                 ]
         },
         {
-                "id": "watchdog",
-                "title": "watchDog",
+                "id": "watchcat",
+                "title": "watchCat",
                 "category": "Windows · 内存",
                 "year": 2026,
                 "featured": True,
                 "status": "Windows 10 / 11",
                 "tagline": "轻装守护，性能归你。",
                 "description": "轻量的 Windows 内存异常追踪工具。持续记录各个进程的内存走势，按增长速度与长期趋势识别疑似泄漏，并能直接处置。窗口常驻只占约 50 MB 内存、0.1% CPU。",
-                "image": "/assets/project-watchdog.jpg",
-                "url": "https://watchdog.yifanovo.com",
+                "image": "/assets/project-watchcat.jpg",
+                "url": "https://watchcat.yifanovo.com",
                 "links": [
                         {
                                 "label": "官网",
-                                "href": "https://watchdog.yifanovo.com"
+                                "href": "https://watchcat.yifanovo.com"
                         },
                         {
                                 "label": "GitHub",
-                                "href": "https://github.com/yifanwow/watchDog"
+                                "href": "https://github.com/yifanwow/watchCat"
                         }
                 ]
         },
@@ -141,21 +141,6 @@ def main():
                         {
                                 "label": "GitHub",
                                 "href": "https://github.com/yifanwow/NightScreenViewer"
-                        }
-                ]
-        },
-        {
-                "id": "sgpt",
-                "title": "s/GPT",
-                "category": "Windows · AI 工具",
-                "year": 2024,
-                "description": "把截图和问题交给 AI，尝试更快捷地解决电脑使用中遇到的疑问与报错。",
-                "image": "/assets/project-sgpt.png",
-                "url": "https://github.com/yifanwow/sGPT",
-                "links": [
-                        {
-                                "label": "GitHub",
-                                "href": "https://github.com/yifanwow/sGPT"
                         }
                 ]
         },
@@ -205,7 +190,7 @@ def main():
                 ]
         }
 ]
-    old_images = {'saio': 'saio.png', 'nsv': 'nsv.png', 'fanctrl': 'fanCtrl.png', 'sgpt': 'sGPT.png', 'grid': 'store_home_share.jpg'}
+    old_images = {'saio': 'saio.png', 'nsv': 'nsv.png', 'fanctrl': 'fanCtrl.png', 'grid': 'store_home_share.jpg'}
     for p in projects:
         if p['id'] in old_images:
             shutil.copy2(SITE.parent / 'yifanovo_web/public/img' / old_images[p['id']], assets / Path(p['image']).name)

@@ -1,3 +1,4 @@
+import { screenHeight, onResize } from './viewport.js';
 function randomSource(seed) { return () => { seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296; }; }
 function setupCanvas(canvas, width, height) {
   const ratio=Math.min(devicePixelRatio||1,matchMedia('(max-width:700px)').matches?1.25:1.5);
@@ -32,9 +33,9 @@ export function mountAmbient(body) {
   }
   function loop(time){raf=0;if(document.hidden||reduced)return;if(time-last>50&&!/theme-(poetry|index|project)\b/.test(body.className)){last=time;draw(time);}raf=requestAnimationFrame(loop);} // the poetry page and homepage hide the stars, so skip drawing there
   function start(){if(!document.hidden&&!reduced&&!raf)raf=requestAnimationFrame(loop);else if(reduced)draw(0);}
-  function resize(){width=innerWidth;height=innerHeight;ctx=setupCanvas(canvas,width,height);draw(performance.now());start();}
+  function resize(){width=innerWidth;height=screenHeight();ctx=setupCanvas(canvas,width,height);draw(performance.now());start();}
   const on=(target,name,fn,options={})=>target.addEventListener(name,fn,{...options,signal:controller.signal});
-  on(window,'resize',resize,{passive:true});
+  onResize(resize,{signal:controller.signal});
   on(window,'pointermove',e=>{if(e.pointerType==='mouse'){px=(e.clientX/width-.5);py=(e.clientY/height-.5);}},{passive:true});
   on(document,'visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(raf);raf=0;}else start();});
   on(media,'change',e=>{reduced=e.matches;cancelAnimationFrame(raf);raf=0;draw(0);start();});
