@@ -91,7 +91,7 @@ python3 site/import_content.py --source /path/to/esilhmt
 python3 site/build.py
 ```
 
-输出到 `site/dist/`，包含各栏目和文章的 `index.html`，支持直接访问。部署时需要把此目录作为网站根目录；没有修改原有服务器、域名或线上发布配置。
+输出到 `site/dist/`，包含各栏目和文章的 `index.html`，支持直接访问。每次导出都会给页面里的样式、脚本链接和脚本之间的 `import` 加上同一个版本号（`?v=` 源文件内容的哈希）。这是因为 Cloudflare 会把 JS/CSS 的浏览器缓存改成 4 小时，不加版本号的话，更新后访客要过几个小时才能看到新版。部署时需要把此目录作为网站根目录；没有修改原有服务器、域名或线上发布配置。
 
 中文、英文和数字统一使用本地 Noto Serif SC 可变字体子集，覆盖当前内容与界面；许可见 `assets/fonts/OFL.txt`。页面不依赖外部字体服务。新增内容后可用 `build_font.py` 扩展字形，静态预览与导出无须安装字体处理依赖。
 
